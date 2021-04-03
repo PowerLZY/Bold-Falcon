@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Cuckoo Sandbox</title>
+        <link rel="shortcut icon" type="image/png" href=" {% static 'favicon-64x64.png' %}" sizes="64x64" />
+        <link rel="shortcut icon" type="image/png" href=" {% static 'favicon-32x32.png' %}" sizes="32x32" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Cuckoo Sandbox" />
+        <meta name="author" content="Cuckoo Sandbox" />
+
+        <link href="{% static "css/vendor.css"%}" rel="stylesheet" type="text/css" />
+        <link href="{% static "css/main.css"%}" rel="stylesheet" type="text/css" />
+
+        {% if report.analysis.info.id %}
+          <script>
+            var task_id = '{{ report.analysis.info.id }}';
+          </script>
+        {% else %}
+          <script>
+            var task_id = undefined;
+          </script>
+        {% endif %}
+
+        <script src="{% static "js/vendor.js" %}"></script>
+
+        {% if request.extra_scripts %}
+          {% for script in request.extra_scripts %}
+            <script src="{% static "js/"|add:script %}"></script>
+          {% endfor %}
+        {% endif %}
+
+        <script src="{% static "js/handlebars-templates.js" %}"></script>
+        <script src="{% static "js/hexdump.js" %}"></script>
+        <script src="{% static "js/cuckoo/loader.js" %}"></script>
+        <script src="{% static "js/cuckoo/sticky.js" %}"></script>
+        <script src="{% static "js/cuckoo/analysis_sidebar.js" %}"></script>
+        <script src="{% static "js/cuckoo/analysis_feedback.js" %}"></script>
+        <script src="{% static "js/cuckoo/submission.js" %}"></script>
+        <script src="{% static "js/cuckoo/process_tree.js" %}"></script>
+        <script src="{% static "js/cuckoo/recent.js" %}"></script>
+        <script src="{% static "js/cuckoo/analysis_network.js" %}"></script>
+        <script src="{% static "js/cuckoo/rdp.js" %}"></script>
+        <script src="{% static "js/cuckoo/app.js" %}"></script>
+
+    </head>
+
+    <body
+
+        {% if request.COOKIES.theme == "night" %}
+            class="night"
+        {% elif request.COOKIES.theme == "cyborg" %}
+            class="cyborg"
+        {% endif %}
+
+        id="{{ env.view_name }}"
+
+    >
+
+    {% include "components/primary-nav.html" %}
+
+    <div class="hidden csrf_placeholder">{% csrf_token %}</div>

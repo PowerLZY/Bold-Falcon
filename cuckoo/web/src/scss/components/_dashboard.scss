@@ -1,0 +1,741 @@
+$attention-red: #e85a5a;
+
+@mixin dashboard-module-attention($parent: false) {
+	@if $parent {
+		&.attention { @content; }
+	}
+	@else {
+		.dashboard-module.attention & { @content; }
+	}
+}
+
+.dashboard {
+
+	background-color: #F7F8FA;
+	padding: 20px 15px 0 15px;
+
+	@include unless-small-screen {
+		flex-direction: column;
+	}
+
+	&.bottom {
+		padding-top: 0;
+	}
+
+	// divides the two columns a 1/3 2/3 division
+	&__left {
+		flex-basis: 355px;
+		flex-grow: 0;
+		flex-shrink: 0;
+		overflow: visible;
+
+		@include unless-small-screen {
+			order: 2;
+		}
+	}
+	&__right {
+		flex-basis: 100%;
+
+		@include unless-small-screen {
+			order: 1;
+		}
+	}
+
+	// big titles above the columns
+	&__col-title {
+		font-size: 32px;
+		color: #6297F8;
+	}
+
+	// dashboard module
+	&-module {
+
+		border: 2px solid #DFDFDF;
+		border-radius: 8px;
+		margin-bottom: 25px;
+		overflow: hidden;
+
+		&__header {
+			position: relative;
+			overflow: hidden;
+			background-color: #fff;
+			border-bottom: 2px solid #DFDFDF;
+			text-align: center;
+
+			.icon-left,
+			.icon-right {
+				position: absolute;
+				font-size: 1.4em;
+				top: 15px;
+				color: $cuckoo_default_grey;
+			}
+
+			.icon-left { left: 15px; }
+			.icon-right { right: 15px; }
+
+			h4 {
+				font-size: 14px;
+				color: #337AB8;
+				padding: 20px 0 10px 0;
+				margin: 0;
+
+				&.align-left {
+					padding: 20px 20px 10px 20px;
+					text-align: left;
+
+					.pull-right {
+						margin-top: -9px;
+					}
+				}
+
+				.label-used { background-color: #999; }
+				.label-free {
+					background: linear-gradient(to right, #7db9e8 50%,#afb200 50%);
+				}
+				.label-total { background-color: #BE234A; }
+
+				.label {
+					display: inline-block;
+					font-size: 14px;
+					padding: 5px 10px;
+				}
+
+			}
+
+			@include dashboard-module-attention {
+				background: $attention-red !important;
+				border-color: shade($attention-red, 20%) !important;
+				h4 { color: #fff !important; }
+			}
+
+		}
+
+		&__body {
+			display: flex;
+			background-color: #F5F5F5;
+			border-bottom: 1px solid #DFDFDF;
+
+			&--left,
+			&--right {
+				position: relative;
+				flex-basis: 50%;
+				flex-grow: 0;
+				flex-shrink: 0;
+
+				.stack:not(:last-child) {
+					border-bottom: 1px solid #DFDFDF;
+				}
+			}
+
+			&--flex {
+				flex-basis: 100%;
+				border-right: 2px solid #DFDFDF;
+
+				&:last-child {
+					border: 0;
+				}
+
+				@include cuckoo-theme('cyborg') {
+					border-color: $cyborg_border_color;
+				}
+
+				@include cuckoo-theme('night') {
+					border-color: $night_border_color;
+				}
+			}
+
+			&--left {
+				border-right: 2px solid #DFDFDF;
+			}
+
+			// single line text for the body
+			&--text {
+				flex-basis: 100%;
+				text-align: center;
+				padding: 25px 15px;
+				margin: 0;
+				font-size: 16px;
+				opacity: .4;
+			}
+
+			.cuckoo-table {
+				border: 0;
+			}
+
+			.content-list {
+				// display: block;
+				width: 100%;
+				list-style: none;
+				padding: 15px 0;
+				margin: 0;
+
+				li {
+					border-bottom: 1px solid #DFDFDF;
+					&:last-child { border-bottom: 0; }
+
+					a {
+						display: block;
+						color: $cuckoo_secundary_color;
+						padding: 15px;
+						font-weight: 500;
+						font-size: 20px;
+
+						.fa {
+							margin-right: 5px;
+							font-size: .9em;
+						}
+
+						blockquote {
+							font-size: 13px;
+							font-weight: 400;
+							font-style: italic;
+							color: $cuckoo_default_grey;
+							border-left: 0;
+							padding: 0;
+							margin: 0;
+						}
+
+						time {
+							display: block;
+							font-size: .7em;
+							color: $cuckoo_default_grey;
+
+							& + blockquote {
+								margin-top: 10px;
+							}
+						}
+
+						&:hover {
+							text-decoration: none;
+							color: shade($cuckoo_secundary_color, 20%);
+							background-color: rgba($cuckoo_secundary_color, .05);
+
+							time {
+								color: shade($cuckoo_default_grey, 20%);
+							}
+						}
+					}
+				}
+			}
+
+			@include dashboard-module-attention {
+				background-color: tint($attention-red, 20%) !important;
+				border-color: shade($attention-red, 20%) !important;
+
+				table.simple td,
+				table.simple tr {
+					border-color: $attention-red !important;
+					color: shade($attention-red, 50%) !important;
+					background: none !important;
+				}
+			}
+
+		}
+
+		&__footer {
+			background-color: #fff;
+			text-align: center;
+
+			p {
+				font-weight: 500;
+				font-size: 12px;
+				padding: 5px;
+				margin: 0;
+				color: #979797;
+
+				&.align-left {
+					text-align: left;
+					padding-left: 15px;
+					padding-right: 15px;
+				}
+
+				& > i {
+					font-size: 0.9em;
+					margin-right: 5px;
+				}
+
+				a:hover {
+					cursor: pointer;
+				}
+
+			}
+
+			@include dashboard-module-attention {
+				background-color: $attention-red !important;
+
+				& > * {
+					color: shade($attention-red, 50%) !important;
+					a {
+						color: #fff;
+					}
+				}
+			}
+		}
+
+    // speech element for motivational messages. purely aesthethic.
+		&__speech {
+			border-radius: 8px;
+			padding: 30px;
+
+			blockquote {
+				border: 0;
+				padding: 0;
+				margin: 0;
+				text-align: center;
+				font-weight: 400;
+				font-size: 24px;
+				color: rgba(0,0,0,.25);
+
+				@include cuckoo-theme('cyborg') { color: rgba(255,255,255, .25); }
+				@include cuckoo-theme('night') { color: rgba(255,255,255, .25); }
+
+			}
+		}
+
+		&__lg {
+
+			@extend .dashboard-module;
+
+			.dashboard-module__footer > p {
+				font-size: 14px;
+				padding: 18px;
+
+				&.align-left {
+					padding-left: 25px;
+					padding-right: 25px;
+				}
+
+				i {
+					margin-right: 10px;
+				}
+			}
+
+		}
+
+		&__tabs {
+			display: flex;
+
+			& > .flex-tabs__tab {
+
+				margin: 0;
+				border-radius: 0;
+				border-width: 0 1px 0 0;
+				background-color: transparent;
+				padding: 20px 20px 10px 20px;
+				font-weight: 700;
+				color: #337AB8;
+
+				// specific style for tabs that are links
+				&[href] {
+					color: #6297F8;
+					padding: 20px 30px 10px 30px;
+
+					&:hover {
+						text-decoration: none;
+						&:not(.active) {
+							background-color: #f1f1f1;
+						}
+					}
+				}
+
+				// active state for a tab
+				&.active {
+					background-color: #6297F8;
+					color: #fff;
+					box-shadow: 0px 2px 0px #5F7DB3;
+				}
+
+				@include cuckoo-theme('cyborg') {
+
+					color: $cyborg_secundary_color;
+
+					&.active {
+						background-color: $cyborg_secundary_color;
+						color: #111;
+					}
+
+					&[href] {
+
+						&:hover:not(.active) {
+							background-color: lighten($cyborg_panel_color, 5);
+						}
+
+						&.active {
+							box-shadow: 0px 2px 0px #144337;
+						}
+					}
+
+					&--right {
+						background-color: transparent;
+					}
+
+				}
+
+				@include cuckoo-theme('night') {
+
+					color: #fff;
+					border-color: darken($night_border_color, 10);
+
+					&[href] {
+						&:hover:not(.active) {
+							background-color: lighten($night_panel_color, 5);
+						}
+
+						&.active {
+							background-color: darken($night_panel_color, 5);
+							box-shadow: 0px 2px 0px darken($night_panel_color, 15);
+						}
+					}
+
+				}
+
+			}
+		}
+
+		table.simple {
+			table-layout: fixed;
+			width: 100%;
+
+			tr {
+				border-bottom: 1px solid #DFDFDF;
+
+				&:last-child {
+					border-bottom: 0;
+
+					td {
+						padding-bottom: 14px;
+					}
+				}
+
+				&:first-child td {
+					padding-top: 20px;
+				}
+
+				td {
+					font-size: 12px;
+					padding: 6px;
+					color: #979797;
+
+					&:first-child {
+						font-weight: 600;
+						border-right: 1px solid #DFDFDF;
+						text-align: right;
+					}
+
+					&.stretch {
+						text-align: center;
+						padding: 7px 0;
+					}
+
+				}
+
+			}
+
+		}
+
+		// free disk space widget styling
+		.free-disk-space {
+
+			& > div {
+				padding: 20px 0;
+			}
+
+			h5 {
+				text-transform: uppercase;
+				font-weight: 700;
+				text-align: center;
+				color: #979797;
+			}
+
+			&__chart {
+
+				position: relative;
+
+				& > canvas {
+					margin: 0px auto;
+					width: 135px;
+					height: 135px;
+				}
+
+				&.no-data:after {
+					content: "no data available";
+					display: block;
+					position: absolute;
+					width: 100%;
+					top: 50%;
+					margin-top: -10px;
+					text-align: center;
+					text-transform: uppercase;
+					font-weight: 900;
+					color: #ccc;
+				}
+
+			}
+
+			&__cpu {
+				@extend .free-disk-space__chart;
+			}
+
+			&__legend {
+
+				position: absolute;
+				width: 95px;
+				height: 95px;
+				top: 20px;
+				left: 50%;
+				margin-left: -47px;
+				border-radius: 50%;
+				overflow: hidden;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				text-align: center;
+
+				p {
+					font-size: 12px;
+					font-weight: 900;
+					color: #BE234A;
+					margin: 0;
+
+					& > strong {
+						font-size: 20px;
+						color: #52B3D9;
+						letter-spacing: -0.6px;
+					}
+				}
+
+			}
+
+		}
+
+		// omni upload widget
+		.omni-uploader {
+			background-color: #fff;
+			border-bottom-width: 2px;
+
+			h5 {
+				text-transform: uppercase;
+				color: #979797;
+				font-weight: 700;
+				font-size: 16px;
+				margin: 0 0 45px 0;
+			}
+
+			.dashboard-module__body--left {
+				border-right-width: 2px;
+
+				.dndupload__simple {
+
+					#uploader {
+						padding: 75px 20px 20px 20px;
+					}
+
+				}
+
+			}
+
+			.uploader-area {
+				display: block;
+				text-align: center;
+				height: 286px;
+
+				.fa {
+					font-size: 50px;
+					color: #71A1F9;
+				}
+			}
+
+			#submit-with-link {
+				padding: 30px;
+
+				h5 {
+					margin-top: 0;
+					margin-bottom: 20px;
+				}
+
+				textarea {
+					margin-bottom: 30px;
+				}
+
+			}
+
+		}
+
+		// installation block - gets toggled / stated with javascript.
+		&[data-dashboard-module="installation"] {
+
+			.up-to-date,
+			.latest-version {
+				display: none;
+			}
+
+			.show-loaded {
+				opacity: 0;
+				transition: opacity 150ms linear;
+			}
+
+			&.version-loaded .show-loaded {
+				opacity: 1;
+			}
+
+			.dashboard-module__footer { display: none; }
+
+		}
+
+		@include dashboard-module-attention(true) {
+			border-color: shade($attention-red, 20%) !important;
+			.dashboard-module__footer { display: block; }
+		}
+
+	}
+
+	// cyborg theming
+	@include cuckoo-theme('cyborg') {
+
+		background-color: $cyborg_background_color;
+
+		.dashboard__col-title {
+			color: $cyborg_text_color;
+		}
+
+		.dashboard-module {
+			border-color: $cyborg_border_color;
+
+			&__header,
+			&__footer,
+			&__body {
+				border-color: $cyborg_border_color;
+			}
+
+			&__body {
+				background-color: $cyborg_panel_color;
+
+				&--left {
+					border-color: $cyborg_border_color;
+				}
+
+				.content-list li {
+					border-bottom-color: $cyborg_border_color;
+				}
+			}
+
+			&__footer {
+				background-color: $cyborg_panel_color;
+			}
+
+			&__header {
+				@extend %cyborg-heading;
+				border-bottom: 1px solid #133b4a;
+
+				h4 {
+					color: $cyborg_text_color;
+				}
+
+				select {
+					background-color: transparent;
+				}
+
+			}
+
+			.stack:not(:last-child) {
+				border-color: $cyborg_border_color;
+			}
+		}
+
+		table.simple {
+
+			tr {
+				border-color: $cyborg_border_color;
+
+				td {
+					border-color: $cyborg_border_color;
+				}
+
+				&:nth-child(odd) {
+					background-color: #09191d;
+				}
+			}
+
+		}
+
+	}
+
+	// night theming
+	@include cuckoo-theme('night') {
+
+		background-color: $night_background_color;
+
+		.dashboard__col-title {
+			color: $night_text_color;
+		}
+
+		.dashboard-module {
+
+			border-color: darken($night_border_color, 10);
+
+			&__header,
+			&__footer,
+			&__body {
+				border-color: darken($night_border_color, 10);
+			}
+
+			&__header {
+				background-color: $night_panel_color;
+				h4 {
+					color: #fff;
+				}
+			}
+
+			&__body {
+				background-color: #202225;
+
+				&--left {
+					border-color: darken($night_border_color, 10);
+				}
+
+				.content-list li {
+					border-bottom-color: $night_border_color;
+				}
+
+				.attention & {
+					background-color: tint($attention-red, 20%);
+					border-color: shade($attention-red, 20%);
+				}
+			}
+
+			&__footer {
+				background-color: $night_panel_color;
+				p { color: #fff; }
+			}
+
+		}
+
+		.stack:not(:last-child) {
+			border-color: $night_border_color;
+		}
+
+		table.simple {
+
+			tr {
+				border-color: darken($night_border_color, 10);
+
+				td {
+					border-color: darken($night_border_color, 10);
+					color: #fff;
+				}
+
+				&:nth-child(odd) {
+					background-color: #252525;
+				}
+
+				&:nth-child(even) {
+					background-color: #333333;
+				}
+			}
+
+		}
+
+	}
+
+}

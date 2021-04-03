@@ -1,0 +1,19 @@
+{{#each tasks}}
+	<tr data-task-id="{{id}}" class="{{#if is_ready}}clickable finished{{/if}}">
+		<td>{{id}}</td>
+		<td>
+			<i class="fa fa-calendar-o"></i> {{date_added}}
+			<i class="fa fa-clock-o"></i> {{time_added}}
+		</td>
+		<td>{{target}}</td>
+		<td>{{package}}</td>
+		<td class="postsubmit-status-display">
+			<div>
+				<div><span class="status status-{{status}}"></span> {{status}}</div>
+				{{#if show_rc_toggle}}
+					<a href="/analysis/{{id}}/control/" target="_blank" class="button"><i class="fa fa-eye"></i> REMOTE CONTROL</a>
+				{{/if}}
+			</div>
+		</td>
+	</tr>
+{{/each}}

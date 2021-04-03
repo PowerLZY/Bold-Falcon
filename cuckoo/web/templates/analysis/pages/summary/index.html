@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load analysis_tags %}
+{% block content %}
+
+    <div class="flex-nav">
+        {% include "analysis/pages/nav-sidebar.html" %}
+        <section class="flex-nav__body cuckoo-analysis" tabindex="0">
+
+            <!-- common analysis page header -->
+            <header class="page-header cuckoo-analysis__header">
+                <h1>Summary </h1>
+                {% if report.analysis.target.category == "file" %}
+                <div class="header-right">
+                    <span class="file-name"><i class="fa fa-file-o"></i>
+                        {{ report.analysis.target.file.name }}
+                    </span>
+                </div>
+                {% endif %}
+            </header>
+
+            <!-- snaps back to default bootstrap layout inside flex frame -->
+            <div class="container-fluid">
+
+                <!-- this row breaks into 2 sides -->
+                <div class="row">
+                    <div class="col-md-8">
+
+                        {% if report.analysis.debug.errors %}
+                            {% include "analysis/pages/summary/_errors.html" %}
+                        {% endif %}
+
+                        {% if report.analysis.info.category == "file" and report.analysis.target %}
+                            {% include "analysis/pages/summary/_file.html" %}
+                        {% elif report.analysis.info.category == "archive" and report.analysis.target %}
+                            {% include "analysis/pages/summary/_archive.html" %}
+                        {% elif report.analysis.info.category == "url" %}
+                            {% include "analysis/pages/summary/_url.html" %}
+                        {% endif %}
+
+                    </div>
+                    <div class="col-md-4">
+                        <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Score</h4>
+
+                        {% if report.analysis.info.score < 1 %}
+                            <div class="alert alert-success">
+                                This {{ report.analysis.info.category }} appears fairly benign with a score of
+                                <strong>{{ report.analysis.info.score }} out of 10.</strong>
+                            </div>
+                        {% elif report.analysis.info.score < 2 %}
+                            <div class="alert alert-info">
+                                <p>This {{ report.analysis.info.category }} shows some signs of potential malicious
+                                    behavior.</p>
+                                <p>The score of this {{ report.analysis.info.category }} is
+                                    <strong>{{ report.analysis.info.score }} out of 10.</strong></p>
+                            </div>
+                        {% elif report.analysis.info.score < 5 %}
+                            <div class="alert alert-warning">
+                                This {{ report.analysis.info.category }} shows numerous signs of malicious behavior.
+                                <br/><br/>
+                                The score of this {{ report.analysis.info.category }} is
+                                <strong>{{ report.analysis.info.score }} out of 10.</strong>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                <p>This {{ report.analysis.info.category }} is <b>very suspicious</b>, with a score of
+                                    <strong>{{ report.analysis.info.score }} out of 10!</strong></p>
+                            </div>
+                        {% endif %}
+
+                        <p style="font-size: 11px;">
+                            <b>Please notice</b>: The scoring system is currently still in development and should be
+                            considered an <b><i>alpha</i></b> feature.
+                        </p>
+
+                        <hr>
+
+                        {% if report.analysis.metadata and report.analysis.metadata.cfgextr %}
+                        <h4><i class="fa fa-bug"></i> Malware Configuration</h4>
+
+                        {% for cfgextr in report.analysis.metadata.cfgextr %}
+
+                        <div class="panel panel-default list-panel__widget">
+                            <div class="panel-heading">
+                                <span>family</span>
+                                <h3 class="panel-title">{{ cfgextr.family }}</h3>
+                            </div>
+                            <ul class="list-group">
+                                {% if cfgextr.campaign %}
+                                <li class="list-group-item">
+                                    <span class="item-label">Campaign</span>
+                                    <p>{{ cfgextr.campaign }}</p>
+                                </li>
+                                {% endif %}
+                                {% if cfgextr.cnc %}
+                                <li class="list-group-item">
+                                    <span class="item-label">CnC</span>
+                                    <ul>
+                                        {% for url in cfgextr.cnc %}
+                                        <li>{{ url }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if cfgextr.url %}
+                                <li class="list-group-item">
+                                    <span class="item-label">URLs</span>
+                                    <ul>
+                                        {% for url in cfgextr.url %}
+                                        <li>{{ url }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                {% if cfgextr.key %}
+                                <li class="list-group-item">
+                                    {% for pubkey in cfgextr.key.pubkey %}
+                                        <span class="item-label">Public Key</span>
+                                        <p>{{ pubkey }}</p>
+                                    {% endfor %}
+                                    {% for privkey in cfgextr.key.privkey %}
+                                        <span class="item-label">Private Key</span>
+                                        <p>{{ privkey }}</p>
+                                    {% endfor %}
+                                    {% for des3key in cfgextr.key.des3key %}
+                                        <span class="item-label">Triple DES Key</span>
+                                        <p>{{ des3key }}</p>
+                                    {% endfor %}
+                                    {% for rc4key in cfgextr.key.rc4key %}
+                                        <span class="item-label">RC4 Key</span>
+                                        <p>{{ rc4key }}</p>
+                                    {% endfor %}
+                                    {% for xorkey in cfgextr.key.xorkey %}
+                                        <span class="item-label">XOR Key</span>
+                                        <p>{{ xorkey }}</p>
+                                    {% endfor %}
+                                </li>
+                                {% endif %}
+                                {% if cfgextr.type %}
+                                <li class="list-group-item">
+                                    <span class="item-label">Package / Type</span>
+                                    <p>{{ cfgextr.type }}</p>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        {% endfor %}
+
+                        <hr>
+                        {% endif %}
+
+                        <h4><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Feedback</h4>
+
+                        <p style="font-size: 11px;">
+                            {% if report.analysis.feedback %}
+                                Feedback sent on <b>{{ report.analysis.feedback.date }}</b> Thanks!
+                            {% else %}
+                                Expecting different results? Send us this analysis and we will inspect it. <a data-toggle="modal" data-target="#feedback_form" href="#">Click here</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- full page width items -->
+                <div class="row">
+                    <div class="col-md-12">{% include "analysis/pages/summary/_info.html" %}</div>
+                    <div class="col-md-12">{% include "analysis/pages/summary/_signatures.html" %}</div>
+                    <div class="col-md-12">{% include "analysis/pages/summary/_screenshots.html" %}</div>
+
+                    <div class="clearfix">
+                        <div class="col-lg-9 col-md-8 col-sm-12">{% include "analysis/pages/network/_dns.html" %}</div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">{% include "analysis/pages/network/_hosts.html" %}</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- footer replacement to avoid double scrollbars -->
+            <footer class="flex-grid__footer spread-alignment">
+                <p class="footnote">
+                    &copy;2010-2018 <a href="https://www.cuckoosandbox.org" target="_blank">Cuckoo Sandbox</a>
+                </p>
+                <div class="logo">
+                    <img src="{% static "graphic/cuckoo_inverse.png" %}" alt="Cuckoo Malware Analysis Sandbox" />
+                    <a href="#">Back to Top</a>
+                </div>
+            </footer>
+
+        </section>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+<div class="network-display__outer network-display__table" id="hosts">
+
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if report.analysis.network.hosts %}
+
+                {% for host in report.analysis.network.hosts %}
+                    {% if host|slice:":7" != "192.168" and ":" not in host %}
+                        <tr>
+                            <td class="cell-md">
+                                {{ host }}
+                            </td>
+                            <td class="cell-lg">
+                                {% if host|isdeadip:analysis %}
+                                    Dead IP / Port
+                                {% else %}
+                                    Active
+                                {% endif %}
+                            </td>
+                            <td class="cell-sm">
+                                <a href="{% url "analysis.views.moloch" ip=host %}">Moloch</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td class="cell-fill text-center" colspan="3">No hosts contacted.</td>
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+    </table>
+
+</div>

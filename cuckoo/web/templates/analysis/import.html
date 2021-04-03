@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 center">
+        <form role="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="file">
+                        
+                        <label style="display: flex;">Choose one or more analyses to import (only .zip is supported)</label>
+                        <input name="category" type="text" class="form-control hidden" value="file">
+                        <div class="input-group col-md-6">
+                            <span class="input-group-btn">
+                                <input type="text" class="form-control" readonly>
+                                <span class="btn btn-primary btn-file">
+                                    Select <input type="file" name="analyses" multiple="multiple">
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px;"><button type="submit" class="btn btn-primary btn-lg">Import</button></div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

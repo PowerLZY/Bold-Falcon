@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div id="cuckoo-dashboard" class="hidden"></div>
+
+<div class="flex-grid__horizontal--grow dashboard">
+    <div class="flex-grid__column dashboard__left">
+        <h2 class="dashboard__col-title">Insights</h2>
+
+        <div class="dashboard-module" data-dashboard-module="installation">
+            <header class="dashboard-module__header">
+                <h4>Cuckoo Installation</h4>
+            </header>
+            <section class="dashboard-module__body">
+                <table class="simple">
+                    <tbody>
+                        <tr>
+                            <td>Version</td>
+                            <td>{{ report.version }}</td>
+                        </tr>
+                        <tr class="up-to-date">
+                          <td class="stretch" colspan="2"><em class="show-loaded">You are up to date.</em></td>
+                        </tr>
+                        <tr class="latest-version">
+                            <td>Available</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <footer class="dashboard-module__footer">
+                <p><i class="fa fa-exclamation-triangle"></i> A new version has been released. <a href="https://cuckoosandbox.org/download" target="_blank">Update now</a></p>
+            </footer>
+
+        </div>
+
+        <div class="dashboard-module">
+            <header class="dashboard-module__header">
+                <h4>Usage statistics</h4>
+            </header>
+            <section class="dashboard-module__body">
+                <table class="simple">
+                    <tbody data-populate="statistics">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <!--
+            <footer class="dashboard-module__footer">
+                <p><i class="fa fa-info-circle"></i> How to: <a href="https://cuckoo.sh/docs/usage/utilities/#processing-utility" target="_blank">Manage Cuckoo processes</a></p>
+            </footer>
+            -->
+        </div>
+
+        <!-- blogpost -->
+        <div class="dashboard-module" data-dashboard-module="blogposts">
+          <header class="dashboard-module__header">
+            <h4><i class="fa fa-newspaper-o icon-left"></i> From the press:</h4>
+          </header>
+          <section class="dashboard-module__body">
+
+            <!--
+              new approach for Handlebars: let's start writing handlebars code where it should be used in the template.
+              steps forward :)
+            -->
+            {% verbatim %}
+            <template id="blogpost-template">
+              {{#if posts}}
+                <ul class="content-list">
+                  {{#each posts}}
+                    <li>
+                      <a href="{{url}}" title="Read '{{title}}' on cuckoosandbox.org" target="_blank">
+                        {{#if important}}
+                          <i class="fa fa-star"></i>
+                        {{/if}}
+                        {{title}}
+                          <time>{{date}}</time>
+                        {{#if oneline}}
+                          <blockquote>&ldquo;{{oneline}}&rdquo;</blockquote>
+                        {{/if}}
+                      </a>
+                    </li>
+                  {{/each}}
+                </ul>
+              {{else}}
+                <p class="dashboard-module__body--text">No blogposts have been loaded <small>(this indicates version_check has been disabled in cuckoo.conf)</small>.</p>
+              {{/if}}
+            </template>
+            {% endverbatim %}
+
+          </section>
+          <footer class="dashboard-module__footer">
+            <p><a href="https://www.cuckoosandbox.org/blog" target="_blank" title="Full list of our literature on cuckoosandbox.org">Click here for more</a></p>
+          </footer>
+        </div>
+
+    </div>
+    <div class="flex-grid__column dashboard__right">
+
+        <h2 class="dashboard__col-title">Cuckoo</h2>
+
+        <div class="dashboard-module__lg" data-dashboard-module="upload">
+            <div class="dashboard-module__body omni-uploader">
+
+                <div class="dashboard-module__body--left">
+
+                    <div class="stack">
+                        <div class="uploader-area" id="dashboard-submit"></div>
+                        <div class="hidden csrf_placeholder" id="analysis_token">{% csrf_token %}</div>
+                    </div>
+
+                    <!-- <div class="stack">
+                        <div class="uploader-area" id="dashboard-import"></div>
+                        <div class="hidden csrf_placeholder" id="import_token">{% csrf_token %}</div>
+                    </div> -->
+
+                </div>
+
+                <div class="dashboard-module__body--right">
+                    <div id="submit-with-link">
+                        <form>
+                            <h5>Submit URLs/hashes</h5>
+                            <textarea rows="6" class="form-control" placeholder="Submit URLs/hashes"></textarea>
+                            <div class="text-center">
+                                <button type="submit" class="button--lg">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="dashboard-module__footer">
+                <p class="align-left"><i class="fa fa-info-circle"></i> Drag your file into the left field or click the icon to select a file.</p>
+            </div>
+
+        </div>
+
+        <div class="dashboard-module" data-dashboard-module="system">
+            <header class="dashboard-module__header">
+                <h4 class="align-left clearfix">
+                    System info
+                    <div class="pull-right">
+                        <span class="label label-free">free</span>
+                        <span class="label label-used">used</span>
+                        <span class="label label-total">total</span>
+                    </div>
+                </h4>
+            </header>
+            <section class="dashboard-module__body free-disk-space">
+
+                <div class="dashboard-module__body--flex">
+                    <h5>Free disk space</h5>
+                    <div class="free-disk-space__chart" id="ds-stat">
+                        <canvas></canvas>
+                        <div class="free-disk-space__legend">
+                            <p><strong data-populate="free-disk-space"></strong></p>
+                            <p data-populate="total-disk-space"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-module__body--flex">
+                    <h5>CPU Load</h5>
+                    <div class="free-disk-space__chart" id="cpu-stat">
+                        <canvas></canvas>
+                        <div class="free-disk-space__legend">
+                            <p><strong data-populate="cpu-load"></strong></p>
+                            <p data-populate="total-cores"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-module__body--flex">
+                    <h5>Memory usage</h5>
+                    <div class="free-disk-space__chart" id="memory-stat">
+                        <canvas></canvas>
+                        <div class="free-disk-space__legend">
+                            <p><strong data-populate="memory-used"></strong></p>
+                            <p data-populate="memory-total"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <!--
+            <footer class="dashboard-module__footer">
+                <p><i class="fa fa-info-circle"></i> How to: <a href="https://cuckoo.sh/docs/installation/host/configuration/" target="_blank">Configure Cuckoo system options</a></p>
+            </footer>
+            -->
+        </div>
+
+    </div>
+
+</div>
+
+<div class="flex-grid__horizontal--grow dashboard bottom">
+
+    <div class="flex-grid__column" id="dashboard-tables">
+
+        <h2 class="dashboard__col-title">Recent analyses</h2>
+
+        <!-- recent analyses -->
+        <div class="dashboard-module__lg" data-dashboard-module="processes">
+            <header class="dashboard-module__header">
+
+                <div class="flex-tabs__tabs dashboard-module__tabs">
+
+                    <!-- <a href="#" class="flex-tabs__tab active">Analyses</a>
+                    <a href="#" class="flex-tabs__tab">Tasks</a>
+                    <a href="#" class="flex-tabs__tab">Failed</a> -->
+
+                    <div class="flex-tabs__tab--right">
+                        <div class="custom-select" data-custom="select">
+                            <span>Show: </span>
+                            <select data-select="limit">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected="selected">3</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+            <section class="dashboard-module__body">
+                <div class="dashboard-module__body--left" data-populate="dashboard-table-recent">
+                </div>
+
+                <!--
+                <div class="dashboard-module__body--right" data-populate="dashboard-table-pending">
+                </div>
+                -->
+            </section>
+
+            <footer class="dashboard-module__footer">
+                <p><a href="/analysis/">Show all recent analyses</a></p>
+            </footer>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
