@@ -705,6 +705,7 @@ class AnalysisManager(threading.Thread):
         # copy of its code. TODO Also remove "archive" files.
         results = RunProcessing(task=self.task).run()
         RunSignatures(results=results).run()
+        # RunDetection(results=results).run()
         RunReporting(task=self.task, results=results).run()
 
         # If the target is a file and the user enabled the option,
