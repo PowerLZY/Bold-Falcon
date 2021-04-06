@@ -13,17 +13,22 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
 **学习内容：**
 
 - [x] Github 多人协作
+- [ ] 参考文献记录
+- [ ] Python2.7环境配置
+- [ ] 图标+起名
+- [ ] RE规则
 - [ ] Yara规则
 - [ ] ssdeep
-- [ ] Cuckoo 社区签名库
+- [x] cuckoo 社区签名库 https://github.com/cuckoosandbox/community
 - [ ] DLL注入
 - [ ] 历届比赛调研
 - [ ] 打包Docker\shells安装
+- [ ] 多人文档（overleaf、飞书）
+- [ ] 冗余文件删除
+- [ ] blog 说明编写
+- [ ] libvirt+高并发虚拟机
 - [x] 恶意软件检测安全策略（卡巴斯基）
 
-### 目录：
-
-[TOC]
 
 ### 一、需求现状
 
