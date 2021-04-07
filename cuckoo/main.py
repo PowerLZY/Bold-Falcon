@@ -157,7 +157,7 @@ def cuckoo_init(level, ctx, cfg=None):
 
     # Only one Cuckoo process should exist per CWD. Run this check before any
     # files are possibly modified. Note that we mkdir $CWD/pidfiles/ here as
-    # its CWD migration rules only kick in after the pidfile check.
+    # its CWD migration rules only kick in after the pidfile check.llll
     mkdir(cwd("pidfiles"))
     pidfile = Pidfile("cuckoo")
     if pidfile.exists():
