@@ -57,7 +57,6 @@ log = logging.getLogger(__name__)
 class PortableExecutable(object):
     """PE analysis."""
 
-    # yangge
 
     def __init__(self, file_path):
         """@param file_path: file path."""
