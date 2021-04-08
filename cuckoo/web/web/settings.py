@@ -25,6 +25,7 @@ if not mongo.init():
         "official documentation as well as the $CWD/conf/reporting.conf file."
     ))
 
+#mongo test
 mongo.connect()
 
 # Connect to ElasticSearch (optional).
