@@ -423,8 +423,8 @@ class JsonDump(Report):
 - 反沙箱技术
 
   - yara规则标记
-
   
+-Web源碼分析
 
 
 
