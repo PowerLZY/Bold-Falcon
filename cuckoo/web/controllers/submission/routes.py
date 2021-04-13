@@ -16,6 +16,8 @@ log = logging.getLogger(__name__)
 submit_manager = SubmitManager()
 
 class SubmissionRoutes(object):
+
+    # open submit page
     @staticmethod
     def submit(request):
         return render_template(request, "submission/submit.html")

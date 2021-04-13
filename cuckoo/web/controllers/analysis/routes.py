@@ -18,6 +18,7 @@ class AnalysisRoutes:
     def recent(request):
         return render_template(request, "analysis/index.html")
 
+    # swtich pages
     @staticmethod
     def detail(request, task_id, page):
         report = AnalysisController.get_report(task_id)

@@ -9,6 +9,8 @@ from cuckoo.common.config import config
 from cuckoo.web.utils import render_template
 
 @require_http_methods(["GET", "POST"])
+
+# open secret page
 def secret(request):
     if request.method == "GET":
         return render_template(request, "secret.html")

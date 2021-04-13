@@ -67,6 +67,7 @@ class JsonSerialize(json.JSONEncoder):
             return calendar.timegm(obj.timetuple()) + obj.microsecond / 1000000.0
         raise TypeError("%r is not JSON serializable" % obj)
 
+# def render to open template
 def render_template(request, template_name, **kwargs):
     env = {}
 

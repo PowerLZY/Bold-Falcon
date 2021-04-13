@@ -8,6 +8,7 @@ from cuckoo.common.config import config
 from cuckoo.misc import version
 from cuckoo.web.utils import render_template
 
+# home page
 @require_safe
 def index(request):
     report = {

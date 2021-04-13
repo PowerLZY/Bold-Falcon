@@ -28,6 +28,7 @@ from cuckoo.web.utils import view_error, render_template, normalize_task
 results_db = mongo.db
 fs = mongo.grid
 
+# open pending page
 @require_safe
 def pending(request):
     pending = []
@@ -200,6 +201,7 @@ def search_behavior(request, task_id):
         "results": results,
     })
 
+#open latest report
 @require_safe
 def latest_report(request):
     report = results_db.analysis.find_one({
