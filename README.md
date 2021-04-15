@@ -13,7 +13,7 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
 #### **学习内容：**
 
 + 学习内容
-  - [ ] RE规则、Yara规则、ssdeep
+  - [ ] Yara规则、ssdeep
   - [ ] DLL注入、动态信息提取原理
   - [ ] 历届网络技术挑战赛调研
 
@@ -23,6 +23,7 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
   + [ ] 图标+起名
 + 家族签名模块
   - [x] cuckoo 社区**签名库** https://github.com/cuckoosandbox/community
+  - [x] https://www.secpulse.com/archives/75180.html
   - [ ] 添加挖矿+使用自定义签名
 
 + 机器学习模块
