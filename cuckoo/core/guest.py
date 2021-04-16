@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -143,8 +144,12 @@ class OldGuestManager(object):
 
     def upload_analyzer(self, monitor):
         """Upload analyzer to guest.
+        根据操作系统类型(Windows, Linux), 上传分析模块.
         @return: operation status.
         """
+        # 根据平台, 将对应分析模块进行压缩.
+        # 分析模块的文件位于cuckoo/cuckoo/data/analyzer/(android, darwin, linux, windows)
+        # init_yara函数compile yara规则为dumpmem.yarac, analyzer_zipfile也会将 dumpmem.yarac写入到压缩文件流中
         zip_data = analyzer_zipfile(self.platform, monitor)
 
         log.debug(
@@ -389,17 +394,20 @@ class GuestManager(object):
 
     def upload_analyzer(self, monitor):
         """Upload the analyzer to the Virtual Machine."""
+        # 分析模块的文件位于cuckoo/cuckoo/data/analyzer/(android, darwin, linux, windows)
+        # init_yara 函数 compile yara 规则为 dumpmem.yarac, analyzer_zipfile 也会将 dumpmem.yarac 写入到压缩文件流中.
         zip_data = analyzer_zipfile(self.platform, monitor)
 
         log.debug(
             "Uploading analyzer to guest (id=%s, ip=%s, monitor=%s, size=%d)",
             self.vmid, self.ipaddr, monitor, len(zip_data)
         )
-
+        # 填充self.analyzer_path内容, 这个路径存放分析模块的内容, 一般是tmp目录
         self.determine_analyzer_path()
         data = {
             "dirpath": self.analyzer_path,
         }
+        # 发送extract命令, 令client提取其中的文件
         self.post("/extract", files={"zipfile": zip_data}, data=data)
 
     def add_config(self, options):
@@ -421,14 +429,14 @@ class GuestManager(object):
 
     def start_analysis(self, options, monitor):
         """Start the analysis by uploading all required files.
-
+           客户端开启分析
         @param options: the task options
-        @param monitor: identifier of the monitor to be used.
+        @param monitor: identifier of the monitor to be used.  monitor --> 'lastest'字符串
         """
         log.info("Starting analysis #%s on guest (id=%s, ip=%s)",
                  self.task_id, self.vmid, self.ipaddr)
 
-        self.options = options
+        self.options = options # 分析的配置文件
         self.timeout = options["timeout"] + config("cuckoo:timeouts:critical")
 
         # Wait for the agent to come alive.
@@ -443,6 +451,7 @@ class GuestManager(object):
 
         # Check whether this is the new Agent or the old one (by looking at
         # the status code of the index page).
+        # client 端也开启了http server, 获取agent(配置的时候,需要在虚拟机中放置agent.py)的信息
         r = self.get("/", do_raise=False)
         if r.status_code == 501:
             # log.info("Cuckoo 2.0 features a new Agent which is more "
@@ -466,6 +475,7 @@ class GuestManager(object):
             return
 
         try:
+            # 获取agent的version, features
             status = r.json()
             version = status.get("version")
             features = status.get("features", [])
@@ -488,24 +498,30 @@ class GuestManager(object):
             self.get("/pinning")
 
         # Obtain the environment variables.
+        # 获取环境变量
         self.query_environ()
 
         # Upload the analyzer.
+        # 通过http协议,上传分析模块
         self.upload_analyzer(monitor)
 
         # Pass along the analysis.conf file.
+        # 将options中的内容传入client中, 写入到self.analyzer_path的analysis.conf中
         self.add_config(options)
 
         # Allow Auxiliary modules to prepare the Guest.
+        # 将mitm, reboot, replay, service, sniffer等, 这些额外的分析或功能初始化, 与任务对接
         self.aux.callback("prepare_guest")
 
         # If the target is a file, upload it to the guest.
+        # 如果分析的内容为文件, 传输文件(样本)
         if options["category"] == "file" or options["category"] == "archive":
             data = {
                 "filepath": os.path.join(
                     self.determine_temp_path(), options["file_name"]
                 ),
             }
+            # target中存放的是样本的路径
             files = {
                 "file": ("sample.bin", open(options["target"], "rb")),
             }
@@ -517,6 +533,7 @@ class GuestManager(object):
                 "async": "yes",
                 "cwd": self.analyzer_path,
             }
+            # 执行execpy命令 --> 在系统中执行python analyzer.py
             self.post("/execpy", data=data)
         else:
             # Execute the analyzer that we just uploaded.
@@ -525,6 +542,7 @@ class GuestManager(object):
                 "async": "yes",
                 "cwd": self.analyzer_path,
             }
+            # 执行execute命令, execute(command)
             self.post("/execute", data=data)
 
     def wait_for_completion(self):
