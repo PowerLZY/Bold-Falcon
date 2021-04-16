@@ -33,8 +33,6 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
   - [ ] 静态检测引擎: ember、string、Op-code、灰度图、malconv
   - [ ] 动态检测引擎：API调用序列
 
-  - [ ] 
-
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
   + [ ] 冗余文件删除
