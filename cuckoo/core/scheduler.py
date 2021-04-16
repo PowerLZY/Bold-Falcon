@@ -40,13 +40,14 @@ active_analysis_count = 0
 
 class AnalysisManager(threading.Thread):
     """Analysis Manager.
+    分析模块
 
     This class handles the full analysis process for a given task. It takes
     care of selecting the analysis machine, preparing the configuration and
     interacting with the guest agent and analyzer components to launch and
     complete the analysis and store, process and report its results.
     """
-
+    # 构造函数
     def __init__(self, task_id, error_queue):
         """@param task: task object containing the details for the analysis."""
         threading.Thread.__init__(self)
@@ -57,22 +58,25 @@ class AnalysisManager(threading.Thread):
         self.binary = ""
         self.storage_binary = ""
         self.machine = None
-        self.db = Database()
-        self.task = self.db.view_task(task_id)
+        self.db = Database() # 需要获取样本的信息,而样本的信息存储在数据库中, 上传样本可以通过web界面或submit命令
+        self.task = self.db.view_task(task_id) # 查看任务的信息
+        # timeout --> 指明分析时间 platform --> 系统类型 Windows
+        # started_on --> 开始时间 completed_on --> 结束时间(分析结束之后进行填写)
+        # status --> 指明分析状态, 如pending, running, completed, reported, recovered, failed等
         self.guest_manager = None
         self.route = None
         self.interface = None
         self.rt_table = None
         self.unrouted_network = False
         self.stopped_aux = False
-        self.rs_port = config("cuckoo:resultserver:port")
+        self.rs_port = config("cuckoo:resultserver:port")# 读取配置文件中的服务端ip和端口, 我这里设置的是192.168.56.1和2042
 
     def init(self):
         """Initialize the analysis."""
         self.storage = cwd(analysis=self.task.id)
 
-        # If the analysis storage folder already exists, we need to abort the
-        # analysis or previous results will be overwritten and lost.
+        # 如果分析存储文件夹已存在，则需要中止
+        # 分析或以前的结果将被覆盖并丢失
         if os.path.exists(self.storage):
             log.error("Analysis results folder already exists at path \"%s\", "
                       "analysis aborted", self.storage)
@@ -105,7 +109,7 @@ class AnalysisManager(threading.Thread):
             # And fail this analysis if it has been modified.
             # TODO Absorb the file upon submission.
             sample = self.db.view_sample(self.task.sample_id)
-            sha256 = File(self.task.target).get_sha256()
+            sha256 = File(self.task.target).get_sha256() #检测文件是否被更改
             if sha256 != sample.sha256:
                 log.error(
                     "Target file has been modified after submission: \"%s\"",
@@ -411,7 +415,7 @@ class AnalysisManager(threading.Thread):
                 self.guest_manager.wait_for_completion()
 
             self.db.guest_set_status(self.task.id, "stopping")
-
+    # 主要流程代码
     def launch_analysis(self):
         """Start analysis."""
         succeeded = False
@@ -437,12 +441,16 @@ class AnalysisManager(threading.Thread):
         )
 
         # Initialize the analysis.
+        # 初始化分析, 包括:
+        # 1. 创建文件夹, 用于存放分析结果和样本文件
+        # 2. 将target指向的文件存放到storage/binaries下
         if not self.init():
             logger("Failed to initialize", action="task.init", status="error")
             return False
 
         # Acquire analysis machine.
         try:
+            # 获取虚拟机资源
             self.acquire_machine()
         except CuckooOperationalError as e:
             machine_lock.release()
@@ -455,25 +463,35 @@ class AnalysisManager(threading.Thread):
 
         # At this point we can tell the ResultServer about it.
         try:
+            # 添加host的ip与任务id的映射
             ResultServer().add_task(self.task, self.machine)
         except Exception as e:
             machinery.release(self.machine.label)
             self.errors.put(e)
 
         # Initialize the guest manager.
+        # 初始化client端, 参数为(虚拟机名称, ip, 平台, task.id)
+        # self.guest_manaer函数会调用self.guest_manager.start_analysis函数开始分析
         self.guest_manager = GuestManager(
             self.machine.name, self.machine.ip,
             self.machine.platform, self.task.id, self
         )
-
+        # 其他辅助性配置加载
+        # mitm.py --> https代理配置, mitmdump是mitmproxy的命令行配置
+        # reboot.py --> 重启
+        # replay.py --> 流量重放
+        # service.py --> 部署诱使样本攻击的服务, 例如: 部署蜜罐环境.
+        # sniffer.py --> 流量抓取, 用于流量分析
         self.aux = RunAuxiliary(self.task, self.machine, self.guest_manager)
         self.aux.start()
 
         # Generate the analysis configuration file.
+        # 将当前配置存入options中, options是一个字典类型
         options = self.build_options()
 
         # Check if the current task has remotecontrol
         # enabled before starting the machine.
+        # 远程桌面. 这个需要在cuckoo.conf中进行设置
         control_enabled = (
             config("cuckoo:remotecontrol:enabled") and
             "remotecontrol" in self.task.options
@@ -493,6 +511,16 @@ class AnalysisManager(threading.Thread):
             self.interface = None
 
             # Mark the selected analysis machine in the database as started.
+            # 设置guests表中的信息
+            """
+            # 例子：id = 2行是 self.db.guest_start执行后的添加的, 设置client的初始信息.
+            +----+---------+----------------+----------------+------------+---------------------+---------------------+---------+
+            | id | status  | name           | label          | manager    | started_on          | shutdown_on         | task_id |
+            +----+---------+----------------+----------------+------------+---------------------+---------------------+---------+
+            |  1 | stopped | cuckoo_win_x64 | cuckoo_win_x64 | VirtualBox | 2020-06-14 14:40:26 | 2020-06-14 14:40:32 |       1 |
+            |  2 | init    | cuckoo_win_x64 | cuckoo_win_x64 | VirtualBox | 2020-06-14 15:31:05 | NULL                |       4 | --> 新增的行
+            +----+---------+----------------+----------------+------------+---------------------+---------------------+---------+
+            """
             guest_log = self.db.guest_start(self.task.id,
                                             self.machine.name,
                                             self.machine.label,
@@ -504,6 +532,7 @@ class AnalysisManager(threading.Thread):
             )
 
             # Start the machine.
+            # 开启虚拟机如：machinery/virtualbox.py 中 VirtualBox.start
             machinery.start(self.machine.label, self.task)
 
             logger(
@@ -538,6 +567,7 @@ class AnalysisManager(threading.Thread):
             # machine has the "noagent" option specified (please refer to the
             # wait_finish() function for more details on this function).
             if "noagent" not in self.machine.options:
+                # 重要函数，这个函数的主要是调用self.guest_manager.start_analysis.
                 self.guest_manage(options)
             else:
                 self.wait_finish()
@@ -595,7 +625,7 @@ class AnalysisManager(threading.Thread):
             # Stop Auxiliary modules.
             if not self.stopped_aux:
                 self.stopped_aux = True
-                self.aux.stop()
+                self.aux.stop() #辅助模块的清理工作
 
             # Take a memory dump of the machine before shutting it off.
             if self.cfg.cuckoo.memory_dump or self.task.memory:
@@ -636,6 +666,7 @@ class AnalysisManager(threading.Thread):
 
             try:
                 # Stop the analysis machine.
+                # 停止虚拟机
                 machinery.stop(self.machine.label)
             except CuckooMachineError as e:
                 log.warning(
@@ -672,6 +703,7 @@ class AnalysisManager(threading.Thread):
 
             # After all this, we can make the ResultServer forget about the
             # internal state for this analysis task.
+            #删除ip与任务id的映射
             ResultServer().del_task(self.task, self.machine)
 
             # Drop the network routing rules if any.
@@ -752,22 +784,24 @@ class AnalysisManager(threading.Thread):
         global active_analysis_count
         active_analysis_count += 1
         try:
+            # 主要流程代码
             self.launch_analysis()
 
             log.debug("Released database task #%d", self.task.id)
 
             if self.cfg.cuckoo.process_results:
-                self.store_task_info()
-                self.db.set_status(self.task.id, TASK_COMPLETED)
+                self.store_task_info() # 存储任务结果, 存储在task.json文件中.
+                self.db.set_status(self.task.id, TASK_COMPLETED) # 设置task对应的状态为completed
                 # TODO If self.process_results() is unified with apps.py's
                 # process() method, then ensure that TASK_FAILED_PROCESSING is
                 # handled correctly and not overwritten by the db.set_status()
                 # at the end of this method.
-                self.process_results()
+                self.process_results()# 下一步的结果处理模块：处理虚拟机运行样本的结果, 这个是流程的最后一步
 
             # We make a symbolic link ("latest") which links to the latest
             # analysis - this is useful for debugging purposes. This is only
             # supported under systems that support symbolic links.
+            # 在CWD/storage/analyses文件夹下创建lastest符号链接, 指向最新的分析结果文件夹
             if hasattr(os, "symlink"):
                 latest = cwd("storage", "analyses", "latest")
 
