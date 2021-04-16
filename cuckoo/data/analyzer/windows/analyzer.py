@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2011-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -446,6 +447,11 @@ class Analyzer(object):
         """Prepare env for analysis."""
         # Get SeDebugPrivilege for the Python process. It will be needed in
         # order to perform the injections.
+        """
+        1.提升当前进程（Analyzer所属的python进程）权限，获得SeDebugPrivilege和SeLoadDriverPrivilege权限
+        用于后续操作样本所在进程和加载驱动使用。
+        2.启动两个管道服务器，分别用于和目标样本进程的代码日志传输和函数执行记录传输
+        """
         grant_privilege("SeDebugPrivilege")
         grant_privilege("SeLoadDriverPrivilege")
 
@@ -527,7 +533,7 @@ class Analyzer(object):
         """Run analysis.
         @return: operation status.
         """
-        self.prepare()
+        self.prepare() # 准备工作
         self.path = os.getcwd()
 
         log.debug("Starting analyzer from: %s", self.path)
@@ -563,6 +569,7 @@ class Analyzer(object):
             log.info("Automatically selected analysis package \"%s\"", package)
         # Otherwise just select the specified package.
         else:
+            # 选择 package 不同扩展名的文件选定不同的命令来启动分析
             package = self.config.package
 
         # Generate the package path.
@@ -597,6 +604,7 @@ class Analyzer(object):
             self.target = self.package.move_curdir(self.target)
 
         # Initialize Auxiliary modules
+        # 启动一系列辅助分析工具，Auxiliary为抽象基类，遍历所有该类的子类并启动之，主要包括截屏工具、驱动加载工具等
         Auxiliary()
         prefix = auxiliary.__name__ + "."
         for loader, name, ispkg in pkgutil.iter_modules(auxiliary.__path__, prefix):
