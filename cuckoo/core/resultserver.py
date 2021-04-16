@@ -368,10 +368,13 @@ class ResultServer(object):
     __metaclass__ = Singleton
 
     def __init__(self):
+        # 获取cuckoo.conf中的配置信息
         ip = config("cuckoo:resultserver:ip")
         port = config("cuckoo:resultserver:port")
         pool_size = config('cuckoo:resultserver:pool_size')
-
+        # 绑定端口
+        # gevent官方介绍：
+        # gevent是一个基于协程的Python网络库，它使用greenlet在libev或libuv事件循环之上提供一个高级同步API
         sock = gevent.socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -402,21 +405,26 @@ class ResultServer(object):
         # here
         _, self.port = sock.getsockname()
         sock.listen(128)
-
+        # http 服务
         self.thread = threading.Thread(target=self.create_server,
                                        args=(sock, pool_size))
         self.thread.daemon = True
         self.thread.start()
 
     def add_task(self, task, machine):
+        # 添加一个映射, ip和task_id
         """Register a task/machine with the ResultServer."""
         self.instance.add_task(task.id, machine.ip)
 
     def del_task(self, task, machine):
+        # 删除一个映射, ip和task_id
         """Delete running task and cancel existing handlers."""
         self.instance.del_task(task.id, machine.ip)
 
     def create_server(self, sock, pool_size):
+        # create_server是创建一个http服务, 与client端进行交互.
+        # create_server中使用了GeventResultServerWorker, 这个类继承于gevent.server.StreamServer(http服务器)
+        # self.instance也会在add_task和del_task中使用
         if pool_size:
             pool = gevent.pool.Pool(pool_size)
         else:
