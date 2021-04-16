@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -864,7 +865,7 @@ class AnalysisManager(threading.Thread):
 
 class Scheduler(object):
     """Tasks Scheduler.
-
+    Scheduler类cuckoo沙箱的一个任务调度类
     This class is responsible for the main execution loop of the tool. It
     prepares the analysis machines and keep waiting and loading for new
     analysis tasks.
@@ -882,10 +883,12 @@ class Scheduler(object):
 
     def initialize(self):
         """Initialize the machine manager."""
+        # 以virtualbox为例
+        # 获取虚拟机client类型, virtualbox
         global machinery, machine_lock
 
         machinery_name = self.cfg.cuckoo.machinery
-
+        # 获取最大并行的虚拟机数量
         max_vmstartup_count = self.cfg.cuckoo.max_vmstartup_count
         if max_vmstartup_count:
             machine_lock = threading.Semaphore(max_vmstartup_count)
@@ -899,14 +902,21 @@ class Scheduler(object):
         })
 
         # Initialize the machine manager.
+        # 获取virtualbox的对应的管理模块, 对应的类在machinery文件夹
+        # cuckoo管理虚拟机通过相应的命令, 如: virtualbox
+        # 开启虚拟机: vboxmanage startvm <uuid|vmname>
+        # 恢复快照: vboxmanage snapshot <uuid|vmname> restore <snapshot-name>
         machinery = cuckoo.machinery.plugins[machinery_name]()
 
         # Provide a dictionary with the configuration options to the
         # machine manager instance.
+        # 读取virtualbox.conf配置信息
+        # 虚拟机启动的方式(headless, gui), 虚拟网卡名称(传输文件用),虚拟机的名称, 快照名称, 平台(windows/Linux)
         machinery.set_options(Config(machinery_name))
 
         # Initialize the machine manager.
         try:
+            # 检查虚拟机是否存在，恢复快照
             machinery.initialize(machinery_name)
         except CuckooMachineError as e:
             raise CuckooCriticalError("Error initializing machines: %s" % e)
@@ -1025,6 +1035,7 @@ class Scheduler(object):
             # or still busy starting. This way we won't have race conditions
             # with finding out there are no available machines in the analysis
             # manager or having two analyses pick the same machine.
+            # 以及使用信号量机制和锁来对虚拟机(共享资源)的运行的进行同步.
             if not machine_lock.acquire(False):
                 logger(
                     "Could not acquire machine lock",
@@ -1037,6 +1048,8 @@ class Scheduler(object):
             # If not enough free disk space is available, then we print an
             # error message and wait another round (this check is ignored
             # when the freespace configuration variable is set to zero).
+            # 检查host是否有足够的空间
+            # 目前只实现了Linux
             if self.cfg.cuckoo.freespace:
                 # Resolve the full base path to the analysis folder, just in
                 # case somebody decides to make a symbolic link out of it.
@@ -1105,6 +1118,7 @@ class Scheduler(object):
             # from the Analysis Manager to the Scheduler and then pass the
             # selected machine onto the Analysis Manager instance.
             task, available = None, False
+            # 为任务选择合适的虚拟机, 空闲状态, web界面可以选择合适的虚拟机进行执行样本.
             for machine in self.db.get_available_machines():
                 task = self.db.fetch(machine=machine.name)
                 if task:
@@ -1124,6 +1138,7 @@ class Scheduler(object):
                 self.total_analysis_count += 1
 
                 # Initialize and start the analysis manager.
+                # 接收之后, 开始进行分析, 开启虚拟机
                 analysis = AnalysisManager(task.id, errors)
                 analysis.daemon = True
                 analysis.start()
