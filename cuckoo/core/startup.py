@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -238,17 +239,25 @@ def init_logfile(logfile):
 
 def init_tasks():
     """Check tasks and reschedule uncompleted ones."""
+    # 初始化任务队列, 处理的对象：
+    # 1. 上次分析失败的任务
+    # 2. 意外退出, 未完成分析的任务
     db = Database()
 
     log.debug("Checking for locked tasks..")
+    # 获取cuckoo数据库, 表tasks中, status为running的任务
     for task in db.list_tasks(status=TASK_RUNNING):
+        # 检查cuckoo.conf中的reschedule选项是否修改为yes
         if config("cuckoo:cuckoo:reschedule"):
+            # 如果为yes
+            # 重新加入分析队列中
             task_id = db.reschedule(task.id)
             log.info(
                 "Rescheduled task with ID %s and target %s: task #%s",
                 task.id, task.target, task_id
             )
         else:
+            # 设置为TASK_FAILED_ANALYSIS
             db.set_status(task.id, TASK_FAILED_ANALYSIS)
             log.info(
                 "Updated running task ID %s status to failed_analysis",
@@ -257,6 +266,8 @@ def init_tasks():
 
     log.debug("Checking for pending service tasks..")
     for task in db.list_tasks(status=TASK_PENDING, category="service"):
+        # 任务状态为TASK_PENDING, 说明上次分析时, 虚拟机启动失败
+        # 将对应任务设置为TASK_FAILED_ANALYSIS
         db.set_status(task.id, TASK_FAILED_ANALYSIS)
 
 def init_modules():
@@ -272,6 +283,8 @@ def init_modules():
     for category in categories:
         for module in cuckoo.plugins[category]:
             module.init_once()
+            # 执行auxiliary,machinery,processing,reporting四个文件夹中的所有类的init_once函数
+            # 这些类均继承自common/abstract.py中Auxiliary,Machinery,Processing,Signature,Report
 
     for category in categories:
         log.debug("Imported \"%s\" modules:", category)
@@ -290,6 +303,7 @@ def init_modules():
 
 def init_yara():
     """Initialize & load/compile Yara rules."""
+    # 编译yara规则为对应的yarac
     categories = (
         "binaries", "urls", "memory", "scripts", "shellcode",
         "dumpmem", "office",

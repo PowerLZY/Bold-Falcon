@@ -1,8 +1,9 @@
+# coding=utf-8
 # Copyright (C) 2016-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
-import click
+import click # main函数中使用了click模块, 可以很方便的构建命令行程序
 import jinja2
 import logging
 import os
@@ -133,6 +134,8 @@ def cuckoo_init(level, ctx, cfg=None):
 
     # It would appear this is the first time Cuckoo is being run (on this
     # Cuckoo Working Directory anyway).
+    # 创建CWD文件夹
+    # CWD(Current Working Directory)文件夹包含了除了运行代码以外的其余文件,非常重要
     if not os.path.isdir(cwd()) or not os.listdir(cwd()):
         cuckoo_create(ctx.user, cfg)
         sys.exit(0)
@@ -181,13 +184,15 @@ def cuckoo_init(level, ctx, cfg=None):
     # Ensure the user is able to create and read temporary files.
     if not ensure_tmpdir():
         sys.exit(1)
-
+    # 连接数据库 cuckoo支持三种数据库: mysql, sqlite3, postgres,
+    # 可以在配置文件中进行配置.其中最常用的是mysql, 一般用作web模块存储数据.
     Database().connect()
 
     # Load additional Signatures.
+    # 初始化cuckoo组件
     load_signatures()
 
-    init_modules()
+    init_modules() # core.startup.py
     init_tasks()
     init_yara()
     init_binaries()
@@ -238,9 +243,12 @@ def cuckoo_main(max_analysis_count=0):
     signal.signal(signal.SIGTERM, handle_sigterm)
 
     try:
-        rs = ResultServer()
-        sched = Scheduler(max_analysis_count)
-        sched.start()
+        # 关键代码
+        # 由于cuckoo采用的时类似cs架构, 即host通过网络传输将必要的python代码和分析工具传输给client
+        # client, 接受样本和python代码进行分析, 然后将结果通过网络回传给host, 完成分析.
+        rs = ResultServer() #运行host服务器
+        sched = Scheduler(max_analysis_count) # 初始化Scheduler(管理任务执行和调度的类)
+        sched.start() # 开始进行任务调度
     except KeyboardInterrupt:
         log.info("CTRL+C detected! Stopping.. This can take a few seconds")
     finally:
