@@ -31,7 +31,9 @@ log = logging.getLogger(__name__)
 db = Database()
 
 def analyzer_zipfile(platform, monitor):
-    """Create the zip file that is sent to the Guest."""
+    """Create the zip file that is sent to the Guest.
+    analyzer's floder , chosen monitoring component, compiled "dumpmem" Yara rules for zer0m0n usage
+    """
     t = time.time()
 
     zip_data = io.BytesIO()
