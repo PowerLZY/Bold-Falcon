@@ -644,13 +644,16 @@ class Analyzer(object):
                 aux_enabled.append(aux)
 
         # Inform zer0m0n of the ResultServer address.
+        # 绑定 zer0m0n结果服务器地址。
         zer0m0n.resultserver(self.config.ip, self.config.port)
 
         # Forward the command pipe and logpipe names on to zer0m0n.
+        # 将命令管道和日志管道名称转发到zer0m0n。
         zer0m0n.cmdpipe(self.config.pipe)
         zer0m0n.channel(self.config.logpipe)
 
         # Hide the Cuckoo Analyzer & Cuckoo Agent.
+        #隐藏代理和分析进程
         zer0m0n.hidepid(self.pid)
         zer0m0n.hidepid(self.ppid)
 
