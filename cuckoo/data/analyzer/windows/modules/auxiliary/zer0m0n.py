@@ -13,7 +13,11 @@ from lib.core.ioctl import driver_name as random_name
 log = logging.getLogger(__name__)
 
 class LoadZer0m0n(Auxiliary):
-    """Load the zer0m0n kernel driver."""
+    """
+    Load the zer0m0n kernel driver.
+    它会在恶意软件执行过程中执行内核分析。恶意软件作者有很多方法可以绕过布谷鸟检测，他可以检测钩子，硬编码Nt*函数来避免钩子，检测虚拟机。。。
+    这个驱动程序的目标是为用户提供一种可能性，让用户在经典的用户区分析和内核分析之间进行选择，难检测或绕过。
+    """
 
     def start(self):
         if self.options.get("analysis") not in ("both", "kernel"):

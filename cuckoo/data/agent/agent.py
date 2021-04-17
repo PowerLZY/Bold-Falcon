@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 # Copyright (C) 2015-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
@@ -193,7 +194,8 @@ def json_exception(message):
 
 def json_success(message, **kwargs):
     return jsonify(message=message, **kwargs)
-
+# app = MiniHTTPServer()
+# 以json格式返回基本信息
 @app.route("/")
 def get_index():
     return json_success(
@@ -208,6 +210,10 @@ def get_status():
 
 @app.route("/status", methods=["POST"])
 def put_status():
+    """
+    不断获取样本分析状态
+    当返回complete状态时, host端要关闭虚拟机.
+    """
     if "status" not in request.form:
         return json_error(400, "No status has been provided")
 
@@ -248,7 +254,11 @@ def do_mkdir():
         return json_exception("Error creating directory")
 
     return json_success("Successfully created directory")
-
+"""
+其实ageng.py中存在两个创建临时文件夹的命令: mktemp和mkdtemp. 但二者创建的位置不一样:
+mkdtemp --> 在%SYSTEMDRIVE%(C:\)下创建一个随机文件夹
+mktemp --> 在%TEMP%(C:\Users\bill\AppData\Local\Temp)下创建一个随机文件夹
+"""
 @app.route("/mktemp", methods=["GET", "POST"])
 def do_mktemp():
     suffix = request.form.get("suffix", "")
@@ -281,6 +291,10 @@ def do_mkdtemp():
 
 @app.route("/store", methods=["POST"])
 def do_store():
+    """
+    执行store命令, 写入analysis.conf, filepath: C:/tmppx7scx/analysis.conf
+    执行store命令, 写入maze.exe, C:\Users\bill\AppData\Local\Temp\maze.exe
+    """
     if "filepath" not in request.form:
         return json_error(400, "No filepath has been provided")
 
@@ -304,6 +318,24 @@ def do_retrieve():
 
 @app.route("/extract", methods=["POST"])
 def do_extract():
+    """
+    分析模块以zip格式压缩,发送给client端. 发送extrac命令, 将分析模块解压到上一步创建的文件夹中.ur
+    [analysis]
+    category = file
+    target = /tmp/cuckoo-tmp-pwnmelife/tmpZ3SA0v/maze.exe (host端的样本地址)
+    package = exe
+    file_type = PE32 executable (GUI) Intel 80386, for MS Windows
+    file_name = maze.exe
+    clock = 20200620T09:28:00
+    id = 1
+    terminate_processes = False
+    options = apk_entry=:,procmemdump=yes,route=none
+    enforce_timeout = False
+    timeout = 120
+    ip = 192.168.56.1
+    pe_exports =
+    port = 2042
+    """
     if "dirpath" not in request.form:
         return json_error(400, "No dirpath has been provided")
 
@@ -372,6 +404,10 @@ def do_execute():
 
 @app.route("/execpy", methods=["POST"])
 def do_execpy():
+    """
+    执行分析脚本
+    # filepath: C:/tmppx7scx/analyzer.py
+    """
     if "filepath" not in request.form:
         return json_error(400, "No Python file has been provided")
 
@@ -417,7 +453,9 @@ def do_kill():
 
     shutdown()
     return json_success("Quit the Cuckoo Agent")
-
+"""
+在进行cuckoo沙箱安装的时候, 需要将ageng.py拷贝至Windows的Startup文件夹, 并且修改后缀py为pyw, 实现开机自启动.
+"""
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("host", nargs="?", default="0.0.0.0")
