@@ -28,12 +28,18 @@ log = logging.getLogger(__name__)
 
 def enumerate_plugins(dirpath, module_prefix, namespace, class_,
                       attributes={}, as_dict=False):
-    """Import plugins of type `class` located at `dirpath` into the
+    """
+    Import plugins of type `class` located at `dirpath` into the
     `namespace` that starts with `module_prefix`. If `dirpath` represents a
     filepath then it is converted into its containing directory. The
     `attributes` dictionary allows one to set extra fields for all imported
     plugins. Using `as_dict` a dictionary based on the module name is
-    returned."""
+    returned.
+    将位于“dirpath”的“class”类型的插件导入以“module_prefix”开头的“namespace”。
+    如果“dirpath”表示一个文件路径，那么它将被转换为其包含目录。
+    “attributes”字典允许为所有导入的插件设置额外的字段。
+    使用“as_dict”返回基于模块名的字典。
+    """
     if os.path.isfile(dirpath):
         dirpath = os.path.dirname(dirpath)
 
@@ -179,7 +185,9 @@ class RunAuxiliary(object):
             self.enabled.remove(s)
 
 class RunProcessing(object):
-    """Analysis Results Processing Engine.
+    """
+    Analysis Results Processing Engine.
+    分析结果处理引擎
 
     This class handles the loading and execution of the processing modules.
     It executes the enabled ones sequentially and generates a dictionary which
@@ -224,6 +232,7 @@ class RunProcessing(object):
             return None, None
 
         # If the processing module is disabled in the config, skip it.
+        # 如果在配置中禁用了处理模块，请跳过它
         if not options.enabled:
             return None, None
 
@@ -243,6 +252,7 @@ class RunProcessing(object):
         try:
             # Run the processing module and retrieve the generated data to be
             # appended to the general results container.
+            # 得到结果容器
             data = current.run()
 
             log.debug(
@@ -306,6 +316,7 @@ class RunProcessing(object):
         # Order modules using the user-defined sequence number.
         # If none is specified for the modules, they are selected in
         # alphabetical order.
+        #返回 processing 功能列表
         processing_list = cuckoo.processing.plugins
 
         # If no modules are loaded, return an empty dictionary.
@@ -314,6 +325,7 @@ class RunProcessing(object):
 
             # Run every loaded processing module.
             for module in processing_list:
+                # 执行功能
                 key, result = self.process(module, results)
 
                 # If the module provided results, append it to the fat dict.
