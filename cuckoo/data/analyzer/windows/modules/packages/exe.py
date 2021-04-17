@@ -9,7 +9,9 @@ import shlex
 from lib.common.abstracts import Package
 
 class Exe(Package):
-    """EXE analysis package."""
+    """EXE analysis package.
+    package.start() 执行对应类型样本
+    """
 
     def start(self, path):
         args = self.options.get("arguments", "")
