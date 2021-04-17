@@ -482,6 +482,9 @@ class Analyzer(object):
 
         # Initialize and start the Command Handler pipe server. This is going
         # to be used for communicating with the monitored processes.
+        """
+        初始化并启动命令处理程序管道服务器. 这将用于与被监视的进程通信
+        """
         self.command_pipe = PipeServer(
             PipeDispatcher, self.config.pipe, message=True,
             dispatcher=CommandPipeHandler(self)
@@ -492,6 +495,9 @@ class Analyzer(object):
         # Initialize and start the Log Pipe Server - the log pipe server will
         # open up a pipe that monitored processes will use to send logs to
         # before they head off to the host machine.
+        """
+        初始化并启动日志管道服务器-日志管道服务器将打开一个管道，受监视的进程将使用该管道在将日志发送到主机之前向其发送日志。
+        """
         destination = self.config.ip, self.config.port
         self.log_pipe_server = PipeServer(
             PipeForwarder, self.config.logpipe, destination=destination

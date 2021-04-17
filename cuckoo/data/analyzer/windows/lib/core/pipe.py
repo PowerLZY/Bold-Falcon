@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -23,8 +24,10 @@ BUFSIZE = 0x10000
 open_handles = set()
 
 class PipeForwarder(threading.Thread):
-    """Forward all data received from a local pipe to the Cuckoo
-    server through a socket."""
+    """
+    Forward all data received from a local pipe to the Cuckoo server through a socket.
+    通过套接字将从本地管道接收到的所有数据转发到布谷鸟服务器
+    """
     sockets = {}
     active = {}
 
@@ -44,6 +47,10 @@ class PipeForwarder(threading.Thread):
         # specifying the same process identifier will reuse the same socket,
         # thus making it look like as if it was never closed in the first
         # place.
+        """
+        前四个字节表示进程标识符。如果管道句柄以未知的方式关闭，则重新打开一个并指定相同的进程标识符将重用同一个套接字，
+        从而使其看起来就像从未关闭过一样。
+        """
         success = KERNEL32.ReadFile(
             self.pipe_handle, byref(pid), sizeof(pid),
             byref(bytes_read), None
@@ -64,7 +71,7 @@ class PipeForwarder(threading.Thread):
             )
             KERNEL32.CloseHandle(self.pipe_handle)
             return
-
+        # 链接cuckoo主机 socket
         if pid.value:
             sock = self.sockets.get(pid.value)
             if not sock:
@@ -85,17 +92,23 @@ class PipeForwarder(threading.Thread):
 
             if success or KERNEL32.GetLastError() == ERROR_MORE_DATA:
                 try:
+                    # 发送 Monitor Buffer 信息
                     sock.sendall(buf.raw[:bytes_read.value])
                 except socket.error as e:
                     if e.errno != errno.EBADF:
                         log.warning("Failed socket operation: %s", e)
                     break
 
-            # If we get the broken pipe error then this pipe connection has
-            # been terminated for one reason or another. So break from the
-            # loop and make the socket "inactive", that is, another pipe
-            # connection can in theory pick it up. (This will only happen in
-            # cases where malware for some reason broke our pipe connection).
+                # If we get the broken pipe error then this pipe connection has
+                # been terminated for one reason or another. So break from the
+                # loop and make the socket "inactive", that is, another pipe
+                # connection can in theory pick it up. (This will only happen in
+                # cases where malware for some reason broke our pipe connection).
+                """
+                如果出现断管错误，则此管道连接因某种原因而终止.
+                因此从循环中断开并使套接字处于“非活动”状态，也就是说，理论上，另一个管道连接可以拾取它.
+                (这只会发生在恶意软件出于某种原因破坏我们的管道连接的情况下).
+                """
             elif KERNEL32.GetLastError() == ERROR_BROKEN_PIPE:
                 break
             else:
@@ -112,9 +125,10 @@ class PipeForwarder(threading.Thread):
         self.do_run = False
 
 class PipeDispatcher(threading.Thread):
-    """Receive commands through a local pipe, forward them to the
-    dispatcher, and return the response."""
-
+    """
+    Receive commands through a local pipe, forward them to the dispatcher, and return the response.
+    通过本地管道接收命令，将它们转发给调度程序，并返回响应
+    """
     def __init__(self, pipe_handle, dispatcher):
         threading.Thread.__init__(self)
         self.pipe_handle = pipe_handle
@@ -162,8 +176,10 @@ class PipeDispatcher(threading.Thread):
         self.do_run = False
 
 class PipeServer(threading.Thread):
-    """Accept incoming pipe handlers and initialize them in
-    a new thread."""
+    """
+    Accept incoming pipe handlers and initialize them in a new thread.
+    接受传入的管道处理程序并在新线程中初始化它们。
+    """
 
     def __init__(self, pipe_handler, pipe_name, message=False, **kwargs):
         threading.Thread.__init__(self)
