@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -22,8 +23,10 @@ class JsonDump(Report):
     """Save analysis results in JSON format."""
 
     def erase_calls(self, results):
-        """Temporarily remove calls from the report by replacing them with
-        empty lists."""
+        """
+        Temporarily remove calls from the report by replacing them with empty lists.
+        通过将调用替换为空列表，暂时从报表中删除
+        """
         if self.calls:
             self.calls = None
             return
@@ -47,8 +50,7 @@ class JsonDump(Report):
         @param results: Cuckoo results dict.
         @raise CuckooReportError: if fails to write report.
         """
-        # Determine whether we want to include the behavioral data in the
-        # JSON report.
+        # Determine whether we want to include the behavioral data in the JSON report.
         if "json.calls" in self.task["options"]:
             self.calls = int(self.task["options"]["json.calls"])
         else:
@@ -56,6 +58,7 @@ class JsonDump(Report):
 
         self.erase_calls(results)
         try:
+            # 将report.json写入report文件夹
             filepath = os.path.join(self.reports_path, "report.json")
             with open(filepath, "wb", buffering=1024*1024) as report:
                 json.dump(
