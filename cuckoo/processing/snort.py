@@ -15,7 +15,7 @@ from cuckoo.common.exceptions import CuckooProcessingError
 log = logging.getLogger(__name__)
 
 class Snort(Processing):
-    """Snort processing module."""
+    """Snort processing module.Snort处理模块"""
 
     # Thanks to Steve Handerson for the following regex query.
     alert_re = re.compile(

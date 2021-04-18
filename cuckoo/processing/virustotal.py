@@ -18,10 +18,13 @@ from cuckoo.common.virustotal import (
 log = logging.getLogger(__name__)
 
 class VirusTotal(Processing):
-    """Get antivirus signatures from VirusTotal.com for various results.
+    """
+    Get antivirus signatures from VirusTotal.com for various results.
 
     Currently obtains VirusTotal results for the target sample or URL and the
     dropped files.
+    从获取防病毒签名VirusTotal.com各种结果。
+    当前获取目标示例或URL以及删除的文件的VirusTotal结果。
     """
     order = 2
 

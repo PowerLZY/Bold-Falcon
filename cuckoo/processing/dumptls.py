@@ -9,9 +9,13 @@ from cuckoo.common.abstracts import Processing
 log = logging.getLogger(__name__)
 
 class TLSMasterSecrets(Processing):
-    """Cross-references TLS master secrets extracted from the monitor and key
+    """
+    Cross-references TLS master secrets extracted from the monitor and key
     information extracted from the PCAP to dump a master secrets file
-    compatible with, e.g., Wireshark."""
+    compatible with, e.g., Wireshark.
+    交叉引用从监视器中提取的TLS主密钥和从PCAP中提取的密钥信息，以转储与Wireshark兼容的主密钥文件
+
+    """
 
     order = 3
     key = "dumptls"

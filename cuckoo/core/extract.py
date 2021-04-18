@@ -59,7 +59,7 @@ class ExtractManager(object):
         dirpath = cwd("extracted", analysis=self.task_id)
 
         # TODO We need to move this somewhere else. Just a temporary
-        # hack in case old reports are processed that don't have the
+        # Hack in case old reports are processed that don't have the
         # "extracted" directory in-place yet.
         if not os.path.exists(dirpath):
             os.mkdir(dirpath)
