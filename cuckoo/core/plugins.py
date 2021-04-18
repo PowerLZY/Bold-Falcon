@@ -626,7 +626,8 @@ class RunSignatures(object):
                 self.results["info"]["score"] = 10
 
 class RunReporting(object):
-    """Reporting Engine.
+    """
+    Reporting Engine.
 
     This class handles the loading and execution of the enabled reporting
     modules. It receives the analysis results dictionary from the Processing
@@ -707,6 +708,7 @@ class RunReporting(object):
         # represents at which position that module should be executed among
         # all the available ones. It can be used in the case where a
         # module requires another one to be already executed beforehand.
+        #依次执行report模块jsondump,mongodb
         reporting_list = cuckoo.reporting.plugins
 
         # Return if no reporting modules are loaded.
