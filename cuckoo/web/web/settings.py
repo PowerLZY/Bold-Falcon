@@ -13,7 +13,7 @@ from cuckoo.common.elastic import elastic
 from cuckoo.common.mongo import mongo
 from cuckoo.core.startup import init_rooter, init_routing
 from cuckoo.misc import cwd, decide_cwd
-
+#Django 启动
 if cwd(root=True) is None:
     decide_cwd(exists=True)
 
@@ -34,6 +34,9 @@ elastic.connect()
 # In case we have VPNs enabled we need to initialize through the following
 # two methods as they verify the interaction with VPNs as well as gather
 # which VPNs are available (for representation upon File/URL submission).
+"""
+如果启用了vpn，我们需要通过以下两种方法进行初始化，因为它们验证与vpn的交互，并收集可用的vpn（用于提交文件/URL时的表示）
+"""
 init_rooter()
 init_routing()
 
