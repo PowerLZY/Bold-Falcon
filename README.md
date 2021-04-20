@@ -43,9 +43,26 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
   + [ ] 虚拟机分布式优化
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
 
-### 目录：
+```mermaid
+%% 时序图例子,-> 直线，-->虚线，->>实线箭头
+ sequenceDiagram
+  participant 沙箱主机
+  participant 客户机
+	opt is run
+    沙箱主机->>+客户机: how are you
+    客户机-->>-沙箱主机: ok
+    activate 客户机
+    loop 健康检查
+      客户机->客户机: 与疾病战斗
+    end
 
-[TOC]
+    %%Note right of 客户机: 合理 食物 <br/>看医生...
+
+    沙箱主机-->>客户机: 很好!
+    客户机->沙箱主机: 你怎么样?
+    沙箱主机-->沙箱主机: 很好!
+  end
+  ```
 
 ### 一、需求现状
 
