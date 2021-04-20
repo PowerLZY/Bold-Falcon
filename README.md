@@ -62,7 +62,7 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
     客户机->沙箱主机: 你怎么样?
     沙箱主机-->沙箱主机: 很好!
   end
-  ```
+```
 
 ### 一、需求现状
 
