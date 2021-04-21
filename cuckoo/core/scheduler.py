@@ -40,13 +40,14 @@ active_analysis_count = 0
 
 
 class AnalysisManager(threading.Thread):
-    """Analysis Manager.
-    分析模块
+    """Analysis Manager 分析模块
 
     This class handles the full analysis process for a given task. It takes
     care of selecting the analysis machine, preparing the configuration and
     interacting with the guest agent and analyzer components to launch and
     complete the analysis and store, process and report its results.
+    此类处理给定任务的完整分析过程。它负责选择分析机器、准备配置并与来宾代理和分析器组件交互，
+    以启动和完成分析并存储、处理和报告结果
     """
     # 构造函数
     def __init__(self, task_id, error_queue):
@@ -728,7 +729,10 @@ class AnalysisManager(threading.Thread):
         return succeeded
 
     def process_results(self):
-        """Process the analysis results and generate the enabled reports."""
+        """
+        Process the analysis results and generate the enabled reports.
+        处理分析结果并生成启用的报告
+        """
         logger(
             "Starting task reporting",
             action="task.report", status="pending"
@@ -736,9 +740,10 @@ class AnalysisManager(threading.Thread):
 
         # TODO Refactor this function as currently "cuckoo process" has a 1:1
         # copy of its code. TODO Also remove "archive" files.
-        results = RunProcessing(task=self.task).run()
-        RunSignatures(results=results).run()
-        RunReporting(task=self.task, results=results).run()
+        results = RunProcessing(task=self.task).run() #执行处理过程
+        RunSignatures(results=results).run() # 执行特征匹配
+        #RunDetection(results=results).run() # 执行恶意软件检测
+        RunReporting(task=self.task, results=results).run() # 执行结果上报：生成json到文件/上传到ElasticSearch非关系型数据库
 
         # If the target is a file and the user enabled the option,
         # delete the original copy.

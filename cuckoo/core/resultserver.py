@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -43,7 +44,10 @@ RESULT_DIRECTORIES = RESULT_UPLOADABLE + ("reports", "logs")
 BANNED_PATH_CHARS = b'\x00:'
 
 def netlog_sanitize_fname(path):
-    """Validate agent-provided path for result files"""
+    """
+    Validate agent-provided path for result files
+    验证结果文件的路径
+    """
     path = path.replace("\\", "/")
     dir_part, name = os.path.split(path)
     if dir_part not in RESULT_UPLOADABLE:
@@ -56,11 +60,15 @@ def netlog_sanitize_fname(path):
     return path
 
 class HandlerContext(object):
-    """Holds context for protocol handlers.
-
+    """
+    Holds context for protocol handlers.
+    保存协议处理程序的上下文
     Can safely be cancelled from another thread, though in practice this will
     not occur often -- usually the connection between VM and the ResultServer
-    will be reset during shutdown."""
+    will be reset during shutdown.
+    可以安全地从另一个线程取消，尽管在实践中这种情况不会经常发生.
+    通常VM和ResultServer之间的连接将在关闭期间重置.
+    """
     def __init__(self, task_id, storagepath, sock):
         self.task_id = task_id
         self.command = None
@@ -100,8 +108,7 @@ class HandlerContext(object):
         return buf
 
     def read_newline(self):
-        """Read until the next newline character, but never more than
-        `MAX_NETLOG_LINE`."""
+        """Read until the next newline character, but never more than `MAX_NETLOG_LINE`."""
         while True:
             pos = self.buf.find("\n")
             if pos < 0:
@@ -144,7 +151,7 @@ class WriteLimiter(object):
                             "stopping upload.")
                 self.fd.write("... (truncated)")
                 self.warned = True
-
+    # 刷新缓冲区
     def flush(self):
         self.fd.flush()
 
@@ -237,7 +244,8 @@ class BsonStore(ProtocolHandler):
             return self.handler.copy_to_fd(self.fd)
 
 class GeventResultServerWorker(gevent.server.StreamServer):
-    """The new ResultServer, providing a huge performance boost as well as
+    """
+    The new ResultServer, providing a huge performance boost as well as
     implementing a new dropped file storage format avoiding small fd limits.
 
     The old ResultServer would start a new thread per socket, greatly impacting
@@ -249,6 +257,10 @@ class GeventResultServerWorker(gevent.server.StreamServer):
     $CWD/storage/analyses/<task_id>/files/<partial_hash>_filename.ext) it's
     capable of storing all dropped files in a streamable container format. This
     is one of various steps to start being able to use less fd's in Cuckoo.
+    优化：
+    1. 新的ResultServer使用所谓的Greenlets，Gevent提供的低开销绿色线程，大大减少了内核开销。
+    2. 此外，不是将每个丢弃的文件写入它自己的位置（在$CWD/storage/analysis/<task\u id>/files/<partial\u hash>_文件名.ext)
+    它能够以可流化的容器格式存储所有丢弃的文件。
     """
     commands = {
         "BSON": BsonStore,
@@ -296,8 +308,9 @@ class GeventResultServerWorker(gevent.server.StreamServer):
                 ctx.cancel()
 
     def handle(self, sock, addr):
-        """Handle the incoming connection.
-        Gevent will close the socket when the function returns."""
+        """
+        Handle the incoming connection. Gevent will close the socket when the function returns.
+        """
         ipaddr = addr[0]
 
         with self.task_mgmt_lock:
@@ -308,10 +321,12 @@ class GeventResultServerWorker(gevent.server.StreamServer):
                 return
 
         storagepath = cwd(analysis=task_id)
+        # 上下文保护
         ctx = HandlerContext(task_id, storagepath, sock)
         task_log_start(task_id)
         try:
             try:
+                # 协议类型
                 protocol = self.negotiate_protocol(task_id, ctx)
             except EOFError:
                 return
@@ -429,5 +444,6 @@ class ResultServer(object):
             pool = gevent.pool.Pool(pool_size)
         else:
             pool = 'default'
+        # 启动 GeventResultServerWorker 接收客户端处理结果
         self.instance = GeventResultServerWorker(sock, spawn=pool)
         self.instance.do_run()

@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -28,12 +29,18 @@ log = logging.getLogger(__name__)
 
 def enumerate_plugins(dirpath, module_prefix, namespace, class_,
                       attributes={}, as_dict=False):
-    """Import plugins of type `class` located at `dirpath` into the
+    """
+    Import plugins of type `class` located at `dirpath` into the
     `namespace` that starts with `module_prefix`. If `dirpath` represents a
     filepath then it is converted into its containing directory. The
     `attributes` dictionary allows one to set extra fields for all imported
     plugins. Using `as_dict` a dictionary based on the module name is
-    returned."""
+    returned.
+    将位于“dirpath”的“class”类型的插件导入以“module_prefix”开头的“namespace”。
+    如果“dirpath”表示一个文件路径，那么它将被转换为其包含目录。
+    “attributes”字典允许为所有导入的插件设置额外的字段。
+    使用“as_dict”返回基于模块名的字典。
+    """
     if os.path.isfile(dirpath):
         dirpath = os.path.dirname(dirpath)
 
@@ -179,7 +186,9 @@ class RunAuxiliary(object):
             self.enabled.remove(s)
 
 class RunProcessing(object):
-    """Analysis Results Processing Engine.
+    """
+    Analysis Results Processing Engine.
+    分析结果处理引擎
 
     This class handles the loading and execution of the processing modules.
     It executes the enabled ones sequentially and generates a dictionary which
@@ -224,6 +233,7 @@ class RunProcessing(object):
             return None, None
 
         # If the processing module is disabled in the config, skip it.
+        # 如果在配置中禁用了处理模块，请跳过它
         if not options.enabled:
             return None, None
 
@@ -243,6 +253,7 @@ class RunProcessing(object):
         try:
             # Run the processing module and retrieve the generated data to be
             # appended to the general results container.
+            # 得到结果容器
             data = current.run()
 
             log.debug(
@@ -306,6 +317,7 @@ class RunProcessing(object):
         # Order modules using the user-defined sequence number.
         # If none is specified for the modules, they are selected in
         # alphabetical order.
+        #返回 processing 功能列表
         processing_list = cuckoo.processing.plugins
 
         # If no modules are loaded, return an empty dictionary.
@@ -314,6 +326,7 @@ class RunProcessing(object):
 
             # Run every loaded processing module.
             for module in processing_list:
+                # 执行功能
                 key, result = self.process(module, results)
 
                 # If the module provided results, append it to the fat dict.
@@ -456,11 +469,15 @@ class RunSignatures(object):
         return True
 
     def call_signature(self, signature, handler, *args, **kwargs):
-        """Wrapper to call into 3rd party signatures. This wrapper yields the
-        event to the signature and handles matched signatures recursively."""
+        """
+        Wrapper to call into 3rd party signatures. This wrapper yields the
+        event to the signature and handles matched signatures recursively.
+        调用第三方签名的包装器。这个包装器将事件产生给签名，并递归地处理匹配的签名。
+        """
         try:
             if not signature.matched and handler(*args, **kwargs):
                 signature.matched = True
+                # 签名中调用签名
                 for sig in self.signatures:
                     self.call_signature(sig, sig.on_signature, signature)
         except:
@@ -535,15 +552,18 @@ class RunSignatures(object):
     def run(self):
         """Run signatures."""
         # Allow signatures to initialize themselves.
+        # 初始化签名
         for signature in self.signatures:
             signature.init()
 
         log.debug("Running %d signatures", len(self.signatures))
 
         # Iterate calls and tell interested signatures about them.
+        # 重复调用并告诉感兴趣的签名
         for proc in self.results.get("behavior", {}).get("processes", []):
 
             # Yield the new process event.
+            # 生成新流程事件
             for sig in self.signatures:
                 sig.pid = proc["pid"]
                 self.call_signature(sig, sig.on_process, proc)
@@ -551,9 +571,11 @@ class RunSignatures(object):
             self.yield_calls(proc)
 
         # Iterate through all Yara matches.
+        # 遍历所有Yara匹配项
         self.process_yara_matches()
 
         # Iterate through all Extracted matches.
+        # 遍历所有提取的匹配项
         self.process_extracted()
 
         # TODO This logic should certainly be moved elsewhere.
@@ -563,6 +585,7 @@ class RunSignatures(object):
                 self.c.add(extracted["info"])
 
         # Yield completion events to each signature.
+        # 为每个签名生成完成事件
         for sig in self.signatures:
             self.call_signature(sig, sig.on_complete)
 
@@ -579,6 +602,7 @@ class RunSignatures(object):
                 }
             )
             self.matched.append(signature.results())
+            # 分数计算
             score += signature.severity
 
             for mark in signature.marks:
@@ -587,13 +611,13 @@ class RunSignatures(object):
 
         # Sort the matched signatures by their severity level and put them
         # into the results dictionary.
+        # 按严重性级别对匹配的签名进行排序，并将其放入结果字典
         self.matched.sort(key=lambda key: key["severity"])
         self.results["signatures"] = self.matched
         if "info" in self.results:
             self.results["info"]["score"] = score / 5.0
 
-        # If malware configuration has been extracted, simplify its
-        # accessibility in the analysis report.
+        # If malware configuration has been extracted, simplify its accessibility in the analysis report.
         if self.c.results():
             # TODO Should this be included elsewhere?
             if "metadata" in self.results:
@@ -602,7 +626,8 @@ class RunSignatures(object):
                 self.results["info"]["score"] = 10
 
 class RunReporting(object):
-    """Reporting Engine.
+    """
+    Reporting Engine.
 
     This class handles the loading and execution of the enabled reporting
     modules. It receives the analysis results dictionary from the Processing
@@ -683,6 +708,7 @@ class RunReporting(object):
         # represents at which position that module should be executed among
         # all the available ones. It can be used in the case where a
         # module requires another one to be already executed beforehand.
+        #依次执行report模块jsondump,mongodb
         reporting_list = cuckoo.reporting.plugins
 
         # Return if no reporting modules are loaded.

@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -1430,6 +1431,9 @@ class BehaviorHandler(object):
 
 class ProtocolHandler(object):
     """Abstract class for protocol handlers coming out of the analysis."""
+    """
+    处理程序
+    """
     def __init__(self, task_id, ctx, version=None):
         self.task_id = task_id
         self.handler = ctx

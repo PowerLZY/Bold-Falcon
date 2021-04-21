@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
@@ -26,6 +27,7 @@ class Mongo(object):
         self.grid = None
 
     def init(self):
+        # 初始化 mongo 配置
         self.enabled = config("reporting:mongodb:enabled")
         self.hostname = config("reporting:mongodb:host")
         self.port = config("reporting:mongodb:port")
@@ -44,8 +46,8 @@ class Mongo(object):
         if not self.enabled:
             return
 
-        # Warn the user that this may take a while if an instant connection
-        # could not be made with the MongoDB server.
+        # Warn the user that this may take a while if an instant connection could not be made with the MongoDB server.
+        # 警告用户，如果无法与MongoDB服务器建立即时连接，这可能需要一段时间
         try:
             socket.create_connection((self.hostname, self.port), 1).close()
         except socket.error:

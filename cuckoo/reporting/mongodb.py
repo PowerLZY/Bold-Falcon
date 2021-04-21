@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -12,7 +13,10 @@ from cuckoo.common.mongo import mongo
 from cuckoo.common.objects import File
 
 class MongoDB(Report):
-    """Store report in MongoDB."""
+    """
+    Store report in MongoDB
+    在MongoDB中存储报表
+    """
     order = 2
 
     # Mongo schema version, used for data migration.
@@ -84,6 +88,7 @@ class MongoDB(Report):
         # Create a copy of the dictionary. This is done in order to not modify
         # the original dictionary and possibly compromise the following
         # reporting modules.
+        # 创建词典的副本。这样做是为了不修改原始字典，并可能损害以下报告模块
         report = dict(results)
         if "network" not in report:
             report["network"] = {}

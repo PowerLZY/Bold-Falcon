@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2016-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
@@ -14,9 +15,9 @@ from cuckoo.common.files import Files
 log = logging.getLogger(__name__)
 
 class Irma(Processing):
-    """Get antivirus signatures from IRMA for various results.
-
-    Currently obtains IRMA results for the target sample.
+    """
+    Get antivirus signatures from IRMA for various results.Currently obtains IRMA results for the target sample.
+    从IRMA获取各种病毒的防病毒签名结果。目前获取目标样本的IRMA结果。
     """
     # IRMA statuses https://github.com/quarkslab/irma-cli/blob/master/irma/apiclient.py
     IRMA_FINISHED_STATUS = 50
