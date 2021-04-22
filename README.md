@@ -37,6 +37,7 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
 
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
+  + [ ] 动态paizi
   + [ ] 冗余文件删除
   + [ ] blog 说明编写
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
