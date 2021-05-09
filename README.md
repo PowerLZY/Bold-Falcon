@@ -17,6 +17,7 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
   - [ ] DLL注入、动态信息提取原理
   - [ ] 历届网络技术挑战赛调研
   - [ ] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
+  - [ ] pypi上传模块，pip安装
 
 + 设计文档
   + [ ] 参考文献记录（设计依据）
