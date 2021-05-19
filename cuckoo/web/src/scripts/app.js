@@ -320,7 +320,6 @@ class CuckooWeb {
       document.addEventListener('mozfullscreenchange', handler, false)
       document.addEventListener('msfullscreenchange', handler, false);
     }
-
 }
 
 /*
