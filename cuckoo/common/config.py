@@ -89,7 +89,6 @@ class Path(String):
     def parse(self, value):
         if self.allow_empty and not value:
             return
-
         try:
             c = click.Path(
                 exists=self.exists,
@@ -202,7 +201,7 @@ class List(Type):
 
 class Config(object):
     """Configuration file parser."""
-
+    # Default dictionary
     configuration = {
         "cuckoo": {
             "cuckoo": {
@@ -951,6 +950,7 @@ class Config(object):
         self.sections = {}
 
         try:
+            #
             config.read(cfg or cwd("conf", "%s.conf" % file_name))
         except ConfigParser.ParsingError as e:
             raise CuckooConfigurationError(
