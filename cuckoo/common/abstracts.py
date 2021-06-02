@@ -9,6 +9,7 @@ import os
 import re
 import time
 import xml.etree.ElementTree as ET
+import torch
 
 from cuckoo.common.config import config
 from cuckoo.common.exceptions import CuckooCriticalError
@@ -812,6 +813,64 @@ class Processing(object):
         self.suricata_path = os.path.join(self.analysis_path, "suricata")
         self.network_path = os.path.join(self.analysis_path, "network")
         self.taskinfo_path = os.path.join(self.analysis_path, "task.json")
+
+    def set_results(self, results):
+        """Set the results - the fat dictionary."""
+        self.results = results
+
+    def run(self):
+        """Start processing.
+        @raise NotImplementedError: this method is abstract.
+        """
+        raise NotImplementedError
+class Detection(object):
+    """Base class for Cuckoo-ml detection"""
+    order = 1
+    enabled = True
+
+    def __init__(self):
+
+        self.analysis_path = ""
+        self.baseline_path = ""
+        self.logs_path = ""
+        self.task = None
+        self.machine = None
+        self.options = None
+        self.feature = None
+        self.model = None
+        self.redict = None
+        self.results = {}
+    @classmethod
+    def init_once(cls):
+        pass
+
+    def set_options(self, options):
+        """Set processing options.
+        @param options: processing options dict.
+        """
+        self.options = Dictionary(options)
+
+    def set_task(self, task):
+        """Add task information.
+        @param task: task dictionary.
+        """
+        self.task = task
+
+    def set_machine(self, machine):
+        """Add machine information."""
+        self.machine = machine
+
+    def set_baseline(self, baseline_path):
+        """Set the path to the baseline directory."""
+        self.baseline_path = baseline_path
+
+    def load_model(self, model_path):
+        """Set paths.
+        @param analysis_path: analysis folder path.
+        """
+        self.analysis_path = model_path
+        self.malconv = os.path.join(self.analysis_path, "malconv.pth")
+        # self.model = torch.load(mdoel_path)
 
     def set_results(self, results):
         """Set the results - the fat dictionary."""
