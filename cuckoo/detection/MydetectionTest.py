@@ -3,17 +3,21 @@ import collections
 import json
 import logging
 import os
+import re
 
 from cuckoo.common.abstracts import Detection
 from cuckoo.common.config import config
 from cuckoo.core.database import Database
+
+from cuckoo.common.abstracts import Detection
 from cuckoo.core.extract import ExtractManager
-from cuckoo.common.exceptions import CuckooProcessingError
+from cuckoo.common.exceptions import CuckooDetectionError
 
-log = logging.getLogger(Detection)
-class MyDetection():
+log = logging.getLogger(__name__)
+class MyDetection(Detection):
     """
-
+    Test1 String_ngram Xgboosting
+    Test2 MalConv
     """
     def extract_features(self):
     # 数据预处理
@@ -37,14 +41,14 @@ class MyDetection():
 
         if self.task["category"] == "file":
             if not os.path.exists(self.file_path):
-                raise CuckooProcessingError(
+                raise CuckooDetectionError(
                     "Sample file doesn't exist: \"%s\"" % self.file_path
                 )
 
             try:
                 data = open(self.file_path, "rb").read(self.MAX_FILESIZE)
             except (IOError, OSError) as e:
-                raise CuckooProcessingError("Error opening file %s" % e)
+                raise CuckooDetectionError("Error opening file %s" % e)
 
             strings = []
             for s in re.findall(b"[\x1f-\x7e]{6,}", data):
