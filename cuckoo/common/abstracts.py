@@ -788,7 +788,7 @@ class Processing(object):
         """Set the path to the baseline directory."""
         self.baseline_path = baseline_path
 
-    def set_path(self, analysis_path):
+    def set_path(self, analysis_path):#每个功能都要配置陌路
         """Set paths.
         @param analysis_path: analysis folder path.
         """

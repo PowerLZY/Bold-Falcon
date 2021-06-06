@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2012-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -15,12 +16,13 @@ class Strings(Processing):
     MAX_STRINGCNT = 2048
     MAX_STRINGLEN = 1024
 
+    @property
     def run(self):
         """Run extract of printable strings.
         @return: list of printable strings.
         """
-        self.key = "strings"
-        strings = []
+        self.key = "strings" #命名一个key
+        strings = [] #保存结果
 
         if self.task["category"] == "file":
             if not os.path.exists(self.file_path):
