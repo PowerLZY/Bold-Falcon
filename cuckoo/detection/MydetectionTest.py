@@ -1,39 +1,54 @@
 # coding=utf-8
-# Copyright (C) 2012-2013 Claudio Guarnieri.
-# Copyright (C) 2014-2017 Cuckoo Foundation.
-# This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
-# See the file 'docs/LICENSE' for copying permission.
-
-import os.path
+import collections
+import json
+import logging
+import os
 import re
 
-from cuckoo.common.abstracts import Processing
-from cuckoo.common.exceptions import CuckooProcessingError
+from cuckoo.common.abstracts import Detection
+from cuckoo.common.config import config
+from cuckoo.core.database import Database
 
-class Strings(Processing):
-    """Extract strings from analyzed file."""
-    MAX_FILESIZE = 16*1024*1024
-    MAX_STRINGCNT = 2048
-    MAX_STRINGLEN = 1024
+from cuckoo.common.abstracts import Detection
+from cuckoo.core.extract import ExtractManager
+from cuckoo.common.exceptions import CuckooDetectionError
 
-    @property
+log = logging.getLogger(__name__)
+class MyDetection(Detection):
+    """
+    Test1 String_ngram Xgboosting
+    Test2 MalConv
+    """
+    def extract_features(self):
+    # 数据预处理
+        pass
+
+    def fit(self, X, y):
+    # 模型训练
+        pass
+
+    def predict(self, Y):
+    # 预测⽬标值
+        predict = []
+        return predict
+
     def run(self):
         """Run extract of printable strings.
         @return: list of printable strings.
         """
-        self.key = "strings" #命名一个key
-        strings = [] #保存结果
+        self.key = "strings"
+        strings = []
 
         if self.task["category"] == "file":
             if not os.path.exists(self.file_path):
-                raise CuckooProcessingError(
+                raise CuckooDetectionError(
                     "Sample file doesn't exist: \"%s\"" % self.file_path
                 )
 
             try:
                 data = open(self.file_path, "rb").read(self.MAX_FILESIZE)
             except (IOError, OSError) as e:
-                raise CuckooProcessingError("Error opening file %s" % e)
+                raise CuckooDetectionError("Error opening file %s" % e)
 
             strings = []
             for s in re.findall(b"[\x1f-\x7e]{6,}", data):

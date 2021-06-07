@@ -14,7 +14,8 @@ app = None
 
 def cuckoo_distributed(hostname, port, debug):
     app = create_app()
-    app.run(host=hostname, port=port, debug=debug)
+    app.run
+
 
 def cuckoo_distributed_instance(name):
     app = create_app()

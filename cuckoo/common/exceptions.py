@@ -36,6 +36,9 @@ class CuckooAnalysisError(CuckooOperationalError):
 class CuckooProcessingError(CuckooOperationalError):
     """Error in processor module."""
 
+class CuckooDetectionError(CuckooOperationalError):
+    """Error in Detection module."""
+
 class CuckooReportError(CuckooOperationalError):
     """Error in reporting module."""
 

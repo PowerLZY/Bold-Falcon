@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2016-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
@@ -41,9 +42,13 @@ def set_cwd(path, raw=None):
     _raw = raw
 
 def cwd(*args, **kwargs):
-    """Return absolute path to this file in the Cuckoo Working Directory or
+    """
+    Return absolute path to this file in the Cuckoo Working Directory or
     optionally - when private=True has been passed along - to our private
-    Cuckoo Working Directory which is not configurable."""
+    Cuckoo Working Directory which is not configurable.
+
+    返回沙箱的工作目录中此文件的绝对路径，或者（当private=True已传递）到我们的私有沙箱工作目录，而该目录不可配置。
+    """
     if kwargs.get("private"):
         return os.path.join(cuckoo.__path__[0], "private", *args)
     elif kwargs.get("raw"):

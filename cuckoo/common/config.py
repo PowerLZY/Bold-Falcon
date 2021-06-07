@@ -89,7 +89,6 @@ class Path(String):
     def parse(self, value):
         if self.allow_empty and not value:
             return
-
         try:
             c = click.Path(
                 exists=self.exists,
@@ -202,7 +201,7 @@ class List(Type):
 
 class Config(object):
     """Configuration file parser."""
-
+    # Default dictionary
     configuration = {
         "cuckoo": {
             "cuckoo": {
@@ -951,6 +950,7 @@ class Config(object):
         self.sections = {}
 
         try:
+            #
             config.read(cfg or cwd("conf", "%s.conf" % file_name))
         except ConfigParser.ParsingError as e:
             raise CuckooConfigurationError(
@@ -1090,7 +1090,7 @@ def emit_options(options):
     return ",".join("%s=%s" % (k, v) for k, v in sorted(options.items()))
 
 def config(s, cfg=None, strict=False, raw=False, loose=False, check=False):
-    """Fetch a configuration value, denoted as file:section:key."""
+    """Fetch a configuration value, denoted as file:section:key.""" #例：'processing:behavior:enabled'
     if s.count(":") != 2:
         raise RuntimeError("Invalid configuration entry: %s" % s)
 
@@ -1099,7 +1099,7 @@ def config(s, cfg=None, strict=False, raw=False, loose=False, check=False):
     if check:
         strict = raw = loose = True
 
-    type_ = Config.configuration.get(file_name, {}).get(section, {}).get(key)
+    type_ = Config.configuration.get(file_name, {}).get(section, {}).get(key) # <cuckoo.common.config.Boolean object at 0x7f7ca34535d0>
     if strict and type_ is None:
         raise CuckooConfigurationError(
             "No such configuration value exists: %s" % s
@@ -1141,6 +1141,7 @@ def config(s, cfg=None, strict=False, raw=False, loose=False, check=False):
     return value
 
 def get_section_types(file_name, section, strict=False):
+
     if section in Config.configuration.get(file_name, {}):
         return Config.configuration[file_name][section]
 
@@ -1161,14 +1162,14 @@ def get_section_types(file_name, section, strict=False):
     return {}
 
 def config2(file_name, section):
-    keys = get_section_types(file_name, section, strict=True)
+    keys = get_section_types(file_name, section, strict=True) #{'enabled': <cuckoo.common.config.Boolean object at 0x7f7ca34535d0>}
     if not keys:
         raise CuckooConfigurationError(
             "No such configuration section exists: %s:%s" %
             (file_name, section)
         )
 
-    ret = Dictionary()
+    ret = Dictionary() # {'enabled': True}
     for key in keys:
         if key == "__star__" or key == "*":
             continue
