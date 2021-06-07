@@ -350,12 +350,8 @@ class RunDetection(object):
 
     def __init__(self, task, results):
         """@param task: task dictionary of the analysis to process."""
-        self.task = task
-        self.machine = {}
-        self.analysis_path = cwd(analysis=task["id"])
-        self.baseline_path = cwd("storage", "baseline")
         self.results = results
-        self.matched = []
+        self.predict = []
 
     def process(self, module, results):
         """Run a processing module.
