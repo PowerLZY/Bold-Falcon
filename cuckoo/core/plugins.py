@@ -253,7 +253,7 @@ class RunProcessing(object):
             # Run the processing module and retrieve the generated data to be
             # appended to the general results container.
             # 得到结果容器
-            data = current.run
+            data = current.run()
 
             log.debug(
                 "Executed processing module \"%s\" for task #%d",
@@ -833,7 +833,7 @@ class RunReporting(object):
         current.set_options(options)
 
         try:
-            current.run
+            current.run(self.results)
             log.debug("Executed reporting module \"%s\"", current.__class__.__name__)
         except CuckooDependencyError as e:
             log.warning(
