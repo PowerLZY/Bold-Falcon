@@ -1,4 +1,10 @@
+# Copyright (C) 2014-2017 Cuckoo Foundation.
+# This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
+# See the file 'docs/LICENSE' for copying permission.
+
 from django.template.defaultfilters import register
+
+from cuckoo.common.config import config
 
 @register.filter
 def mongo_id(value):
@@ -13,7 +19,7 @@ def mongo_id(value):
 
 @register.filter
 def is_dict(value):
-    """Checks if value is an instance of dict"""
+    """Check if value is an instance of dict"""
     return isinstance(value, dict)
 
 @register.filter
@@ -23,7 +29,7 @@ def get_item(dictionary, key):
 @register.filter
 def filter_key_if_has(l, key):
     ret = []
-    for x in l:
+    for x in l or []:
         if key not in x or x[key]:
             ret.append(x)
     return ret
@@ -107,3 +113,15 @@ def process_name(pid, analysis):
     for proc in analysis.get("behavior", {}).get("generic", []):
         if proc["pid"] == pid:
             return proc["process_name"]
+
+@register.filter("config")
+def _config(s):
+    return config(s) or ""
+
+@register.filter
+def pdf_urls(pdf):
+    ret = []
+    for version in pdf:
+        for url in version["urls"]:
+            ret.append((url, version["version"]))
+    return ret
