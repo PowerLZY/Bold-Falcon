@@ -13,6 +13,8 @@
   - [ ] 动态牌子
   - [ ] pypi上传模块，pip安装
   - [ ] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、检测）
+  - [ ] requirements.txt 整理
+  - [ ] Frog:create an image and add an image and a host to the Fog server
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
@@ -36,6 +38,7 @@
   + [ ] blog 说明编写
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
+  + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
 
   
 
