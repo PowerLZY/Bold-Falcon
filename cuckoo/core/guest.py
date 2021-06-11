@@ -330,6 +330,7 @@ class GuestManager(object):
     def post(self, method, *args, **kwargs):
         """Simple wrapper around requests.post()."""
         url = "http://%s:%s%s" % (self.ipaddr, self.port, method)
+        #execpy: {'async': 'yes', 'cwd': u'C:/tmphzceni', 'filepath': u'C:/tmphzceni/analyzer.py'}
         session = requests.Session()
         session.trust_env = False
         session.proxies = None
@@ -528,7 +529,8 @@ class GuestManager(object):
                 "file": ("sample.bin", open(options["target"], "rb")),
             }
             self.post("/store", files=files, data=data)
-
+            # {'file': ('sample.bin', <open file u'/tmp/cuckoo-tmp-zy/tmpPqqVRQ/Backdoor.Win32.Agent.afxs_ed7c.exe', mode 'rb' at 0x7f794d9d85d0>)}
+            # {'filepath': u'C:\\DOCUME~1\\LIZHEN~1\\LOCALS~1\\Temp/Backdoor.Win32.Agent.afxs_ed7c.exe'}
         if "execpy" in features:
             data = {
                 "filepath": "%s/analyzer.py" % self.analyzer_path,

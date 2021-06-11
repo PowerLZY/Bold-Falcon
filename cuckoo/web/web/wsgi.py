@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -16,6 +17,12 @@ might make sense to replace the whole Django WSGI application with a custom one
 that later delegates to the Django one. For example, you could introduce WSGI
 middleware here, or combine a Django application with an application of another
 framework.
+
+web项目的WSGI配置。
+此模块包含Django的开发服务器使用的WSGI应用程序以及任何生产WSGI部署。它应该公开一个模块级变量
+命名为``application``。Django的``runserver``和``runfcgi``命令通过“WSGI\u application”设置创建此应用程序。
+通常这里有标准的Django WSGI应用程序，但是将整个Django WSGI应用程序替换为自定义应用程序可能是有意义的
+后来它被委托给了Django一号。例如，您可以引入WSGI或者将Django应用程序与另一个应用程序相结合框架。
 
 """
 
