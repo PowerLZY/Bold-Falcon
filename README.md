@@ -34,7 +34,7 @@
   - [x] 动态检测引擎：API调用序列；
   - [x] 家族聚类（hdbscan等）；
   - [ ] 定义基类Ml、loader等；
-  - [ ] 添加Smaple——malware，200个json report样本；
+  - [ ] 添加Smaple——malware，200个json report样本；**gist.github.com**
 
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
