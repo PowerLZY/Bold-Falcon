@@ -4,6 +4,9 @@
 + https://bbs.pediy.com/thread-260252.htm
 + https://cuckoo.sh/docs/
 
+#### 项目结构更新
+ - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
+ - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage等目录
 #### 主要更新内容
 
 + 学习内容
@@ -13,7 +16,6 @@
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
   - [ ] 动态牌子
   - [ ] pypi上传模块，pip安装
-  - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
   - [ ] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
 
