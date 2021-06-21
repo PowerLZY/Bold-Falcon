@@ -6,7 +6,7 @@
 
 #### 项目结构更新
  - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
- - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage等目录
+ - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage、log等目录
 #### 主要更新内容
 
 + 学习内容
