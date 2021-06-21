@@ -253,7 +253,7 @@ class RunProcessing(object):
             # Run the processing module and retrieve the generated data to be
             # appended to the general results container.
             # 得到结果容器
-            data = current.run
+            data = current.run()
 
             log.debug(
                 "Executed processing module \"%s\" for task #%d",
@@ -350,12 +350,8 @@ class RunDetection(object):
 
     def __init__(self, task, results):
         """@param task: task dictionary of the analysis to process."""
-        self.task = task
-        self.machine = {}
-        self.analysis_path = cwd(analysis=task["id"])
-        self.baseline_path = cwd("storage", "baseline")
         self.results = results
-        self.matched = []
+        self.predict = []
 
     def process(self, module, results):
         """Run a processing module.
@@ -837,7 +833,7 @@ class RunReporting(object):
         current.set_options(options)
 
         try:
-            current.run
+            current.run(self.results)
             log.debug("Executed reporting module \"%s\"", current.__class__.__name__)
         except CuckooDependencyError as e:
             log.warning(

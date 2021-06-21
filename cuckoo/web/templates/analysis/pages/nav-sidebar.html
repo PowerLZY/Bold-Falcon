@@ -1,5 +1,5 @@
 <nav class="flex-nav__nav" id="analysis-nav">
-
+<!--侧边栏编辑 -->
 	<ul class="cuckoo-nav">
 		{% comment %}
 		<li class="cuckoo-nav__search">
@@ -24,6 +24,7 @@
 				<span>Static Analysis</span>
 			</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "extracted" %}"
 			{% if env.view_kwargs.page == 'extracted' %} class="active" {% endif %}>
@@ -34,6 +35,7 @@
                 {% endif %}
 			</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "behavior" %}"
 			{% if env.view_kwargs.page == 'behavior' %} class="active" {% endif %}>
@@ -44,6 +46,7 @@
                 {% endif %}
 			</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "network" %}"
 			{% if env.view_kwargs.page == 'network' %} class="active" {% endif %}>
@@ -51,6 +54,7 @@
 				<span>Network Analysis</span>
 			</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "dropped_files" %}"
 			{% if env.view_kwargs.page == 'dropped_files' %} class="active"	{% endif %}>
@@ -109,6 +113,7 @@
 				<span>Compare Analysis</span>
 			</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "export" %}"
 			{% if env.view_kwargs.page == 'export' %} class="active" {% endif %}>
@@ -116,6 +121,7 @@
 				<span>Export Analysis</span>
 			</a>
 		</li>
+
 		<li>
 		<a href="{% url "analysis/reboot" report.analysis.info.id %}"
 		{% if env.view_kwargs.page == 'behavioral' %} class="active" {% endif %}>
@@ -123,6 +129,7 @@
 			<span>Reboot Analysis</span>
 		</a>
 		</li>
+
 		<li>
 			<a href="{% url "analysis" report.analysis.info.id "options" %}"
 			{% if env.view_kwargs.page == 'options' %} class="active" {% endif %}>

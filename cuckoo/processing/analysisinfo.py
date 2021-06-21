@@ -15,6 +15,7 @@ from cuckoo.misc import cwd, version
 
 log = logging.getLogger(__name__)
 
+
 class AnalysisInfo(Processing):
     """General information about analysis session."""
 
@@ -83,6 +84,7 @@ class AnalysisInfo(Processing):
             options=emit_options(task["options"]),
             route=task["route"],
         )
+
 
 class MetaInfo(Processing):
     """General information about the task and output files (memory dumps, etc)."""

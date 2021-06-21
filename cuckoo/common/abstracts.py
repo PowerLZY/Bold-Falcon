@@ -24,11 +24,13 @@ from cuckoo.misc import cwd, make_list
 
 try:
     import libvirt
+
     HAVE_LIBVIRT = True
 except ImportError:
     HAVE_LIBVIRT = False
 
 log = logging.getLogger(__name__)
+
 
 class Configuration(object):
     skip = (
@@ -115,6 +117,7 @@ class Configuration(object):
             ret.append(self.families[family])
         return ret
 
+
 class Auxiliary(object):
     """Base abstract class for auxiliary modules."""
 
@@ -145,6 +148,7 @@ class Auxiliary(object):
 
     def stop(self):
         raise NotImplementedError
+
 
 class Machinery(object):
     """Base abstract class for machinery modules."""
@@ -403,6 +407,7 @@ class Machinery(object):
         """Return the version of the virtualization software"""
         return None
 
+
 class LibVirtMachinery(Machinery):
     """Libvirt based machine manager.
 
@@ -643,8 +648,8 @@ class LibVirtMachinery(Machinery):
         try:
             vm = conn.lookupByName(label)
         except libvirt.libvirtError:
-                raise CuckooMachineError("Cannot find machine "
-                                         "{0}".format(label))
+            raise CuckooMachineError("Cannot find machine "
+                                     "{0}".format(label))
         finally:
             self._disconnect(conn)
         return vm
@@ -678,6 +683,7 @@ class LibVirtMachinery(Machinery):
         @raise CuckooMachineError: if cannot find current snapshot or
                                    when there are too many snapshots available
         """
+
         def _extract_creation_time(node):
             """Extracts creation time from a KVM vm config file.
             @param node: config file node
@@ -750,6 +756,7 @@ class LibVirtMachinery(Machinery):
             "port": port,
         }
 
+
 class Processing(object):
     """Base abstract class for processing module."""
     order = 1
@@ -788,7 +795,7 @@ class Processing(object):
         """Set the path to the baseline directory."""
         self.baseline_path = baseline_path
 
-    def set_path(self, analysis_path):#每个功能都要配置陌路
+    def set_path(self, analysis_path):  # 每个功能都要配置陌路
         """Set paths.
         @param analysis_path: analysis folder path.
         """
@@ -823,13 +830,14 @@ class Processing(object):
         @raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
+
+
 class Detection(object):
     """Base class for Cuckoo-ml detection"""
     order = 1
     enabled = True
 
     def __init__(self):
-
         self.analysis_path = ""
         self.baseline_path = ""
         self.logs_path = ""
@@ -840,6 +848,7 @@ class Detection(object):
         self.model = None
         self.redict = None
         self.results = {}
+
     @classmethod
     def init_once(cls):
         pass
@@ -881,6 +890,7 @@ class Detection(object):
         @raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
+
 
 class Signature(object):
     """Base class for Cuckoo signatures."""
@@ -1408,6 +1418,7 @@ class Signature(object):
     def cfgextr(self):
         return self._caller.c
 
+
 class Report(object):
     """Base abstract class for reporting module."""
     order = 1
@@ -1458,6 +1469,7 @@ class Report(object):
         """
         raise NotImplementedError
 
+
 class BehaviorHandler(object):
     """Base class for behavior handlers inside of BehaviorAnalysis."""
     key = "undefined"
@@ -1493,6 +1505,7 @@ class ProtocolHandler(object):
     """
     处理程序
     """
+
     def __init__(self, task_id, ctx, version=None):
         self.task_id = task_id
         self.handler = ctx

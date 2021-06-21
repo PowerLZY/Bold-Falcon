@@ -16,7 +16,7 @@ class Strings(Processing):
     MAX_STRINGCNT = 2048
     MAX_STRINGLEN = 1024
 
-    @property
+
     def run(self):
         """Run extract of printable strings.
         @return: list of printable strings.
