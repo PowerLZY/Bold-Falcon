@@ -1,1 +1,1 @@
-include "/home/zy/PycharmProjects/cuckooml/data/yara/memory/index_memory.yar"
+include "/home/zy/PycharmProjects/virtualenv/Bold-Falcon/data/yara/memory/index_memory.yar"
