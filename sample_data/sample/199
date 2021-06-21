@@ -1,0 +1,2180 @@
+{
+    "info": {
+        "category": "file", 
+        "score": 2.0, 
+        "package": "", 
+        "started": "2016-02-24 05:19:24", 
+        "route": "none", 
+        "custom": "", 
+        "machine": {
+            "status": "stopped", 
+            "name": "xp3", 
+            "label": "xp3", 
+            "manager": "VirtualBox", 
+            "started_on": "2016-02-24 05:19:24", 
+            "shutdown_on": "2016-02-24 05:19:46"
+        }, 
+        "ended": "2016-02-24 05:19:46", 
+        "version": "2.0-dev", 
+        "platform": "", 
+        "owner": "", 
+        "options": "json.calls=0", 
+        "id": 199, 
+        "duration": 22
+    }, 
+    "signatures": [
+        {
+            "families": [], 
+            "description": "One or more processes crashed", 
+            "severity": 1, 
+            "marks": [
+                {
+                    "call": {
+                        "category": "__notification__", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "raw": [
+                            "stacktrace"
+                        ], 
+                        "api": "__exception__", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "stacktrace": "__vbaHresultCheckObj+0x275 __vbaExceptHandler-0x5 msvbvm60+0x24e56 @ 0x73444e56\n__vbaHresultCheckObj+0x22a __vbaExceptHandler-0x50 msvbvm60+0x24e0b @ 0x73444e0b", 
+                            "registers": {
+                                "esp": 1242856, 
+                                "edi": 1594952, 
+                                "eax": 1242860, 
+                                "ebp": 1242940, 
+                                "edx": 2147155996, 
+                                "ebx": 1594952, 
+                                "esi": 1242972, 
+                                "ecx": 0
+                            }, 
+                            "exception": {
+                                "instruction_r": "5e c9 c2 10 00 85 ff 0f 8e e6 d0 fe ff 8b 55 fc", 
+                                "instruction": "pop esi", 
+                                "exception_code": "0xc000008f", 
+                                "symbol": "RaiseException+0x52 FindActCtxSectionGuid-0x119 kernel32+0x1eb33", 
+                                "address": "0x7c81eb33"
+                            }
+                        }, 
+                        "time": 1456289448.625, 
+                        "tid": 684, 
+                        "flags": {}
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 281
+                }, 
+                {
+                    "call": {
+                        "category": "__notification__", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "raw": [
+                            "stacktrace"
+                        ], 
+                        "api": "__exception__", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "stacktrace": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5+0x391b1 @ 0x4391b1\n1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5+0x3a642 @ 0x43a642\nRegisterWaitForInputIdle+0x49 BaseProcessInitPostImport-0x46c kernel32+0x16d4f @ 0x7c816d4f", 
+                            "registers": {
+                                "esp": 1243764, 
+                                "edi": 0, 
+                                "eax": 1243768, 
+                                "ebp": 1243848, 
+                                "edx": 4428209, 
+                                "ebx": 4428209, 
+                                "esi": 1243900, 
+                                "ecx": 0
+                            }, 
+                            "exception": {
+                                "instruction_r": "5e c9 c2 10 00 85 ff 0f 8e e6 d0 fe ff 8b 55 fc", 
+                                "instruction": "pop esi", 
+                                "exception_code": "0xeedfade", 
+                                "symbol": "RaiseException+0x52 FindActCtxSectionGuid-0x119 kernel32+0x1eb33", 
+                                "address": "0x7c81eb33"
+                            }
+                        }, 
+                        "time": 1456289635.375, 
+                        "tid": 852, 
+                        "flags": {}
+                    }, 
+                    "pid": 800, 
+                    "type": "call", 
+                    "cid": 103
+                }
+            ], 
+            "references": [], 
+            "name": "raises_exception"
+        }, 
+        {
+            "families": [], 
+            "description": "One or more potentially interesting buffers were extracted, these generally contain injected code, configuration data, etc.", 
+            "severity": 2, 
+            "marks": [], 
+            "references": [], 
+            "name": "dumped_buffer"
+        }, 
+        {
+            "families": [], 
+            "description": "Allocates read-write-execute memory (usually to unpack itself)", 
+            "severity": 2, 
+            "marks": [
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtAllocateVirtualMemory", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 4096, 
+                            "protection": 64, 
+                            "process_handle": "0xffffffff", 
+                            "allocation_type": 4096, 
+                            "base_address": "0x01350000"
+                        }, 
+                        "time": 1456289448.625, 
+                        "tid": 684, 
+                        "flags": {
+                            "protection": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": "MEM_COMMIT"
+                        }
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 302
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtAllocateVirtualMemory", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 458752, 
+                            "protection": 64, 
+                            "process_handle": "0x00000080", 
+                            "allocation_type": 12288, 
+                            "base_address": "0x00400000"
+                        }, 
+                        "time": 1456289479.625, 
+                        "tid": 684, 
+                        "flags": {
+                            "protection": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": "MEM_COMMIT|MEM_RESERVE"
+                        }
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 313
+                }
+            ], 
+            "references": [], 
+            "name": "allocates_rwx"
+        }, 
+        {
+            "families": [], 
+            "description": "Executed a process and injected code into it, probably while unpacking", 
+            "severity": 5, 
+            "marks": [
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "CreateProcessInternalW", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "thread_identifier": 852, 
+                            "thread_handle": "0x00000084", 
+                            "process_identifier": 800, 
+                            "current_directory": "", 
+                            "filepath": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                            "command_line": "", 
+                            "filepath_r": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                            "creation_flags": 4, 
+                            "process_handle": "0x00000080", 
+                            "inherit_handles": 0
+                        }, 
+                        "time": 1456289448.625, 
+                        "tid": 684, 
+                        "flags": {
+                            "creation_flags": "CREATE_SUSPENDED"
+                        }
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 307
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtUnmapViewOfSection", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 4096, 
+                            "base_address": "0x00400000", 
+                            "process_handle": "0x00000080"
+                        }, 
+                        "time": 1456289479.625, 
+                        "tid": 684, 
+                        "flags": {}
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 312
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtAllocateVirtualMemory", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 458752, 
+                            "protection": 64, 
+                            "process_handle": "0x00000080", 
+                            "allocation_type": 12288, 
+                            "base_address": "0x00400000"
+                        }, 
+                        "time": 1456289479.625, 
+                        "tid": 684, 
+                        "flags": {
+                            "protection": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": "MEM_COMMIT|MEM_RESERVE"
+                        }
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 313
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtGetContextThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000084"
+                        }, 
+                        "time": 1456289479.625, 
+                        "tid": 684, 
+                        "flags": {}
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 331
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtSetContextThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000084", 
+                            "registers": {
+                                "eip": 2088831079, 
+                                "esp": 1245180, 
+                                "edi": 0, 
+                                "eax": 4433044, 
+                                "ebp": 0, 
+                                "edx": 16, 
+                                "ebx": 2147344384, 
+                                "esi": 0, 
+                                "ecx": 8
+                            }
+                        }, 
+                        "time": 1456289479.625, 
+                        "tid": 684, 
+                        "flags": {}
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 337
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtResumeThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000084", 
+                            "suspend_count": 1
+                        }, 
+                        "time": 1456289494.625, 
+                        "tid": 684, 
+                        "flags": {}
+                    }, 
+                    "pid": 2036, 
+                    "type": "call", 
+                    "cid": 342
+                }
+            ], 
+            "references": [], 
+            "name": "injection_runpe"
+        }
+    ], 
+    "target": {
+        "category": "file", 
+        "file": {
+            "yara": [], 
+            "sha1": "c30b1b23fa75acb6a0fbeca6fb2d64b3a5a2ab36", 
+            "name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5", 
+            "type": "PE32 executable (GUI) Intel 80386, for MS Windows", 
+            "sha256": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5", 
+            "urls": [], 
+            "crc32": "56D8EE7D", 
+            "path": "/home/cuckoo/cuckoo/storage/binaries/1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5", 
+            "ssdeep": "12288:58gfckcsF3TQJyuvPRvikPF6g3vMTEJUi/z98njhaKZV8:Zt10Jy6p6YFD6niZijAd", 
+            "size": 482405, 
+            "sha512": "c8d91dbd927d539990b25ea09be8e70e849602a95d5cba28a4b5b08d91a5fd86bdc4cff783720ba3d655f674ecab15a76b45a5043668c72e02e4e04ba8ee6bcb", 
+            "md5": "d595087c3b15bc2e92ac99074b799083"
+        }
+    }, 
+    "buffer": [
+        {
+            "yara": [], 
+            "sha1": "d9369f6e2129193948d1dddc8f1457a3e5dba6b7", 
+            "name": "d9369f6e2129193948d1dddc8f1457a3e5dba6b7", 
+            "type": "ASCII text, with no line terminators", 
+            "sha256": "1f122eccc06184adf8cc5dc02605b0f257e94aa519794eda8f36b9353dd41e33", 
+            "urls": [], 
+            "crc32": "D0B52759", 
+            "path": "/home/cuckoo/cuckoo/storage/analyses/199/buffer/d9369f6e2129193948d1dddc8f1457a3e5dba6b7", 
+            "ssdeep": "3:eXan:Jn", 
+            "size": 17, 
+            "sha512": "e0544694616126a4a76ae18faaf89d16eadffd78b0da89142267e1ae45ec904c39b4f034eaa1a92c22ce7f6546e3d2eb301b2cbb5c4478ada18f1968154289a3", 
+            "md5": "59e171658827d8c54e1ed293bdf6a573"
+        }
+    ], 
+    "virustotal": {
+        "summary": {
+            "error": "resource has not been scanned yet"
+        }
+    }, 
+    "static": {
+        "pdb_path": null, 
+        "pe_imports": [
+            {
+                "imports": [
+                    {
+                        "name": "__vbaStrI2", 
+                        "address": "0x401000"
+                    }, 
+                    {
+                        "name": "_CIcos", 
+                        "address": "0x401004"
+                    }, 
+                    {
+                        "name": "_adj_fptan", 
+                        "address": "0x401008"
+                    }, 
+                    {
+                        "name": "__vbaVarMove", 
+                        "address": "0x40100c"
+                    }, 
+                    {
+                        "name": "__vbaStrI4", 
+                        "address": "0x401010"
+                    }, 
+                    {
+                        "name": "__vbaVarVargNofree", 
+                        "address": "0x401014"
+                    }, 
+                    {
+                        "name": "__vbaAryMove", 
+                        "address": "0x401018"
+                    }, 
+                    {
+                        "name": "__vbaFreeVar", 
+                        "address": "0x40101c"
+                    }, 
+                    {
+                        "name": "__vbaLenBstr", 
+                        "address": "0x401020"
+                    }, 
+                    {
+                        "name": "__vbaStrVarMove", 
+                        "address": "0x401024"
+                    }, 
+                    {
+                        "name": "__vbaFreeVarList", 
+                        "address": "0x401028"
+                    }, 
+                    {
+                        "name": "_adj_fdiv_m64", 
+                        "address": "0x40102c"
+                    }, 
+                    {
+                        "name": "_adj_fprem1", 
+                        "address": "0x401030"
+                    }, 
+                    {
+                        "name": "__vbaStrCat", 
+                        "address": "0x401034"
+                    }, 
+                    {
+                        "name": "__vbaWriteFile", 
+                        "address": "0x401038"
+                    }, 
+                    {
+                        "name": "__vbaSetSystemError", 
+                        "address": "0x40103c"
+                    }, 
+                    {
+                        "name": "__vbaHresultCheckObj", 
+                        "address": "0x401040"
+                    }, 
+                    {
+                        "name": "_adj_fdiv_m32", 
+                        "address": "0x401044"
+                    }, 
+                    {
+                        "name": "__vbaAryVar", 
+                        "address": "0x401048"
+                    }, 
+                    {
+                        "name": "__vbaAryDestruct", 
+                        "address": "0x40104c"
+                    }, 
+                    {
+                        "name": "__vbaOnError", 
+                        "address": "0x401050"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x401054"
+                    }, 
+                    {
+                        "name": "__vbaObjSet", 
+                        "address": "0x401058"
+                    }, 
+                    {
+                        "name": "_adj_fdiv_m16i", 
+                        "address": "0x40105c"
+                    }, 
+                    {
+                        "name": "__vbaObjSetAddref", 
+                        "address": "0x401060"
+                    }, 
+                    {
+                        "name": "_adj_fdivr_m16i", 
+                        "address": "0x401064"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x401068"
+                    }, 
+                    {
+                        "name": "_CIsin", 
+                        "address": "0x40106c"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x401070"
+                    }, 
+                    {
+                        "name": "__vbaChkstk", 
+                        "address": "0x401074"
+                    }, 
+                    {
+                        "name": "__vbaFileClose", 
+                        "address": "0x401078"
+                    }, 
+                    {
+                        "name": "EVENT_SINK_AddRef", 
+                        "address": "0x40107c"
+                    }, 
+                    {
+                        "name": "__vbaGenerateBoundsError", 
+                        "address": "0x401080"
+                    }, 
+                    {
+                        "name": "__vbaGet3", 
+                        "address": "0x401084"
+                    }, 
+                    {
+                        "name": "__vbaAryConstruct2", 
+                        "address": "0x401088"
+                    }, 
+                    {
+                        "name": "__vbaI2I4", 
+                        "address": "0x40108c"
+                    }, 
+                    {
+                        "name": "__vbaObjVar", 
+                        "address": "0x401090"
+                    }, 
+                    {
+                        "name": "DllFunctionCall", 
+                        "address": "0x401094"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x401098"
+                    }, 
+                    {
+                        "name": "__vbaVarLateMemSt", 
+                        "address": "0x40109c"
+                    }, 
+                    {
+                        "name": "_adj_fpatan", 
+                        "address": "0x4010a0"
+                    }, 
+                    {
+                        "name": "EVENT_SINK_Release", 
+                        "address": "0x4010a4"
+                    }, 
+                    {
+                        "name": "__vbaUI1I2", 
+                        "address": "0x4010a8"
+                    }, 
+                    {
+                        "name": "_CIsqrt", 
+                        "address": "0x4010ac"
+                    }, 
+                    {
+                        "name": "EVENT_SINK_QueryInterface", 
+                        "address": "0x4010b0"
+                    }, 
+                    {
+                        "name": "__vbaExceptHandler", 
+                        "address": "0x4010b4"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x4010b8"
+                    }, 
+                    {
+                        "name": "__vbaPrintFile", 
+                        "address": "0x4010bc"
+                    }, 
+                    {
+                        "name": "_adj_fprem", 
+                        "address": "0x4010c0"
+                    }, 
+                    {
+                        "name": "_adj_fdivr_m64", 
+                        "address": "0x4010c4"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x4010c8"
+                    }, 
+                    {
+                        "name": "__vbaFPException", 
+                        "address": "0x4010cc"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x4010d0"
+                    }, 
+                    {
+                        "name": "__vbaVarCat", 
+                        "address": "0x4010d4"
+                    }, 
+                    {
+                        "name": "_CIlog", 
+                        "address": "0x4010d8"
+                    }, 
+                    {
+                        "name": "__vbaErrorOverflow", 
+                        "address": "0x4010dc"
+                    }, 
+                    {
+                        "name": "__vbaFileOpen", 
+                        "address": "0x4010e0"
+                    }, 
+                    {
+                        "name": "__vbaVar2Vec", 
+                        "address": "0x4010e4"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x4010e8"
+                    }, 
+                    {
+                        "name": "__vbaNew2", 
+                        "address": "0x4010ec"
+                    }, 
+                    {
+                        "name": "_adj_fdiv_m32i", 
+                        "address": "0x4010f0"
+                    }, 
+                    {
+                        "name": "_adj_fdivr_m32i", 
+                        "address": "0x4010f4"
+                    }, 
+                    {
+                        "name": "__vbaStrCopy", 
+                        "address": "0x4010f8"
+                    }, 
+                    {
+                        "name": "__vbaFreeStrList", 
+                        "address": "0x4010fc"
+                    }, 
+                    {
+                        "name": "_adj_fdivr_m32", 
+                        "address": "0x401100"
+                    }, 
+                    {
+                        "name": "_adj_fdiv_r", 
+                        "address": "0x401104"
+                    }, 
+                    {
+                        "name": null, 
+                        "address": "0x401108"
+                    }, 
+                    {
+                        "name": "__vbaAryLock", 
+                        "address": "0x40110c"
+                    }, 
+                    {
+                        "name": "__vbaLateMemCall", 
+                        "address": "0x401110"
+                    }, 
+                    {
+                        "name": "__vbaStrToAnsi", 
+                        "address": "0x401114"
+                    }, 
+                    {
+                        "name": "__vbaVarDup", 
+                        "address": "0x401118"
+                    }, 
+                    {
+                        "name": "__vbaFreeVarg", 
+                        "address": "0x40111c"
+                    }, 
+                    {
+                        "name": "__vbaVarCopy", 
+                        "address": "0x401120"
+                    }, 
+                    {
+                        "name": "__vbaVarLateMemCallLd", 
+                        "address": "0x401124"
+                    }, 
+                    {
+                        "name": "_CIatan", 
+                        "address": "0x401128"
+                    }, 
+                    {
+                        "name": "__vbaAryCopy", 
+                        "address": "0x40112c"
+                    }, 
+                    {
+                        "name": "__vbaStrMove", 
+                        "address": "0x401130"
+                    }, 
+                    {
+                        "name": "__vbaCastObj", 
+                        "address": "0x401134"
+                    }, 
+                    {
+                        "name": "__vbaStrVarCopy", 
+                        "address": "0x401138"
+                    }, 
+                    {
+                        "name": "_allmul", 
+                        "address": "0x40113c"
+                    }, 
+                    {
+                        "name": "_CItan", 
+                        "address": "0x401140"
+                    }, 
+                    {
+                        "name": "__vbaAryUnlock", 
+                        "address": "0x401144"
+                    }, 
+                    {
+                        "name": "_CIexp", 
+                        "address": "0x401148"
+                    }, 
+                    {
+                        "name": "__vbaI4ErrVar", 
+                        "address": "0x40114c"
+                    }, 
+                    {
+                        "name": "__vbaFreeObj", 
+                        "address": "0x401150"
+                    }, 
+                    {
+                        "name": "__vbaFreeStr", 
+                        "address": "0x401154"
+                    }
+                ], 
+                "dll": "MSVBVM60.DLL"
+            }
+        ], 
+        "peid_signatures": null, 
+        "keys": [], 
+        "signature": [], 
+        "pe_timestamp": "2015-09-04 00:38:44", 
+        "pe_exports": [], 
+        "imported_dll_count": 1, 
+        "pe_imphash": "602717f237227aca42bedf4d91c14b5d", 
+        "pe_resources": [
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x0000a728", 
+                "size": "0x00001ca8"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_FARSI", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_DEFAULT", 
+                "offset": "0x0000c470", 
+                "size": "0x0000005c"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_FARSI", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_DEFAULT", 
+                "offset": "0x0000c470", 
+                "size": "0x0000005c"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_FARSI", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_DEFAULT", 
+                "offset": "0x0000c470", 
+                "size": "0x0000005c"
+            }, 
+            {
+                "name": "RT_GROUP_ICON", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows icon resource - 1 icon, 48x48", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x0000a714", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_VERSION", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x0000a190", 
+                "size": "0x00000584"
+            }
+        ], 
+        "pe_versioninfo": [
+            {
+                "name": "Translation", 
+                "value": "0x0409 0x04b0"
+            }, 
+            {
+                "name": "InternalName", 
+                "value": "Xeioaksmna"
+            }, 
+            {
+                "name": "FileVersion", 
+                "value": "3.56.1304"
+            }, 
+            {
+                "name": "CompanyName", 
+                "value": "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward."
+            }, 
+            {
+                "name": "LegalTrademarks", 
+                "value": "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward."
+            }, 
+            {
+                "name": "ProductName", 
+                "value": "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward."
+            }, 
+            {
+                "name": "ProductVersion", 
+                "value": "3.56.1304"
+            }, 
+            {
+                "name": "OriginalFilename", 
+                "value": "Xeioaksmna.exe"
+            }
+        ], 
+        "pe_sections": [
+            {
+                "size_of_data": "0x00008000", 
+                "virtual_address": "0x00001000", 
+                "entropy": 6.178498701420575, 
+                "name": ".text", 
+                "virtual_size": "0x00007ea4"
+            }, 
+            {
+                "size_of_data": "0x00001000", 
+                "virtual_address": "0x00009000", 
+                "entropy": 0.0, 
+                "name": ".data", 
+                "virtual_size": "0x00000d08"
+            }, 
+            {
+                "size_of_data": "0x00003000", 
+                "virtual_address": "0x0000a000", 
+                "entropy": 5.378892251691828, 
+                "name": ".rsrc", 
+                "virtual_size": "0x000024cc"
+            }
+        ]
+    }, 
+    "dropped": [
+        {
+            "yara": [], 
+            "sha1": "602e00d16433b35cd99a0ddbf9adf5360302bc0b", 
+            "name": "c956850e6df56802_~DF464D.tmp", 
+            "type": "Composite Document File V2 Document, No summary info", 
+            "sha256": "c956850e6df56802cc85d6ca2c337c9838efa69969ebd4e01da9ec0f39f92ba5", 
+            "urls": [], 
+            "crc32": "3CE6B7F0", 
+            "path": "/home/cuckoo/cuckoo/storage/analyses/199/files/c956850e6df56802_~DF464D.tmp", 
+            "ssdeep": "192:JfCPiZvl8UYj5555555555555555555555555555s9:sPM9/9", 
+            "size": 9216, 
+            "sha512": "a90a7c19cc148a5bb43a548120e6cb9ee76df08085b3f7b50010a843e862d8ee3d60cff1ee884aedf408376fa65309c1489671c85a00fad32ca74c5194ef1f2d", 
+            "md5": "c49a88ee4495de70073c25ccf60841df"
+        }
+    ], 
+    "behavior": {
+        "generic": [
+            {
+                "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "ppid": 2036, 
+                "pid": 800, 
+                "first_seen": 1456289557.375, 
+                "summary": {
+                    "file_opened": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+                    ], 
+                    "file_exists": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\"
+                    ], 
+                    "regkey_opened": [
+                        "HKEY_CURRENT_USER\\Software\\Borland\\Delphi\\Locales", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Borland\\Locales", 
+                        "HKEY_CURRENT_USER\\Software\\Borland\\Locales"
+                    ], 
+                    "regkey_read": [
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\Locale", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\iCalendarType", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\iTimePrefix"
+                    ], 
+                    "file_failed": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+                    ]
+                }
+            }, 
+            {
+                "process_name": "lsass.exe", 
+                "ppid": 528, 
+                "pid": 680, 
+                "first_seen": 1456290179.375, 
+                "summary": {}
+            }, 
+            {
+                "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "ppid": 640, 
+                "pid": 2036, 
+                "first_seen": 1456290335.625, 
+                "summary": {
+                    "dll_loaded": [
+                        "oleaut32.dll", 
+                        "kernel32", 
+                        "ntdll", 
+                        "USER32", 
+                        "winspool.drv", 
+                        "C:\\WINDOWS\\system32\\kernel32.dll", 
+                        "user32", 
+                        "OLEAUT32.DLL"
+                    ], 
+                    "file_opened": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\~DF464D.tmp", 
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+                    ], 
+                    "regkey_opened": [
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\Help", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VBA\\Monitors", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\HTML Help"
+                    ], 
+                    "command_line": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+                    ], 
+                    "file_deleted": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\~DF464D.tmp"
+                    ], 
+                    "file_exists": [
+                        "C:\\WINDOWS\\Help\\.HLP", 
+                        "C:\\WINDOWS\\system32\\.HLP", 
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp"
+                    ], 
+                    "file_failed": [
+                        "C:\\WINDOWS\\WINHELP.INI"
+                    ], 
+                    "guid": [
+                        "{00000000-0000-0000-0000-000000000000}"
+                    ], 
+                    "file_read": [
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+                    ], 
+                    "regkey_read": [
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\iNegNumber", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\950", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sNegativeSign", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sGrouping", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonDecimalSep", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\Help\\.HLP", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\Locale", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\949", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonThousandSep", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonGrouping", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\932", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\936", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\HTML Help\\.HLP"
+                    ]
+                }
+            }
+        ], 
+        "apistats": {
+            "2036": {
+                "LdrUnloadDll": 8, 
+                "GetSystemWindowsDirectoryA": 1, 
+                "CoUninitialize": 1, 
+                "RegCloseKey": 4, 
+                "NtReadFile": 1, 
+                "NtWriteVirtualMemory": 10, 
+                "DrawTextExW": 3, 
+                "NtSetContextThread": 1, 
+                "GetSystemInfo": 1, 
+                "RegQueryValueExA": 2, 
+                "UnhookWindowsHookEx": 1, 
+                "NtResumeThread": 1, 
+                "NtTerminateProcess": 3, 
+                "NtQueryValueKey": 16, 
+                "GetFileAttributesW": 5, 
+                "NtMapViewOfSection": 3, 
+                "GetSystemMetrics": 32, 
+                "GetCursorPos": 1, 
+                "GetFileSize": 1, 
+                "SetFileTime": 1, 
+                "NtDelayExecution": 1, 
+                "SetErrorMode": 27, 
+                "NtAllocateVirtualMemory": 57, 
+                "RegOpenKeyExA": 6, 
+                "DeleteFileW": 1, 
+                "LdrGetDllHandle": 5, 
+                "NtFreeVirtualMemory": 24, 
+                "__exception__": 1, 
+                "NtQuerySystemInformation": 2, 
+                "OleInitialize": 1, 
+                "NtOpenFile": 2, 
+                "LoadStringA": 1, 
+                "NtUnmapViewOfSection": 5, 
+                "SetFilePointer": 6, 
+                "GetSystemDirectoryW": 1, 
+                "SetUnhandledExceptionFilter": 1, 
+                "FindResourceExW": 5, 
+                "NtCreateFile": 2, 
+                "CoCreateInstanceEx": 1, 
+                "GlobalMemoryStatus": 1, 
+                "NtProtectVirtualMemory": 3, 
+                "GetTempPathW": 1, 
+                "NtCreateSection": 3, 
+                "NtGetContextThread": 1, 
+                "SetWindowsHookExA": 1, 
+                "NtOpenKey": 13, 
+                "SearchPathW": 1, 
+                "LoadResource": 5, 
+                "LdrGetProcedureAddress": 83, 
+                "GetFileType": 1, 
+                "SetEndOfFile": 2, 
+                "LdrLoadDll": 16, 
+                "NtQueryInformationFile": 1, 
+                "CreateProcessInternalW": 1, 
+                "NtClose": 36
+            }, 
+            "800": {
+                "__exception__": 1, 
+                "GetSystemWindowsDirectoryA": 1, 
+                "LoadStringA": 38, 
+                "NtOpenKey": 6, 
+                "SearchPathW": 2, 
+                "LdrGetProcedureAddress": 24, 
+                "GetTempPathW": 1, 
+                "NtCreateFile": 2, 
+                "NtClose": 10, 
+                "NtAllocateVirtualMemory": 4, 
+                "RegOpenKeyExA": 3, 
+                "GetFileAttributesW": 1, 
+                "LdrGetDllHandle": 5, 
+                "NtQueryValueKey": 6
+            }
+        }, 
+        "processes": [
+            {
+                "process_path": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "calls": [], 
+                "track": false, 
+                "pid": 680, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "time": 0, 
+                "tid": 596, 
+                "first_seen": 1456290179.375, 
+                "ppid": 528, 
+                "type": "process"
+            }, 
+            {
+                "process_path": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "calls": [], 
+                "track": true, 
+                "pid": 2036, 
+                "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe\" ", 
+                "time": 0, 
+                "tid": 684, 
+                "first_seen": 1456290335.625, 
+                "ppid": 640, 
+                "type": "process"
+            }, 
+            {
+                "process_path": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "calls": [], 
+                "track": true, 
+                "pid": 800, 
+                "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe\"", 
+                "time": 0, 
+                "tid": 852, 
+                "first_seen": 1456289557.375, 
+                "ppid": 2036, 
+                "type": "process"
+            }
+        ], 
+        "processtree": [
+            {
+                "track": false, 
+                "pid": 680, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "first_seen": 1456290179.375, 
+                "ppid": 528, 
+                "children": []
+            }, 
+            {
+                "track": true, 
+                "pid": 2036, 
+                "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe\" ", 
+                "first_seen": 1456290335.625, 
+                "ppid": 640, 
+                "children": [
+                    {
+                        "track": true, 
+                        "pid": 800, 
+                        "process_name": "1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe", 
+                        "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe\"", 
+                        "first_seen": 1456289557.375, 
+                        "ppid": 2036, 
+                        "children": []
+                    }
+                ]
+            }
+        ], 
+        "summary": {
+            "dll_loaded": [
+                "oleaut32.dll", 
+                "kernel32", 
+                "ntdll", 
+                "USER32", 
+                "winspool.drv", 
+                "C:\\WINDOWS\\system32\\kernel32.dll", 
+                "user32", 
+                "OLEAUT32.DLL"
+            ], 
+            "file_opened": [
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\~DF464D.tmp", 
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+            ], 
+            "regkey_opened": [
+                "HKEY_LOCAL_MACHINE\\Software\\Borland\\Locales", 
+                "HKEY_CURRENT_USER\\Software\\Borland\\Delphi\\Locales", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VBA\\Monitors", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\Help", 
+                "HKEY_CURRENT_USER\\Software\\Borland\\Locales", 
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\HTML Help"
+            ], 
+            "command_line": [
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+            ], 
+            "file_deleted": [
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\~DF464D.tmp"
+            ], 
+            "file_exists": [
+                "C:\\WINDOWS\\Help\\.HLP", 
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\", 
+                "C:\\WINDOWS\\system32\\.HLP", 
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp"
+            ], 
+            "file_failed": [
+                "C:\\WINDOWS\\WINHELP.INI", 
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+            ], 
+            "guid": [
+                "{00000000-0000-0000-0000-000000000000}"
+            ], 
+            "file_read": [
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe"
+            ], 
+            "regkey_read": [
+                "HKEY_CURRENT_USER\\Control Panel\\International\\iNegNumber", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\950", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sNegativeSign", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sGrouping", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonDecimalSep", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\Help\\.HLP", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\Locale", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\949", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonThousandSep", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonGrouping", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\932", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\iTimePrefix", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\CodePage\\936", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\HTML Help\\.HLP", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\iCalendarType"
+            ]
+        }
+    }, 
+    "debug": {
+        "errors": [], 
+        "log": [
+            "2016-02-24 03:50:45,000 [analyzer] DEBUG: Starting analyzer from: C:\\tmpkrnfvy\n", 
+            "2016-02-24 03:50:45,000 [analyzer] DEBUG: Pipe server name: \\\\.\\PIPE\\WAFzGJhenfKVPfilLXSUWqMrklPL\n", 
+            "2016-02-24 03:50:45,000 [analyzer] DEBUG: Log pipe server name: \\\\.\\PIPE\\DcmxmdpFqPKBYbQGiTHsjkcGV\n", 
+            "2016-02-24 03:50:45,000 [analyzer] DEBUG: No analysis package specified, trying to detect it automagically.\n", 
+            "2016-02-24 03:50:45,000 [analyzer] INFO: Automatically selected analysis package \"exe\"\n", 
+            "2016-02-24 03:50:45,625 [analyzer] DEBUG: Started auxiliary module Disguise\n", 
+            "2016-02-24 03:50:45,796 [analyzer] DEBUG: Loaded monitor into process with pid 680\n", 
+            "2016-02-24 03:50:45,796 [lib.api.process] INFO: Successfully injected process with pid None\n", 
+            "2016-02-24 03:50:45,796 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets\n", 
+            "2016-02-24 03:50:45,796 [analyzer] DEBUG: Started auxiliary module Human\n", 
+            "2016-02-24 03:50:45,796 [analyzer] DEBUG: Started auxiliary module InstallCertificate\n", 
+            "2016-02-24 03:50:45,796 [analyzer] DEBUG: Started auxiliary module Screenshots\n", 
+            "2016-02-24 03:50:45,828 [lib.api.process] INFO: Successfully executed process from path u'C:\\\\DOCUME~1\\\\ADMINI~1\\\\LOCALS~1\\\\Temp\\\\1caf864c9b28b4f72a8dea5db128aeae9cd79d1063baa86c0d383d67d0fdacb5.exe' with arguments '' and pid 2036\n", 
+            "2016-02-24 03:50:45,953 [analyzer] DEBUG: Loaded monitor into process with pid 2036\n", 
+            "2016-02-24 03:50:46,015 [analyzer] DEBUG: Received request to inject pid=2036, but we are already injected there.\n", 
+            "2016-02-24 03:50:48,030 [lib.api.process] INFO: Successfully injected process with pid 800\n", 
+            "2016-02-24 03:50:48,030 [analyzer] INFO: Injected into process with pid 800 and name \n", 
+            "2016-02-24 03:50:48,030 [analyzer] DEBUG: Received request to inject pid=800, but we are already injected there.\n", 
+            "2016-02-24 03:50:48,125 [analyzer] INFO: Process with pid 2036 has terminated\n", 
+            "2016-02-24 03:50:48,187 [analyzer] DEBUG: Loaded monitor into process with pid 800\n", 
+            "2016-02-24 03:50:48,375 [modules.auxiliary.human] INFO: Found button \"OK\", clicking it\n", 
+            "2016-02-24 03:50:50,125 [analyzer] INFO: Process with pid 800 has terminated\n", 
+            "2016-02-24 03:50:50,125 [analyzer] INFO: Process list is empty, terminating analysis.\n", 
+            "2016-02-24 03:50:51,125 [analyzer] INFO: Analysis completed.\n"
+        ]
+    }, 
+    "strings": [
+        "!This program cannot be run in DOS mode.", 
+        "`.data", 
+        "MSVBVM60.DLL", 
+        "Olsdmkanr", 
+        "Olsdmkanr", 
+        "casvac", 
+        "sacvsafsa", 
+        "Xeioaksmna", 
+        "Olsdmkanr", 
+        "Olsdmkanr", 
+        "Module6", 
+        "Module8", 
+        "Module11", 
+        "Module12", 
+        "Olsdmkanr", 
+        "USER32    ", 
+        "CallWindowProcW", 
+        "__vbaObjSet", 
+        "__vbaFreeVarList", 
+        "VBA6.DLL", 
+        "__vbaCastObj", 
+        "__vbaVarVargNofree", 
+        "__vbaObjVar", 
+        "__vbaLateMemCall", 
+        "__vbaStrI4", 
+        "__vbaFreeVarg", 
+        "__vbaVarLateMemCallLd", 
+        "__vbaVarCat", 
+        "__vbaVarDup", 
+        "__vbaVarLateMemSt", 
+        "__vbaPrintFile", 
+        "__vbaObjSetAddref", 
+        "FrameRgn", 
+        "FormatMessageA", 
+        "__vbaFreeStr", 
+        "__vbaStrCopy", 
+        "__vbaVarCopy", 
+        "__vbaFreeVar", 
+        "__vbaStrVarMove", 
+        "__vbaVarMove", 
+        "__vbaFileClose", 
+        "__vbaWriteFile", 
+        "__vbaFreeObj", 
+        "__vbaFreeStrList", 
+        "__vbaHresultCheckObj", 
+        "__vbaNew2", 
+        "GdiComment", 
+        "__vbaStrCat", 
+        "__vbaStrMove", 
+        "__vbaFileOpen", 
+        "__vbaOnError", 
+        "USER32      ", 
+        "user32", 
+        "CallWindowProcA", 
+        "GetNearestColor", 
+        "kernel32", 
+        "HeapSize", 
+        "_hwrite", 
+        "imm32.dll", 
+        "ImmSetCompositionStringA", 
+        "GetCommModemStatus", 
+        "GetTickCount", 
+        "GetEnhMetaFileBits", 
+        "__vbaSetSystemError", 
+        "__vbaAryUnlock", 
+        "winspool.drv", 
+        "AddFormA", 
+        "__vbaAryLock", 
+        "__vbaGenerateBoundsError", 
+        "MDIForm", 
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\VB98\\VB6.OLB", 
+        "casvac", 
+        "FindFirstPrinterChangeNotification", 
+        "FindNextChangeNotification", 
+        "FindResourceA", 
+        "FlushConsoleInputBuffer", 
+        "FlushFileBuffers", 
+        "BiksFilename", 
+        "J0ng4FQR", 
+        "fortaleZza", 
+        "Wwk9qChh22yJ", 
+        "Y8uqRyLSN1", 
+        "__vbaAryVar", 
+        "__vbaAryCopy", 
+        "__vbaGet3", 
+        "__vbaErrorOverflow", 
+        "__vbaUI1I2", 
+        "__vbaI2I4", 
+        "__vbaI4ErrVar", 
+        "__vbaAryConstruct2", 
+        "__vbaAryDestruct", 
+        "__vbaVar2Vec", 
+        "__vbaAryMove", 
+        "__vbaLenBstr", 
+        "__vbaStrVarCopy", 
+        "__vbaStrI2", 
+        "__vbaStrToAnsi", 
+        "Olsdmkanr", 
+        "HoN3Ox4u", 
+        "ByteArray", 
+        "MSVBVM60.DLL", 
+        "__vbaStrI2", 
+        "_CIcos", 
+        "_adj_fptan", 
+        "__vbaVarMove", 
+        "__vbaStrI4", 
+        "__vbaVarVargNofree", 
+        "__vbaAryMove", 
+        "__vbaFreeVar", 
+        "__vbaLenBstr", 
+        "__vbaStrVarMove", 
+        "__vbaFreeVarList", 
+        "_adj_fdiv_m64", 
+        "_adj_fprem1", 
+        "__vbaStrCat", 
+        "__vbaWriteFile", 
+        "__vbaSetSystemError", 
+        "__vbaHresultCheckObj", 
+        "_adj_fdiv_m32", 
+        "__vbaAryVar", 
+        "__vbaAryDestruct", 
+        "__vbaOnError", 
+        "__vbaObjSet", 
+        "_adj_fdiv_m16i", 
+        "__vbaObjSetAddref", 
+        "_adj_fdivr_m16i", 
+        "_CIsin", 
+        "__vbaChkstk", 
+        "__vbaFileClose", 
+        "EVENT_SINK_AddRef", 
+        "__vbaGenerateBoundsError", 
+        "__vbaGet3", 
+        "__vbaAryConstruct2", 
+        "__vbaI2I4", 
+        "__vbaObjVar", 
+        "DllFunctionCall", 
+        "__vbaVarLateMemSt", 
+        "_adj_fpatan", 
+        "EVENT_SINK_Release", 
+        "__vbaUI1I2", 
+        "_CIsqrt", 
+        "EVENT_SINK_QueryInterface", 
+        "__vbaExceptHandler", 
+        "__vbaPrintFile", 
+        "_adj_fprem", 
+        "_adj_fdivr_m64", 
+        "__vbaFPException", 
+        "__vbaVarCat", 
+        "_CIlog", 
+        "__vbaErrorOverflow", 
+        "__vbaFileOpen", 
+        "__vbaVar2Vec", 
+        "__vbaNew2", 
+        "_adj_fdiv_m32i", 
+        "_adj_fdivr_m32i", 
+        "__vbaStrCopy", 
+        "__vbaFreeStrList", 
+        "_adj_fdivr_m32", 
+        "_adj_fdiv_r", 
+        "__vbaAryLock", 
+        "__vbaLateMemCall", 
+        "__vbaStrToAnsi", 
+        "__vbaVarDup", 
+        "__vbaFreeVarg", 
+        "__vbaVarCopy", 
+        "__vbaVarLateMemCallLd", 
+        "_CIatan", 
+        "__vbaAryCopy", 
+        "__vbaStrMove", 
+        "__vbaCastObj", 
+        "__vbaStrVarCopy", 
+        "_allmul", 
+        "_CItan", 
+        "__vbaAryUnlock", 
+        "_CIexp", 
+        "__vbaI4ErrVar", 
+        "__vbaFreeObj", 
+        "__vbaFreeStr", 
+        "YSJdnaksjdnaksjndj", 
+        "\u001f{.BTv", 
+        "TiL<q]", 
+        "4$U`u#", 
+        "V|V>\\zH", 
+        "J\u001f.]lf", 
+        "ep(w*|", 
+        "znw*/dq.Unj", 
+        "#:omv\u001fU", 
+        "P<RJFz", 
+        "]T*CC*", 
+        "LM&'x@", 
+        "drc^(<", 
+        "\"f}|\\T", 
+        "V-P[>.", 
+        "E0.RMMu", 
+        "5FaWAt", 
+        "BF|4yx", 
+        "9;oO*.c", 
+        "?)wTZ]", 
+        "uk@=3*", 
+        "9;rNz[;", 
+        "S?S\u001fKS+M", 
+        "U*:+Oe3", 
+        "'M}gv\u001fEzIo", 
+        "/MPp[T", 
+        "9lC?t5m?\\", 
+        "^T}WcSlPYC", 
+        "wv}?h/c", 
+        "Q+05j+", 
+        "gdG9NW@6U", 
+        ")I?\"!L", 
+        "K,>!kw", 
+        "&I3P_p3", 
+        "w\"BsC{", 
+        "0rO&OT\u001f:", 
+        "j|31RR", 
+        "s8nn{I@t", 
+        "<<?4vj", 
+        "i*AnB8^", 
+        ":)iETBU", 
+        "Ld*|;Q", 
+        "hkLeQ$", 
+        "V\\N1%5", 
+        "${^<;j fd", 
+        "f_Yh.s", 
+        "}}^|ta", 
+        "\"*#DNg", 
+        "JVNb^\"", 
+        "/%56Z;", 
+        "jJB;O9g", 
+        "'v:i45", 
+        "'>$UI#", 
+        "6c,xr\\", 
+        "G6t?]E", 
+        "6B aW~", 
+        "u(Rg3M", 
+        ";Q%d\"$", 
+        "RK7|/:", 
+        "hefhFP^9", 
+        "<HCJME", 
+        "JPVAu7W$", 
+        "?6&6#N", 
+        "7dLNvS", 
+        "d)l+W\u001fcxA", 
+        "fqUaZT4", 
+        "i6N[f>", 
+        "3$0Ur<", 
+        "}%}8[N", 
+        "rP.<NLl", 
+        "YzLYm-~W", 
+        "AmLN2i", 
+        "4h3{O8<", 
+        "+VpdBB", 
+        "y\\ur}.", 
+        "K--Q6Hb,", 
+        "2z7&|[", 
+        "ea-FffL", 
+        "b>Zr2u9#", 
+        "LqePVI", 
+        "-k[9&D", 
+        "c\"f2Vv", 
+        "9\u001fj<8H", 
+        "J1{KVN", 
+        "{<%[086{w", 
+        "oISvgw", 
+        "MIT?G}", 
+        "[e,vp{\u001f", 
+        "W)Y4eo(", 
+        "xK80I/", 
+        "bq|X&8", 
+        "vJY1V!", 
+        "B'S,8eC", 
+        "6Xy6k'?", 
+        "sdxv-B", 
+        "w2QSr-1", 
+        "\u001f^\u001f;U(", 
+        "A*REs&", 
+        "G`(%BN", 
+        "A.~dbo?k#", 
+        "#66orW", 
+        ",xWYkR(:|K8", 
+        "GwFi$a", 
+        "%.O%jF", 
+        "%v$G,4)&;", 
+        "QlE>k4", 
+        "k3e}9^", 
+        ";NjaKE", 
+        "wI^.vX", 
+        "=R.%\\3m", 
+        "V-A#&q`", 
+        "C;dZ\"q", 
+        "TCwOi#", 
+        "'I?V['z7", 
+        "\u001fSP~a(", 
+        "t0?Ry)-", 
+        "9\u001faI\u001fZ", 
+        "XT=^\"<", 
+        "!9J-],", 
+        "Z'i!G!", 
+        "M5\u001fWMA", 
+        "d&Y:Y1", 
+        ".R]>cm", 
+        "*5_n^G", 
+        "3}!W:+", 
+        "M ,)-M[", 
+        "ht\\=wuZ", 
+        "YQIk_T", 
+        ",$9WKx", 
+        "gZ8Tr`", 
+        " glz)a ", 
+        "<X>i[\\", 
+        "3Ei:Kz~g", 
+        "+Bkj(qA2$", 
+        "_(3nUe\u001f", 
+        "{+|L.L", 
+        "oi\"]*U", 
+        "K^u+P0 O", 
+        "nd$15a", 
+        "DiK?5A", 
+        "fyXIQ=", 
+        "Wl-UW2@", 
+        "[-Wi02d", 
+        "Wj*\\?X", 
+        "~-4]`vy", 
+        "HmS:&i/", 
+        "z76HxH", 
+        "o7k7P7", 
+        "xGeE9Ho", 
+        "B-R0rk", 
+        "u=1?D(", 
+        "l' ll1", 
+        "KrnW#2", 
+        "\u001f<J/Fv", 
+        "j4)Qox,2", 
+        "t>Sz\\)", 
+        "QUMl,R", 
+        "\",r#$+", 
+        "m?\u001fX4og", 
+        "5=MoF%,", 
+        "f'lK]4", 
+        "SXzq?T", 
+        "|C0(yr", 
+        "!$_#hG3LYg", 
+        "wwx7$q", 
+        "U^py]G", 
+        "YZ#py8", 
+        "W6#n;v", 
+        "0#Y)_:Vvg", 
+        "`hK\"UU", 
+        "rWbcjj", 
+        "ED4Sgoa ", 
+        "lnW[_AV", 
+        "P&.J+v", 
+        "9>12#\\\\b{", 
+        "n\u001f91HTW", 
+        "-7_mD\u001fV", 
+        "A2Oph!", 
+        "JSrBfu*c", 
+        "(+|LL\\s", 
+        "JzV4<xj", 
+        "\u001fRO<ks", 
+        "P.9}t5C7|", 
+        "a]0\"Ep", 
+        ".~Vvk\\", 
+        "p+F}WK", 
+        ";M\"~9V", 
+        "rldw5`", 
+        "OV+{1+/Y ", 
+        "7@14mLa", 
+        "g;pP1h", 
+        "}:nGua}'", 
+        "E\u001f9WaX", 
+        "&Ym5M)", 
+        "\\0m9Q'", 
+        "[v;WfS", 
+        "N8Vtm^X", 
+        "1?!TRp", 
+        "{Y,=ctY", 
+        "F+7fkL_", 
+        "K&{C;$", 
+        "#^MzMP", 
+        "/5^JxN", 
+        "8e$|yp", 
+        "Xcx}|)", 
+        "VI5T?y", 
+        "vz@Y'i", 
+        "|FdLvO", 
+        "A-Ey_T", 
+        "\\DTgD\\^8", 
+        "wJV+/O", 
+        "P`yfZ#", 
+        "5DFgC#", 
+        "vQ%(\\@'l", 
+        "2ZP8Ro", 
+        "Ar~0wp", 
+        "N`oc[L", 
+        "N|?\"xq )", 
+        "!7,BPH", 
+        ">TK\u001fwl", 
+        "\\jBC-kJS", 
+        "Gy\\?fF", 
+        "~-26+G-", 
+        "c#(?sLO\"", 
+        "'S?+Bs:", 
+        " vM/Wk@", 
+        "Sl+Tq(2", 
+        "?m'<vF{", 
+        "k,I[$'", 
+        "k9*[3.", 
+        "#i'w G>W", 
+        "qU.LiPC", 
+        "?n,wG/", 
+        "3<}!Rt>j", 
+        "*N71<V[", 
+        "f<dLHy", 
+        ";]y>fd7", 
+        "Eb|=e]", 
+        "T~\\TW7[", 
+        "gT&VZP", 
+        ":}u_UZ", 
+        "cI.7i_", 
+        "3-92]0", 
+        "URs!R3@", 
+        "%wpLeBx5W", 
+        "EP|E[a", 
+        "2x=#NR", 
+        "*1+S~Ay", 
+        ">Tn%Ii", 
+        "]4Y:K(", 
+        "OLhAxZ", 
+        "b{KoC>8", 
+        "[ e1\\H", 
+        "5QWaZ\"y!D", 
+        "1zjp4C", 
+        "P?)x2*", 
+        "n8QUK9", 
+        "?xokB;X", 
+        "G =[k2", 
+        "UZ/0tm", 
+        "T9k{<&", 
+        "VfRBc7", 
+        "-lf$pX", 
+        "kjcLt{<$", 
+        "1PP=d!", 
+        "2+G*%f", 
+        "dlU}:>", 
+        "W9F\u001f?Rz", 
+        "*^LoQ-?4", 
+        "hQK`Na9", 
+        "UEDB-I", 
+        "LXJO=A", 
+        "u_^RU-", 
+        "P?'~8J", 
+        "r@!bU;\\ay{", 
+        "hIvQ\"ING", 
+        "PS3pZr", 
+        " m\\PwS\"I", 
+        "<s[JJ)", 
+        "bx4VvI", 
+        "qA6'^M", 
+        "ej[icZ", 
+        "fw5<AD<", 
+        "HK[f+P", 
+        "5I;`8jY", 
+        "//Pp%W", 
+        "~^\"0D ", 
+        " yQd{<", 
+        "%Y@Qh\\", 
+        "#lk\\p@", 
+        "n^U.UD", 
+        "XCg1H7)", 
+        "|R@j\\G", 
+        "u KH09", 
+        "s+tdK0", 
+        "8(UIj2T1$", 
+        "bw>\\\\a", 
+        "@elOy%!", 
+        ")>l._HZ", 
+        "+M9c/z", 
+        "lhoz'z", 
+        "GA$/b>", 
+        "zzQ$_'", 
+        "]H^u84+", 
+        "Me83BS!NvSk", 
+        "fs4TSPR9", 
+        "\"=aILm", 
+        "\"e6\u001f-D", 
+        ":.5$z(", 
+        "A]\\8vE", 
+        "Ka\"eSi", 
+        "g,>D?Z", 
+        "hZNq-m", 
+        "&w{m>H", 
+        "mZ\\pJ|2T", 
+        "=`5;Rc", 
+        "13hMa:@", 
+        "NqPpXo", 
+        "Je+bpXV#r", 
+        "trNo9BUb", 
+        "yBDViU", 
+        "QOD>{0=u)m", 
+        "_lZLRD3", 
+        "[#rW/.", 
+        "rxX|rHc", 
+        "rq'G,x", 
+        "8%\"#?ke", 
+        "kjb#L*H)I", 
+        "OC4.Xg", 
+        "b.:2&YM", 
+        "t{INiL7uW/!", 
+        "+qi&M=n", 
+        "_HS5xj<", 
+        "N W%Ni", 
+        "|94m.#", 
+        "JzG2l=", 
+        "F#'y:%", 
+        "b4EYDu", 
+        "uYAWm#", 
+        "P7A<ut", 
+        "Z`-UXp", 
+        "^!b,*QP2", 
+        "cKh-Y;$", 
+        "-.\u001fN[dL", 
+        "mC%)rv}", 
+        "'Me:`m", 
+        "l?*Y!L", 
+        "AfT)4rq", 
+        "yyDz}y", 
+        "trVxjPz", 
+        "Y5EI@n", 
+        "KR$0W+Sr?", 
+        ":I7PQHc(", 
+        "SVBeAe", 
+        "O'9{7m`", 
+        "f~^~7$", 
+        "WgKuFZ", 
+        "=^9\"u^", 
+        "WZ<wd~", 
+        "c91\\&$", 
+        "6CPb-`", 
+        "MIoo0;7<", 
+        "PV)`;-", 
+        "Of!I_ijk", 
+        "yvQoO5", 
+        "61k1\"4\\~", 
+        "pWYzCGBf", 
+        "O\\0\u001fio2Sf", 
+        "BTYZ<l0", 
+        "clL|SfI", 
+        "Kojie7", 
+        "(qI72O", 
+        "Jn<Kj}r", 
+        "MHoSH`", 
+        "KT\"k38>", 
+        " (.6$(", 
+        "NHJ0wj", 
+        "QR:\"eF", 
+        "~/9KN}", 
+        ")$C8nQ", 
+        "A~gp*%", 
+        "Oq\"!Hn/gk", 
+        "eW;tiO", 
+        "}Wlxm-", 
+        "Tts'CC", 
+        "}!72?5", 
+        "J]==K1'", 
+        "tmfi]5X", 
+        "^&LOEQ", 
+        "M\\wU>r?", 
+        "vA<\"EG:", 
+        "WF80gil", 
+        "'e(<ph", 
+        ")(.0=e", 
+        "?OQO$%", 
+        " }GP)x", 
+        "1nHu??", 
+        "\\fYDq\u001f~", 
+        ",Y(.^i", 
+        "#LE>;'", 
+        "D~gYF8", 
+        "Y*qPTPBt", 
+        "<jPg%d", 
+        "ifkObj,", 
+        "@#]1k=", 
+        "XtCji]$fc", 
+        "Gb,i\\A8", 
+        "47Xe:]V", 
+        "WljpSu", 
+        "o6%om\\", 
+        ";jQO_q", 
+        "%]B&M !kM", 
+        "\"i*^yAUB", 
+        "&v`UqL", 
+        "{1&R8N", 
+        ")V/fow", 
+        ",;*@oR", 
+        "&^kxZ|", 
+        "$%p@L ", 
+        "3dycNK", 
+        "jQ0[]\\", 
+        "e%<e>^x", 
+        "t?_St>|", 
+        "HQMBk|", 
+        "gwXsD<", 
+        "TP,`OQ", 
+        "]cb\u001fdN", 
+        "[8Afl(", 
+        "6#24rS!", 
+        "dzLf1d6", 
+        "0@ncI5", 
+        "BjxQo)", 
+        "`Q>uDh", 
+        "k|')tq", 
+        "[uKDvG", 
+        "z.P3py", 
+        "m1/_DBt", 
+        "g_K2>R", 
+        "UejqNq", 
+        "}I\"NPn-", 
+        "GqA{cL", 
+        "Q-O8my", 
+        "/piZBt", 
+        "]\"K~z~", 
+        "&_6FY{Fv", 
+        "j|Jf*.P", 
+        "8?2Hc`W", 
+        "9p~.Mp", 
+        "~T'i33", 
+        "C`4&eSl", 
+        "d0Y 8`", 
+        "^}@,&q(", 
+        "/V.=Ha)H{hu", 
+        "@>4/)'", 
+        "z0$:rk5|", 
+        "I/)Rc(", 
+        "pdCX/T", 
+        "*8Mtn9", 
+        "cwS`44", 
+        "8,bF-[", 
+        "^PJ}a%", 
+        "-u+vrh", 
+        "DfOLu)wj", 
+        "gF|6.#n", 
+        "Sl`T},", 
+        ")av84f=g", 
+        "F;&f1I:", 
+        "i9A\\\u001ft~R", 
+        "O2:k}Y", 
+        "g_MdgZ", 
+        "A>k\\?u", 
+        "|'ST6'i", 
+        "_)vS%M", 
+        "+X\"?\u001f4", 
+        "I&%4|q", 
+        "u'R5@6", 
+        "+Ezu2tt", 
+        "fV#JAm", 
+        "ch14e[", 
+        "Djd5h!", 
+        "[lto(w", 
+        "OjC]d2", 
+        "HK-Uqd", 
+        "MJ.e%='", 
+        "@`2-'aa", 
+        "Gw/=+XRw", 
+        "q+y?\"u", 
+        "G>#?j;Gbc", 
+        "09s- pDt", 
+        "@DeL8p", 
+        ">p`<Y;", 
+        "H41\u001fEP", 
+        "f~t't=1", 
+        "T8huXuh2", 
+        " 5-X~^", 
+        "&`aG<&", 
+        "S\\b,j.", 
+        "8fk*TjVL", 
+        "r-L:uZ", 
+        "/?]SFiv", 
+        ":'zC`H", 
+        "A{=+_.", 
+        "Ljf\"{,", 
+        "ZM,xJ%", 
+        "q\\:iV,i", 
+        "1zEIoC", 
+        "+1iQF\"", 
+        "){c~/|", 
+        "iJ7y?3r", 
+        "9QD'0t", 
+        "dju\"\\0", 
+        "9|6KIU", 
+        "{z7wMMs", 
+        "Ji*Okk", 
+        "Qbbcf<", 
+        "[4BSe&8", 
+        "x4+WY%", 
+        "3&aePe", 
+        "u0y`lqc", 
+        "'GYX#M", 
+        "~Tp6Z4", 
+        "T=0bc]", 
+        "-0n/$:", 
+        "@']9&3D", 
+        "Fo9<DZ", 
+        "Vko{|Ge", 
+        "rJC,b8", 
+        "6T(*c[^A", 
+        ">70^5vy", 
+        "m[IY/E", 
+        "2-*qP=", 
+        "?m_P=0c", 
+        "ptoUBIA", 
+        "uM8E+s?-$", 
+        "y>nGJe", 
+        "@1J?-&", 
+        "Z9l&q&", 
+        "0q9ONh", 
+        "=8a 0aFZ", 
+        "X\u001f6WjA", 
+        "-&wo7uW/", 
+        "T6jGR^u", 
+        "m^x`D+", 
+        "U($:yj", 
+        "7U*S8H", 
+        "]{r/>A", 
+        "$OiyW/eM", 
+        "9~;oMw", 
+        "p_mfiY", 
+        ":}Chxp", 
+        "cs@v1Ul`", 
+        "{<CNb\\$x", 
+        "fLF%CN}m@ ", 
+        "n86qU^", 
+        ".IX$3h", 
+        "i/EF,oo+", 
+        ">0.=U>IN", 
+        "%08S\u001f3", 
+        "}`f2v^", 
+        "!]bXUi.", 
+        "j`<lFM3gx", 
+        "Beq8=g{J^z", 
+        ")MsJ!hU", 
+        "r`7xIG>", 
+        "dNomk`%%", 
+        "}|EoU+", 
+        "JEX<bN4", 
+        "k?+awa", 
+        "T /)14U", 
+        "u,NIV-I", 
+        "pbM8w2", 
+        "]'X xC", 
+        " o-O~.Y", 
+        "RlqjkY", 
+        "fT(X+X<", 
+        "M|GDf'", 
+        "]'tjtiU", 
+        "b@8wjV", 
+        "%7sdG~S", 
+        "ZP/VwbX", 
+        "M6bv^o_", 
+        "\":x4m`", 
+        "S\\@Dg)2", 
+        ":gl6yl", 
+        ":$d(|zt", 
+        " `U;J-", 
+        "9XNB09Tf", 
+        "1]H`H5", 
+        "}2G2f(`", 
+        "dfdP>)", 
+        "m}7XTAW6", 
+        "q<}8*E", 
+        "f>}KY~", 
+        "1hN]dd", 
+        "^&,;x'", 
+        "Rb.>=kc", 
+        "Tuk|<4c", 
+        "tuH:}s", 
+        ";e`jqRM", 
+        "*'f5n|", 
+        "1\"2i$-", 
+        "qo==L\u001f$", 
+        "|<m\"_s", 
+        "Y\\^cg1", 
+        "o( Sp2", 
+        "7^)J6N", 
+        "*7!/{/", 
+        "Q1^L^9l", 
+        "Ng/+(.", 
+        "K7#ll'|", 
+        "~7LZ64", 
+        "rm2r1M", 
+        "f^:L,C", 
+        "8t(*<d_t", 
+        "vGUFmN#&*", 
+        "*']D[V&kl", 
+        "c8}wx6", 
+        "ledx,Sg", 
+        "'X43rL", 
+        "<5U\u001fNo", 
+        "-_uBuU", 
+        "{=CRY| F", 
+        "1cZZRN!W", 
+        "[88 1'", 
+        "L'=iSa`~n", 
+        "$CE^qihRA", 
+        "6x'<9Q", 
+        "uqI/48", 
+        "bxX_V w", 
+        " vlHqN", 
+        "6~Y'O%U", 
+        "^2$A}=", 
+        "mZT}.U", 
+        "D6U?VW<", 
+        "\\}=Z\\9", 
+        "e!Xws,", 
+        "kV!`T_", 
+        "#q`=Xm", 
+        "/t6e7<d", 
+        "Sc9c7B", 
+        "dJ|1x^", 
+        "2@-!+k", 
+        "#-<SZp", 
+        "+$hcuh", 
+        "&e/I@bZC", 
+        "N%@17W3,", 
+        "|KK}puK(", 
+        "sc'Nz.", 
+        "#@$ms0", 
+        "hKkwMF", 
+        "JCZ|tT6%", 
+        "r7b\\(>e", 
+        "/P?KD1", 
+        "=tudO.", 
+        "pRtE*j", 
+        "Pb.Rfz", 
+        "Rw5h:A", 
+        "d4@35.8", 
+        "vj9@n=y", 
+        "R@ }eb", 
+        "-Ld(aR,L", 
+        "qqr;,iO", 
+        "%%*:\u001faff", 
+        "@6tF(E", 
+        "<hU}E=\\", 
+        "t7C@c)3", 
+        "?j9t[OV", 
+        "p\"`im{", 
+        "lX*v*g :", 
+        "$ ?`^a", 
+        "*E?<`FT", 
+        "Av C/i", 
+        "F?CKw&qh", 
+        "7hfvFSn", 
+        "\\+W8wht", 
+        "YbH;Un1", 
+        "|3S&V ", 
+        "-``x()", 
+        "h*X5>|0", 
+        "xx/> .", 
+        "Oxg*2e", 
+        "_rqMj2", 
+        "9v~|p1*}", 
+        "KJfloU", 
+        "UDaFfW", 
+        "8[>lO ", 
+        "EMXV2[", 
+        "pxIV!c`", 
+        "u$G21y", 
+        "$v-.o3", 
+        "Ug|]q'", 
+        "Ww\u001fZTb*", 
+        "VP.V&c", 
+        "uFi^P7C", 
+        "C~Q|CpZ", 
+        "S\u001f;;Cb:E", 
+        "bERrs7", 
+        "b#E{6P", 
+        "GTtoylD", 
+        "zJz(#1d", 
+        "}$4jZG", 
+        "h+HUQ0+2", 
+        " Qvs)Z", 
+        "2eU^*5", 
+        "uT|v1(", 
+        "-<WyhVT~", 
+        "oS/3o:", 
+        "C[_c)z", 
+        "s!b*0!", 
+        ":x{jLS", 
+        "BC&z`LFF", 
+        "FoGGAM", 
+        "LV[o$W", 
+        "g1_4cT", 
+        "U=PvwE", 
+        "bEr4n&", 
+        "+|`. Z)\u001f24", 
+        "dW?b5/", 
+        "LyR.z#", 
+        "_E^7u-", 
+        "FkmfyH", 
+        "+dPn4]", 
+        "`y_6w,", 
+        "1\\6;<H", 
+        "29e6IB", 
+        ".#^#RN.", 
+        "pJOB%w", 
+        "G<Uo$?", 
+        "9lwJhO", 
+        "^RQR,5", 
+        "j|iLaR6xUq", 
+        "dH6p9+", 
+        "^=S\"'`", 
+        "!8PI?9E$|", 
+        "'FU\\F-Sh", 
+        "E#H.ih", 
+        "^ml040.", 
+        "}YSJdnaksjdnaksjndj", 
+        "@*\\AC:\\sro\\", 
+        "\\NEW 29 (valerka)\\6 (second) (priz)\\curismke\\aksiorra.vbp", 
+        "\\Settings\\", 
+        "Visible", 
+        "*Note: Contact the programmer to learn more about this.", 
+        "CSRS version 1", 
+        "Delete * From ", 
+        " Where ", 
+        "The adding of new entry cannot be done because '", 
+        "' is already", 
+        "exist in the record.Please check and change it.", 
+        "Note: Duplication of entries is not allowed in this form.", 
+        "SetFocus", 
+        "YSJdnaksjdnaksjndj", 
+        "ASKDMSKLmklasKDMLAS", 
+        "VS_VERSION_INFO", 
+        "VarFileInfo", 
+        "Translation", 
+        "StringFileInfo", 
+        "040904B0", 
+        "CompanyName", 
+        "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward.", 
+        "LegalTrademarks", 
+        "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward.", 
+        "ProductName", 
+        "So insisted received is occasion advanced honoured. Among ready to which up. Attacks smiling and may out assured moments man nothing outward.", 
+        "FileVersion", 
+        "3.56.1304", 
+        "ProductVersion", 
+        "3.56.1304", 
+        "InternalName", 
+        "Xeioaksmna", 
+        "OriginalFilename", 
+        "Xeioaksmna.exe", 
+        " a countrywide co", 
+        "patients with Myelodysplastic", 
+        "patients with Myelodysplastic"
+    ], 
+    "network": {
+        "tls": [], 
+        "udp": [
+            {
+                "src": "192.168.57.103", 
+                "dst": "192.168.57.255", 
+                "offset": 24, 
+                "time": 0.0, 
+                "dport": 137, 
+                "sport": 137
+            }, 
+            {
+                "src": "192.168.57.103", 
+                "dst": "239.255.255.250", 
+                "offset": 1840, 
+                "time": 1.5020370483398438e-05, 
+                "dport": 1900, 
+                "sport": 1044
+            }
+        ], 
+        "icmp": [], 
+        "http": [], 
+        "smtp": [], 
+        "tcp": [], 
+        "mitm": [], 
+        "hosts": [], 
+        "pcap_sha256": "c045d46805e5d50c283f091d65230875af43bc2f63b44d9c7e09587ff65f0538", 
+        "dns": [], 
+        "http_ex": [], 
+        "domains": [], 
+        "dead_hosts": [], 
+        "sorted_pcap_sha256": "67b6e9e445d19338557ca433cf565bfc015c1926e6d2239aab6d49c94d4e6d3d", 
+        "irc": [], 
+        "https_ex": []
+    }
+}

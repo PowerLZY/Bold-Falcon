@@ -1,0 +1,2915 @@
+{
+    "info": {
+        "category": "file", 
+        "score": 3.0, 
+        "package": "", 
+        "started": "2016-02-24 04:10:45", 
+        "route": "none", 
+        "custom": "", 
+        "machine": {
+            "status": "stopped", 
+            "name": "xp4", 
+            "label": "xp4", 
+            "manager": "VirtualBox", 
+            "started_on": "2016-02-24 04:10:45", 
+            "shutdown_on": "2016-02-24 04:11:27"
+        }, 
+        "ended": "2016-02-24 04:11:29", 
+        "version": "2.0-dev", 
+        "platform": "", 
+        "owner": "", 
+        "options": "json.calls=0", 
+        "id": 51, 
+        "duration": 44
+    }, 
+    "signatures": [
+        {
+            "families": [], 
+            "description": "The executable has PE anomalies (could be a false positive)", 
+            "severity": 1, 
+            "marks": [
+                {
+                    "category": "section", 
+                    "ioc": ".aspack", 
+                    "type": "ioc"
+                }
+            ], 
+            "references": [], 
+            "name": "pe_features"
+        }, 
+        {
+            "families": [], 
+            "description": "One or more potentially interesting buffers were extracted, these generally contain injected code, configuration data, etc.", 
+            "severity": 2, 
+            "marks": [], 
+            "references": [], 
+            "name": "dumped_buffer"
+        }, 
+        {
+            "families": [], 
+            "description": "Performs some HTTP requests", 
+            "severity": 2, 
+            "marks": [], 
+            "references": [], 
+            "name": "network_http"
+        }, 
+        {
+            "families": [], 
+            "description": "Allocates read-write-execute memory (usually to unpack itself)", 
+            "severity": 2, 
+            "marks": [
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtAllocateVirtualMemory", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 131072, 
+                            "protection": 64, 
+                            "process_handle": "0x00000064", 
+                            "allocation_type": 12288, 
+                            "base_address": "0x00400000"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {
+                            "protection": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": "MEM_COMMIT|MEM_RESERVE"
+                        }
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 362
+                }
+            ], 
+            "references": [], 
+            "name": "allocates_rwx"
+        }, 
+        {
+            "families": [], 
+            "description": "One or more of the buffers contains an embedded PE file", 
+            "severity": 3, 
+            "marks": [
+                {
+                    "category": "buffer", 
+                    "ioc": "Buffer with sha1: 16a3bd080d6e90d557c14cb8c7262780eed5cb60", 
+                    "type": "ioc"
+                }
+            ], 
+            "references": [], 
+            "name": "dumped_buffer2"
+        }, 
+        {
+            "families": [], 
+            "description": "Executed a process and injected code into it, probably while unpacking", 
+            "severity": 5, 
+            "marks": [
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "CreateProcessInternalW", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "thread_identifier": 1208, 
+                            "thread_handle": "0x00000068", 
+                            "process_identifier": 1204, 
+                            "current_directory": "", 
+                            "filepath": "", 
+                            "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                            "filepath_r": "", 
+                            "creation_flags": 4, 
+                            "process_handle": "0x00000064", 
+                            "inherit_handles": 0
+                        }, 
+                        "time": 1456289474.25, 
+                        "tid": 600, 
+                        "flags": {
+                            "creation_flags": "CREATE_SUSPENDED"
+                        }
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 360
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtUnmapViewOfSection", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 4096, 
+                            "base_address": "0x00400000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 361
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtAllocateVirtualMemory", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "region_size": 131072, 
+                            "protection": 64, 
+                            "process_handle": "0x00000064", 
+                            "allocation_type": 12288, 
+                            "base_address": "0x00400000"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {
+                            "protection": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": "MEM_COMMIT|MEM_RESERVE"
+                        }
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 362
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "MZ\u0090\u0000\u0003\u0000\u0000\u0000\u0004\u0000\u0000\u0000\u00ff\u00ff\u0000\u0000\u00b8\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00c8\u0000\u0000\u0000\u000e\u001f\u00ba\u000e\u0000\u00b4\t\u00cd!\u00b8\u0001L\u00cd!This program cannot be run in DOS mode.\r\r\n$\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00f1\u00f1\u00ad\u00ca\u00b5\u0090\u00c3\u0099\u00b5\u0090\u00c3\u0099\u00b5\u0090\u00c3\u0099\u00f3\u00c1\u001c\u0099\u00b1\u0090\u00c3\u0099\u00b8\u00c2\"\u0099\u0094\u0090\u00c3\u0099\u00b8\u00c2\u001d\u0099\u00b4\u0090\u00c3\u0099Rich\u00b5\u0090\u00c3\u0099\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000PE\u0000\u0000L\u0001\u0004\u0000\u00dbn:S\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00e0\u0000\u0002\u0001\u000b\u0001\f\u0000\u0000r\u0001\u0000\u0000V\u0000\u0000\u0000\u0000\u0000\u0000\u00f0~\u0001\u0000\u0000\u0010\u0000\u0000\u0000\u0090\u0001\u0000\u0000\u0000@\u0000\u0000\u0010\u0000\u0000\u0000\u0002\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000@\u0080\u0000\u0000\u0010\u0000\u0000\u0010\u0000\u0000\u0000\u0000\u0010\u0000\u0000\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00f0\u0001\u0000\u00a4\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.text\u0000\u0000\u0000\u008fp\u0001\u0000\u0000\u0010\u0000\u0000\u0000r\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000 \u0000\u0000`.rdata\u0000\u0000\u00a4\u0000\u0000\u0000\u0000\u0090\u0001\u0000\u0000\u0002\u0000\u0000\u0000v\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000@.data\u0000\u0000\u00000M\u0000\u0000\u0000\u00a0\u0001\u0000\u0000<\u0000\u0000\u0000x\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000\u00c0.reloc\u0000\u0000\u00a4\u0004\u0000\u0000\u0000\u00f0\u0001\u0000\u0000\u0006\u0000\u0000\u0000\u00b4\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000B\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", 
+                            "base_address": "0x00400000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 363
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "buffer": "d4d8f05d1a1cb6182a786e1b89348d054c75d4c5", 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "", 
+                            "base_address": "0x00401000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 364
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\u0000\u0000\u0000\u0000|\u0000\u0000\u0000|\u0000\u0000\u0000;\u0000\u0000\u0000~\u0000\u0000\u0000%02X\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00df\u00b0\b\u0099\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000%02x\u0000\u0000\u0000\u0000%02x\u0000\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000%\u0000X\u0000\u0000\u0000\u0000\u0000*/*\u0000\\\u0000\u0000\u0000%\u0000X\u0000\u0000\u0000\u0000\u0000%\u0000X\u0000\u0000\u0000\u0000\u0000/\u0000\u0000\u0000/\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000\\\u0000\u0000\u0000*\u0000\u0000\u0000\\\u0000\u0000\u0000*\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", 
+                            "base_address": "0x00419000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 365
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "buffer": "64a582dfeea4dcfe0c595ace151a971aa3deca41", 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "", 
+                            "base_address": "0x0041a000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 366
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "\u0000\u0010\u0000\u0000x\u0000\u0000\u0000\u0004:9:t:\u0098:\u00b1:\u00cb:\u00d4:\u00f1:\u000b;%;?;Y;s;\u008d;\u00a7;\u00c1;\u00db;\u00f5;\u000f<)<C<]<w<\u0091<\u00ab<\u00c5<\u00df<\u00f9<\u0013=-=G=a={=\u0095=\u00af=\u00c9=\u00e6=\u0003> >=>Z>w>\u0094>\u00b1>\u00ce>\u00eb>\b?%?B?_?|?\u0099?\u00b6?\u00d3?\u00f0?\u0000\u0000\u0000 \u0000\u0000$\u0001\u0000\u0000\r0*0G0d0\u00810\u009e0\u00bb0\u00d80\u00f50\u00121/1L1i1\u00861\u00a31\u00c01\u00dd1\u00fa1\u0017242Q2n2\u008b2\u00a82\u00c52\u00e22\u00ff2\u001c393V3s3\u00903\u00ad3\u00ca3\u00e73\u00044!4>4[4x4\u00954\u00b24\u00cf4\u00ec4\t5&5C5`5}5\u009a5\u00b75\u00d45\u00f15\u000e6+6H6e6\u00826\u009f6\u00bc6\u00d96\u00f66\u0013707M7j7\u00877\u00a47\u00c17\u00de7\u00fb7\u0018858R8o8\u008c8\u00a98\u00c68\u00e38\u00009\u001d9:9W9t9\u00919\u00ae9\u00cb9\u00e89\u0005:\":?:\\:y:\u0096:\u00b3:\u00d0:\u00ed:\n;';D;a;~;\u009b;\u00b8;\u00d5;\u00f2;\u000f<,<I<f<\u0083<\u00a0<\u00bd<\u00da<\u00f7<\u0014=1=N=k=\u0088=\u00a5=\u00c2=\u00df=\u00fc=\u0019>6>S>p>\u008d>\u00aa>\u00c7>\u00e4>\u0001?\u001e?;?X?u?\u0092?\u00af?\u00cc?\u00e9?\u0000\u0000\u00000\u0000\u0000|\u0000\u0000\u0000\u00060#0@0]0z0\u00970\u00b40\u00d10\u00ee0\u000b1(1E1b1\u007f1\u009c1\u00b91\u00d61\u00f31\u00102-2J2g2\u00842\u00a12\u00be2\u00db2\u00f82\u0015323O3l3\u00893\u00a63\u00c33\u00e03\u00fd3\u001a474T4q4\u008e4\u00ab4\u00c84\u00e54\u00025\u001f5<5Y5v5\u00935\u00b05\u00cd5\u00ea5\u00076\u009a6r8\u00959\u00cd9\u0000@\u0000\u0000\u0014\u0000\u0000\u0000\u00ca4g6\u00996\u00d1:\u000b=\u0000\u0000\u0000`\u0000\u0000,\u0000\u0000\u0000|1\u00991\u00042\u009e4\u00e24\u00045$5d5j5{5\u00915\u00a35\u00ac5\u00b55\u00d45\u00e55\u00f65\u0000\u0000\u0000p\u0000\u0000\u0018\u0000\u0000\u0000*8\u00aa8.9\u00b09>:\u00d0:j>\u0000\u0000\u0000\u0090\u0000\u0000D\u0000\u0000\u0000o2\u00e62T3[3\u001b5F6f6\u00dc6\u00ee6\u00907d8v8\"9)9,=0=4=8=<=@=D=\u0018>\u001c> >$>(>,>0>4>\u0000\u0000\u0000\u00a0\u0000\u0000$\u0000\u0000\u0000\u00d64\u00dc4\u00e4405o5\u00bc5\u00c85\b6\u00176\u00826\u00946\u00c16\u00d06\u0000\u0000\u0000\u00b0\u0000\u0000\f\u0000\u0000\u0000%8\u0000\u0000\u0000\u00d0\u0000\u0000L\u0000\u0000\u0000J4\u00b04\u00b54p=\u00df=\u001c>,>E>R>\\>|>\u008c>\u00a6>\u00b3>\u00bd>\u00d0>\u00e3>\u0004?\u0011?\"?(?1?8?A?J?\u00ba?\u00c0?\u00cb?\u00d3?\u00d9?\u00e5?\u00ec?\u00f4?\u00fb?\u0000\u00e0\u0000\u0000\u001c\u0000\u0000\u0000\u00050\u000b0\u0012090\u00820\u00001\u001e1'1T1\u00e47\u0000\u00f0\u0000\u0000\u0010\u0000\u0000\u000001/9\u00e09\u0000\u0000\u0000\u0000\u0001\u0000\f\u0000\u0000\u0000\u00c17\u0003<\u0000\u0010\u0001\u0000\u0010\u0000\u0000\u0000\u008c7\u00a68&9\u00df:\u0000 \u0001\u0000\f\u0000\u0000\u0000\u00dd=\u0000\u0000\u00000\u0001\u0000<\u0000\u0000\u0000\u00d71\u001e2F2\\2\u00852\u000f8#8(898?8G8Y8_8\u00848\u00928\u00a78\u00ad8\u00b68\u00cb8\u00ed8\u000f9\u0015959G9O;9<\u0000@\u0001\u0000`\u0000\u0000\u0000p1\u00803\u00983\u00a93\u00c43\u00d53\u00de3\u00e73\u00f63\u000f4U4s4\u009f4\u00be4\u00fc4\u00b65(7\u00977\u00d29T:\u00fb:b<V=l=\u0082=\u00db=>>\u008f>\u00d3>\u00dc>\u00ec>\u00f5>\u0006?\u000e?B?G?Z?_?r?w?\u008b?\u00e8?\u00ef?\u0000\u0000\u0000P\u0001\u0000<\u0000\u0000\u0000\u00030\n0\u001f0%0:0C0h0<3B3\u00a03\u00a63\u00014\u00074\u00d74\u00f84\u0016545R5p5\u00a25\u00b85\u00e55\u00fb5D<\\=q=\u0000p\u0001\u0000H\u0000\u0000\u0000j0z0\u00920\u009c0\u00a90\u00ff0\u000f1g1t1\u00173\u00c23\u00d83\u000e7$7`889\u001c=2=P=`=\u0095=\u00d5=1>\u0097>\u00a2>/?I?O?Z?l?w?\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", 
+                            "base_address": "0x0041f000", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 367
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtGetContextThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000068"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 368
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "WriteProcessMemory", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "buffer": "\u0000\u0000@\u0000", 
+                            "base_address": "0x7ffde008", 
+                            "process_handle": "0x00000064"
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 369
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtSetContextThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000068", 
+                            "registers": {
+                                "eip": 2088831079, 
+                                "esp": 1245180, 
+                                "edi": 2088822419, 
+                                "eax": 4292336, 
+                                "ebp": 2147347456, 
+                                "edx": 1205852, 
+                                "ebx": 2147344384, 
+                                "esi": 1, 
+                                "ecx": 2088822435
+                            }
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 370
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtResumeThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000068", 
+                            "suspend_count": 1
+                        }, 
+                        "time": 1456289505.25, 
+                        "tid": 600, 
+                        "flags": {}
+                    }, 
+                    "pid": 572, 
+                    "type": "call", 
+                    "cid": 371
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "CreateProcessInternalW", 
+                        "return_value": 1, 
+                        "arguments": {
+                            "thread_identifier": 1272, 
+                            "thread_handle": "0x00000074", 
+                            "process_identifier": 716, 
+                            "current_directory": "", 
+                            "filepath": "C:\\WINDOWS\\explorer.exe", 
+                            "command_line": "", 
+                            "filepath_r": "C:\\WINDOWS\\explorer.exe", 
+                            "creation_flags": 4, 
+                            "process_handle": "0x00000070", 
+                            "inherit_handles": 0
+                        }, 
+                        "time": 1456289724.5, 
+                        "tid": 1208, 
+                        "flags": {
+                            "creation_flags": "CREATE_SUSPENDED"
+                        }
+                    }, 
+                    "pid": 1204, 
+                    "type": "call", 
+                    "cid": 313
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "buffer": "16a3bd080d6e90d557c14cb8c7262780eed5cb60", 
+                        "api": "NtMapViewOfSection", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "section_handle": "0x00000064", 
+                            "commit_size": 131072, 
+                            "win32_protect": 64, 
+                            "buffer": "", 
+                            "process_handle": "0x00000070", 
+                            "allocation_type": 0, 
+                            "section_offset": 0, 
+                            "view_size": 131072, 
+                            "base_address": "0x000c0000"
+                        }, 
+                        "time": 1456289739.5, 
+                        "tid": 1208, 
+                        "flags": {
+                            "win32_protect": "PAGE_EXECUTE_READWRITE", 
+                            "allocation_type": ""
+                        }
+                    }, 
+                    "pid": 1204, 
+                    "type": "call", 
+                    "cid": 316
+                }, 
+                {
+                    "call": {
+                        "category": "process", 
+                        "status": 1, 
+                        "stacktrace": [], 
+                        "api": "NtResumeThread", 
+                        "return_value": 0, 
+                        "arguments": {
+                            "thread_handle": "0x00000064", 
+                            "suspend_count": 1
+                        }, 
+                        "time": 1456289755.5, 
+                        "tid": 1208, 
+                        "flags": {}
+                    }, 
+                    "pid": 1204, 
+                    "type": "call", 
+                    "cid": 320
+                }
+            ], 
+            "references": [], 
+            "name": "injection_runpe"
+        }
+    ], 
+    "target": {
+        "category": "file", 
+        "file": {
+            "yara": [], 
+            "sha1": "36bbd10176f2e40a4a39467d6a1d900862f36cd5", 
+            "name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040", 
+            "type": "PE32 executable (GUI) Intel 80386, for MS Windows", 
+            "sha256": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040", 
+            "urls": [], 
+            "crc32": "B6FB42E0", 
+            "path": "/home/cuckoo/cuckoo/storage/binaries/7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040", 
+            "ssdeep": "3072:w2d4nzXj7qP/3f/7PrAIipc7SXmbDeK5pxzZrIxWzCqR9h7rxiQKglN67TeWty:ww4nzzaf/bia2XmugrIxWhrxiQflN4e", 
+            "size": 260608, 
+            "sha512": "c9c32fca3f0c82540760a47999c4d8cca7579b48ec3052f1d00673053fd5de0cb25033c5ce3bee5b5fe06af1a0123cfbfffc38639908989e08966f9ebd0d910b", 
+            "md5": "85f830c85cc881358dfb631ef1f54a1a"
+        }
+    }, 
+    "buffer": [
+        {
+            "yara": [
+                {
+                    "meta": {
+                        "description": "Matched shellcode byte patterns", 
+                        "author": "nex"
+                    }, 
+                    "name": "shellcode", 
+                    "strings": [
+                        "{ 8B EC E8 }", 
+                        "{ 8B EC 81 EC }", 
+                        "{ 64 A1 30 }", 
+                        "MZ"
+                    ]
+                }
+            ], 
+            "sha1": "d4d8f05d1a1cb6182a786e1b89348d054c75d4c5", 
+            "name": "d4d8f05d1a1cb6182a786e1b89348d054c75d4c5", 
+            "type": "data", 
+            "sha256": "a70f89ea6a234e2bd5ea38c3dae632026349bed8732fd5fd3a5ebd5ceeed1955", 
+            "urls": [], 
+            "crc32": "CC46C5B8", 
+            "path": "/home/cuckoo/cuckoo/storage/analyses/51/buffer/d4d8f05d1a1cb6182a786e1b89348d054c75d4c5", 
+            "ssdeep": "1536:Ahgwm1oSOZI39yq7XertnjSZddxn3T++jeR67y/9FXckpUMwx1vlIgRbze3QoKJJ:Plc0urtjAdL3Swhy/TXckGt1vlIgtsz4", 
+            "size": 94720, 
+            "sha512": "a79533f95cf9a77a4e8eade803b764194fc6b27a6962a8440b94cf362dedcab4450a4c500cf2cd959321feab7c26671e75f42f231652872bcacabb0b5760af99", 
+            "md5": "22dd25bc8665f970ffb151310e6a62da"
+        }, 
+        {
+            "yara": [], 
+            "sha1": "64a582dfeea4dcfe0c595ace151a971aa3deca41", 
+            "name": "64a582dfeea4dcfe0c595ace151a971aa3deca41", 
+            "type": "lif file", 
+            "sha256": "e3ce7d1ed8286616437de597858c61721f252f62baeedb308d5c11b752de457d", 
+            "urls": [], 
+            "crc32": "7880BE99", 
+            "path": "/home/cuckoo/cuckoo/storage/analyses/51/buffer/64a582dfeea4dcfe0c595ace151a971aa3deca41", 
+            "ssdeep": "192:nFpwHVdS6P4EqP565lgpgbBtM8kgDdHdzs5Aq73Fz:zwHLpgqbrML0dH", 
+            "size": 15360, 
+            "sha512": "1865d8a157f0cb7276bd6eabaaf47d17b3c4270c94cfec25d40ada7d9edae61ec4efe96c39ec40386077c17738e8ba276321e8fd7835785c67a31b49da708df3", 
+            "md5": "b2c68034afc66a3eaeb2c35af97f64aa"
+        }, 
+        {
+            "yara": [], 
+            "sha1": "16a3bd080d6e90d557c14cb8c7262780eed5cb60", 
+            "name": "16a3bd080d6e90d557c14cb8c7262780eed5cb60", 
+            "type": "PE32 executable (GUI) Intel 80386, for MS Windows", 
+            "sha256": "6ed6ca9f8f2ba1efd3f6f64339136e875493d4e7fbbc45ee4f305ebab7b14186", 
+            "urls": [], 
+            "crc32": "6343F6EA", 
+            "path": "/home/cuckoo/cuckoo/storage/analyses/51/buffer/16a3bd080d6e90d557c14cb8c7262780eed5cb60", 
+            "ssdeep": "3072:Wlc0urtjAdL3Swhy/TXckGt1vlIgtsz41:WufltwhyLot1dz5", 
+            "size": 131072, 
+            "sha512": "03915dba27db7df7eb982eec102636a9da542184be40b599095e3b43133a99b0d4cd7ec36b0435fc15ade515e1126016f541a2cce549099f9a688e1880202f9d", 
+            "md5": "d6d8e2212135105b2f829cac968c623f"
+        }
+    ], 
+    "virustotal": {
+        "summary": {
+            "error": "resource has not been scanned yet"
+        }
+    }, 
+    "static": {
+        "pdb_path": null, 
+        "pe_imports": [
+            {
+                "imports": [
+                    {
+                        "name": "EnumWindows", 
+                        "address": "0x4161d0"
+                    }, 
+                    {
+                        "name": "GetWindowTextW", 
+                        "address": "0x4161d4"
+                    }, 
+                    {
+                        "name": "IsWindowEnabled", 
+                        "address": "0x4161d8"
+                    }, 
+                    {
+                        "name": "EnumChildWindows", 
+                        "address": "0x4161dc"
+                    }, 
+                    {
+                        "name": "PostMessageW", 
+                        "address": "0x4161e0"
+                    }, 
+                    {
+                        "name": "GetNextDlgTabItem", 
+                        "address": "0x4161e4"
+                    }, 
+                    {
+                        "name": "GetDlgItem", 
+                        "address": "0x4161e8"
+                    }, 
+                    {
+                        "name": "DestroyWindow", 
+                        "address": "0x4161ec"
+                    }, 
+                    {
+                        "name": "CreateDialogIndirectParamW", 
+                        "address": "0x4161f0"
+                    }, 
+                    {
+                        "name": "SetActiveWindow", 
+                        "address": "0x4161f4"
+                    }, 
+                    {
+                        "name": "GetActiveWindow", 
+                        "address": "0x4161f8"
+                    }, 
+                    {
+                        "name": "GetWindowTextLengthW", 
+                        "address": "0x4161fc"
+                    }, 
+                    {
+                        "name": "SystemParametersInfoA", 
+                        "address": "0x416200"
+                    }, 
+                    {
+                        "name": "GetDlgCtrlID", 
+                        "address": "0x416204"
+                    }, 
+                    {
+                        "name": "DeferWindowPos", 
+                        "address": "0x416208"
+                    }, 
+                    {
+                        "name": "EqualRect", 
+                        "address": "0x41620c"
+                    }, 
+                    {
+                        "name": "ScreenToClient", 
+                        "address": "0x416210"
+                    }, 
+                    {
+                        "name": "AdjustWindowRectEx", 
+                        "address": "0x416214"
+                    }, 
+                    {
+                        "name": "RegisterClassW", 
+                        "address": "0x416218"
+                    }, 
+                    {
+                        "name": "GetClassInfoW", 
+                        "address": "0x41621c"
+                    }, 
+                    {
+                        "name": "SetWindowContextHelpId", 
+                        "address": "0x416220"
+                    }, 
+                    {
+                        "name": "ShowOwnedPopups", 
+                        "address": "0x416224"
+                    }, 
+                    {
+                        "name": "GetSysColorBrush", 
+                        "address": "0x416228"
+                    }, 
+                    {
+                        "name": "UnregisterClassW", 
+                        "address": "0x41622c"
+                    }, 
+                    {
+                        "name": "CharUpperW", 
+                        "address": "0x416230"
+                    }, 
+                    {
+                        "name": "CharNextW", 
+                        "address": "0x416234"
+                    }, 
+                    {
+                        "name": "InvalidateRgn", 
+                        "address": "0x416238"
+                    }, 
+                    {
+                        "name": "GetNextDlgGroupItem", 
+                        "address": "0x41623c"
+                    }, 
+                    {
+                        "name": "MessageBeep", 
+                        "address": "0x416240"
+                    }, 
+                    {
+                        "name": "RegisterClipboardFormatW", 
+                        "address": "0x416244"
+                    }, 
+                    {
+                        "name": "PostThreadMessageW", 
+                        "address": "0x416248"
+                    }, 
+                    {
+                        "name": "SetMenuItemBitmaps", 
+                        "address": "0x41624c"
+                    }, 
+                    {
+                        "name": "GetMenuCheckMarkDimensions", 
+                        "address": "0x416250"
+                    }, 
+                    {
+                        "name": "EnableMenuItem", 
+                        "address": "0x416254"
+                    }, 
+                    {
+                        "name": "CheckMenuItem", 
+                        "address": "0x416258"
+                    }, 
+                    {
+                        "name": "RegisterWindowMessageW", 
+                        "address": "0x41625c"
+                    }, 
+                    {
+                        "name": "SendDlgItemMessageW", 
+                        "address": "0x416260"
+                    }, 
+                    {
+                        "name": "SendDlgItemMessageA", 
+                        "address": "0x416264"
+                    }, 
+                    {
+                        "name": "WinHelpW", 
+                        "address": "0x416268"
+                    }, 
+                    {
+                        "name": "GetCapture", 
+                        "address": "0x41626c"
+                    }, 
+                    {
+                        "name": "GetClassLongW", 
+                        "address": "0x416270"
+                    }, 
+                    {
+                        "name": "GetForegroundWindow", 
+                        "address": "0x416274"
+                    }, 
+                    {
+                        "name": "GetLastActivePopup", 
+                        "address": "0x416278"
+                    }, 
+                    {
+                        "name": "BeginDeferWindowPos", 
+                        "address": "0x41627c"
+                    }, 
+                    {
+                        "name": "EndDeferWindowPos", 
+                        "address": "0x416280"
+                    }, 
+                    {
+                        "name": "GetTopWindow", 
+                        "address": "0x416284"
+                    }, 
+                    {
+                        "name": "GetMessageTime", 
+                        "address": "0x416288"
+                    }, 
+                    {
+                        "name": "PeekMessageW", 
+                        "address": "0x41628c"
+                    }, 
+                    {
+                        "name": "MapWindowPoints", 
+                        "address": "0x416290"
+                    }, 
+                    {
+                        "name": "TrackPopupMenu", 
+                        "address": "0x416294"
+                    }, 
+                    {
+                        "name": "GetKeyState", 
+                        "address": "0x416298"
+                    }, 
+                    {
+                        "name": "UpdateWindow", 
+                        "address": "0x41629c"
+                    }, 
+                    {
+                        "name": "MessageBoxW", 
+                        "address": "0x4162a0"
+                    }, 
+                    {
+                        "name": "GetClassInfoExW", 
+                        "address": "0x4162a4"
+                    }, 
+                    {
+                        "name": "GetWindowThreadProcessId", 
+                        "address": "0x4162a8"
+                    }
+                ], 
+                "dll": "USER32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetFileTitleW", 
+                        "address": "0x416000"
+                    }, 
+                    {
+                        "name": "GetSaveFileNameW", 
+                        "address": "0x416004"
+                    }
+                ], 
+                "dll": "COMDLG32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CoTaskMemAlloc", 
+                        "address": "0x4162c0"
+                    }, 
+                    {
+                        "name": "OleFlushClipboard", 
+                        "address": "0x4162c4"
+                    }, 
+                    {
+                        "name": "CLSIDFromString", 
+                        "address": "0x4162c8"
+                    }, 
+                    {
+                        "name": "CoGetClassObject", 
+                        "address": "0x4162cc"
+                    }, 
+                    {
+                        "name": "StgOpenStorageOnILockBytes", 
+                        "address": "0x4162d0"
+                    }, 
+                    {
+                        "name": "CoTaskMemFree", 
+                        "address": "0x4162d4"
+                    }, 
+                    {
+                        "name": "CreateILockBytesOnHGlobal", 
+                        "address": "0x4162d8"
+                    }, 
+                    {
+                        "name": "OleUninitialize", 
+                        "address": "0x4162dc"
+                    }, 
+                    {
+                        "name": "CoFreeUnusedLibraries", 
+                        "address": "0x4162e0"
+                    }, 
+                    {
+                        "name": "OleInitialize", 
+                        "address": "0x4162e4"
+                    }, 
+                    {
+                        "name": "CoRegisterMessageFilter", 
+                        "address": "0x4162e8"
+                    }, 
+                    {
+                        "name": "CoRevokeClassObject", 
+                        "address": "0x4162ec"
+                    }, 
+                    {
+                        "name": "OleIsCurrentClipboard", 
+                        "address": "0x4162f0"
+                    }, 
+                    {
+                        "name": "StgCreateDocfileOnILockBytes", 
+                        "address": "0x4162f4"
+                    }, 
+                    {
+                        "name": "CLSIDFromProgID", 
+                        "address": "0x4162f8"
+                    }
+                ], 
+                "dll": "ole32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "CreateDIBitmap", 
+                        "address": "0x41600c"
+                    }, 
+                    {
+                        "name": "CreateBitmapIndirect", 
+                        "address": "0x416010"
+                    }, 
+                    {
+                        "name": "AddFontResourceA", 
+                        "address": "0x416014"
+                    }, 
+                    {
+                        "name": "CreateFontIndirectW", 
+                        "address": "0x416018"
+                    }, 
+                    {
+                        "name": "GetTextMetricsW", 
+                        "address": "0x41601c"
+                    }, 
+                    {
+                        "name": "GetTextAlign", 
+                        "address": "0x416020"
+                    }, 
+                    {
+                        "name": "GetCurrentObject", 
+                        "address": "0x416024"
+                    }, 
+                    {
+                        "name": "SetPixel", 
+                        "address": "0x416028"
+                    }, 
+                    {
+                        "name": "GetPixel", 
+                        "address": "0x41602c"
+                    }, 
+                    {
+                        "name": "SetBkColor", 
+                        "address": "0x416030"
+                    }, 
+                    {
+                        "name": "AnimatePalette", 
+                        "address": "0x416034"
+                    }, 
+                    {
+                        "name": "GetObjectW", 
+                        "address": "0x416038"
+                    }, 
+                    {
+                        "name": "GetDeviceCaps", 
+                        "address": "0x41603c"
+                    }, 
+                    {
+                        "name": "TextOutW", 
+                        "address": "0x416040"
+                    }, 
+                    {
+                        "name": "GetTextExtentPoint32W", 
+                        "address": "0x416044"
+                    }, 
+                    {
+                        "name": "CreatePen", 
+                        "address": "0x416048"
+                    }, 
+                    {
+                        "name": "CreateFontW", 
+                        "address": "0x41604c"
+                    }, 
+                    {
+                        "name": "DeleteDC", 
+                        "address": "0x416050"
+                    }, 
+                    {
+                        "name": "BitBlt", 
+                        "address": "0x416054"
+                    }, 
+                    {
+                        "name": "SelectObject", 
+                        "address": "0x416058"
+                    }, 
+                    {
+                        "name": "CreateCompatibleDC", 
+                        "address": "0x41605c"
+                    }, 
+                    {
+                        "name": "CreateRectRgn", 
+                        "address": "0x416060"
+                    }, 
+                    {
+                        "name": "BeginPath", 
+                        "address": "0x416064"
+                    }, 
+                    {
+                        "name": "CreateBitmap", 
+                        "address": "0x416068"
+                    }, 
+                    {
+                        "name": "ArcTo", 
+                        "address": "0x41606c"
+                    }
+                ], 
+                "dll": "GDI32.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "VerQueryValueA", 
+                        "address": "0x4162b0"
+                    }, 
+                    {
+                        "name": "GetFileVersionInfoA", 
+                        "address": "0x4162b4"
+                    }, 
+                    {
+                        "name": "GetFileVersionInfoSizeA", 
+                        "address": "0x4162b8"
+                    }
+                ], 
+                "dll": "VERSION.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "GetModuleFileNameExW", 
+                        "address": "0x4161b0"
+                    }, 
+                    {
+                        "name": "GetModuleInformation", 
+                        "address": "0x4161b4"
+                    }, 
+                    {
+                        "name": "EnumProcesses", 
+                        "address": "0x4161b8"
+                    }, 
+                    {
+                        "name": "EnumProcessModules", 
+                        "address": "0x4161bc"
+                    }
+                ], 
+                "dll": "PSAPI.DLL"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "PathFindExtensionA", 
+                        "address": "0x4161c4"
+                    }, 
+                    {
+                        "name": "PathFindFileNameA", 
+                        "address": "0x4161c8"
+                    }
+                ], 
+                "dll": "SHLWAPI.dll"
+            }, 
+            {
+                "imports": [
+                    {
+                        "name": "HeapSize", 
+                        "address": "0x416074"
+                    }, 
+                    {
+                        "name": "HeapAlloc", 
+                        "address": "0x416078"
+                    }, 
+                    {
+                        "name": "GetStringTypeW", 
+                        "address": "0x41607c"
+                    }, 
+                    {
+                        "name": "IsValidLocale", 
+                        "address": "0x416080"
+                    }, 
+                    {
+                        "name": "EnumSystemLocalesA", 
+                        "address": "0x416084"
+                    }, 
+                    {
+                        "name": "GetLocaleInfoA", 
+                        "address": "0x416088"
+                    }, 
+                    {
+                        "name": "GetLocaleInfoW", 
+                        "address": "0x41608c"
+                    }, 
+                    {
+                        "name": "GetUserDefaultLCID", 
+                        "address": "0x416090"
+                    }, 
+                    {
+                        "name": "DeleteCriticalSection", 
+                        "address": "0x416094"
+                    }, 
+                    {
+                        "name": "InitializeCriticalSectionAndSpinCount", 
+                        "address": "0x416098"
+                    }, 
+                    {
+                        "name": "IsProcessorFeaturePresent", 
+                        "address": "0x41609c"
+                    }, 
+                    {
+                        "name": "WideCharToMultiByte", 
+                        "address": "0x4160a0"
+                    }, 
+                    {
+                        "name": "MultiByteToWideChar", 
+                        "address": "0x4160a4"
+                    }, 
+                    {
+                        "name": "HeapFree", 
+                        "address": "0x4160a8"
+                    }, 
+                    {
+                        "name": "GetConsoleMode", 
+                        "address": "0x4160ac"
+                    }, 
+                    {
+                        "name": "SetConsoleMode", 
+                        "address": "0x4160b0"
+                    }, 
+                    {
+                        "name": "ReadConsoleInputA", 
+                        "address": "0x4160b4"
+                    }, 
+                    {
+                        "name": "Sleep", 
+                        "address": "0x4160b8"
+                    }, 
+                    {
+                        "name": "HeapQueryInformation", 
+                        "address": "0x4160bc"
+                    }, 
+                    {
+                        "name": "GetLastError", 
+                        "address": "0x4160c0"
+                    }, 
+                    {
+                        "name": "GetCurrentThreadId", 
+                        "address": "0x4160c4"
+                    }, 
+                    {
+                        "name": "SetLastError", 
+                        "address": "0x4160c8"
+                    }, 
+                    {
+                        "name": "GetModuleHandleW", 
+                        "address": "0x4160cc"
+                    }, 
+                    {
+                        "name": "HeapReAlloc", 
+                        "address": "0x4160d0"
+                    }, 
+                    {
+                        "name": "ExitProcess", 
+                        "address": "0x4160d4"
+                    }, 
+                    {
+                        "name": "WriteFile", 
+                        "address": "0x4160d8"
+                    }, 
+                    {
+                        "name": "TlsFree", 
+                        "address": "0x4160dc"
+                    }, 
+                    {
+                        "name": "TlsSetValue", 
+                        "address": "0x4160e0"
+                    }, 
+                    {
+                        "name": "TlsGetValue", 
+                        "address": "0x4160e4"
+                    }, 
+                    {
+                        "name": "TlsAlloc", 
+                        "address": "0x4160e8"
+                    }, 
+                    {
+                        "name": "IsValidCodePage", 
+                        "address": "0x4160ec"
+                    }, 
+                    {
+                        "name": "GetOEMCP", 
+                        "address": "0x4160f0"
+                    }, 
+                    {
+                        "name": "GetACP", 
+                        "address": "0x4160f4"
+                    }, 
+                    {
+                        "name": "GetCPInfo", 
+                        "address": "0x4160f8"
+                    }, 
+                    {
+                        "name": "GetCurrentProcess", 
+                        "address": "0x4160fc"
+                    }, 
+                    {
+                        "name": "TerminateProcess", 
+                        "address": "0x416100"
+                    }, 
+                    {
+                        "name": "IsDebuggerPresent", 
+                        "address": "0x416104"
+                    }, 
+                    {
+                        "name": "SetUnhandledExceptionFilter", 
+                        "address": "0x416108"
+                    }, 
+                    {
+                        "name": "UnhandledExceptionFilter", 
+                        "address": "0x41610c"
+                    }, 
+                    {
+                        "name": "LeaveCriticalSection", 
+                        "address": "0x416110"
+                    }, 
+                    {
+                        "name": "EnterCriticalSection", 
+                        "address": "0x416114"
+                    }, 
+                    {
+                        "name": "EncodePointer", 
+                        "address": "0x416118"
+                    }, 
+                    {
+                        "name": "GetStdHandle", 
+                        "address": "0x41611c"
+                    }, 
+                    {
+                        "name": "GetModuleFileNameW", 
+                        "address": "0x416120"
+                    }, 
+                    {
+                        "name": "GetModuleFileNameA", 
+                        "address": "0x416124"
+                    }, 
+                    {
+                        "name": "FreeEnvironmentStringsW", 
+                        "address": "0x416128"
+                    }, 
+                    {
+                        "name": "GetEnvironmentStringsW", 
+                        "address": "0x41612c"
+                    }, 
+                    {
+                        "name": "GetFileType", 
+                        "address": "0x416130"
+                    }, 
+                    {
+                        "name": "HeapCreate", 
+                        "address": "0x416134"
+                    }, 
+                    {
+                        "name": "QueryPerformanceCounter", 
+                        "address": "0x416138"
+                    }, 
+                    {
+                        "name": "GetTickCount", 
+                        "address": "0x41613c"
+                    }, 
+                    {
+                        "name": "GetCurrentProcessId", 
+                        "address": "0x416140"
+                    }, 
+                    {
+                        "name": "LCMapStringW", 
+                        "address": "0x416144"
+                    }, 
+                    {
+                        "name": "CreateFileW", 
+                        "address": "0x416148"
+                    }, 
+                    {
+                        "name": "CloseHandle", 
+                        "address": "0x41614c"
+                    }, 
+                    {
+                        "name": "WriteConsoleW", 
+                        "address": "0x416150"
+                    }, 
+                    {
+                        "name": "LoadLibraryW", 
+                        "address": "0x416154"
+                    }, 
+                    {
+                        "name": "GetConsoleCP", 
+                        "address": "0x416158"
+                    }, 
+                    {
+                        "name": "FlushFileBuffers", 
+                        "address": "0x41615c"
+                    }, 
+                    {
+                        "name": "SetFilePointer", 
+                        "address": "0x416160"
+                    }, 
+                    {
+                        "name": "ReadFile", 
+                        "address": "0x416164"
+                    }, 
+                    {
+                        "name": "SetStdHandle", 
+                        "address": "0x416168"
+                    }, 
+                    {
+                        "name": "GetProcAddress", 
+                        "address": "0x41616c"
+                    }, 
+                    {
+                        "name": "GetStartupInfoW", 
+                        "address": "0x416170"
+                    }, 
+                    {
+                        "name": "HeapSetInformation", 
+                        "address": "0x416174"
+                    }, 
+                    {
+                        "name": "GetCommandLineA", 
+                        "address": "0x416178"
+                    }, 
+                    {
+                        "name": "GetSystemTimeAsFileTime", 
+                        "address": "0x41617c"
+                    }, 
+                    {
+                        "name": "InterlockedIncrement", 
+                        "address": "0x416180"
+                    }, 
+                    {
+                        "name": "InterlockedDecrement", 
+                        "address": "0x416184"
+                    }, 
+                    {
+                        "name": "RtlUnwind", 
+                        "address": "0x416188"
+                    }, 
+                    {
+                        "name": "DecodePointer", 
+                        "address": "0x41618c"
+                    }, 
+                    {
+                        "name": "ConnectNamedPipe", 
+                        "address": "0x416190"
+                    }, 
+                    {
+                        "name": "SetHandleCount", 
+                        "address": "0x416194"
+                    }, 
+                    {
+                        "name": "GetTapeStatus", 
+                        "address": "0x416198"
+                    }, 
+                    {
+                        "name": "OpenFileMappingW", 
+                        "address": "0x41619c"
+                    }, 
+                    {
+                        "name": "FindFirstFileW", 
+                        "address": "0x4161a0"
+                    }, 
+                    {
+                        "name": "GetCurrencyFormatA", 
+                        "address": "0x4161a4"
+                    }, 
+                    {
+                        "name": "GetBinaryTypeW", 
+                        "address": "0x4161a8"
+                    }
+                ], 
+                "dll": "KERNEL32.dll"
+            }
+        ], 
+        "peid_signatures": null, 
+        "keys": [], 
+        "signature": [], 
+        "pe_timestamp": "2014-04-02 15:18:08", 
+        "pe_exports": [], 
+        "imported_dll_count": 8, 
+        "pe_imphash": "4c2a94144fcee0e1e594d1cc34e972d3", 
+        "pe_resources": [
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x1577fda8", 
+                "size": "0x00000134"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_GERMAN", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_GERMAN_SWISS", 
+                "offset": "0x1578162c", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_GERMAN", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_GERMAN_SWISS", 
+                "offset": "0x1578162c", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_ICON", 
+                "language": "LANG_GERMAN", 
+                "filetype": "GLS_BINARY_LSB_FIRST", 
+                "sublanguage": "SUBLANG_GERMAN_SWISS", 
+                "offset": "0x1578162c", 
+                "size": "0x00000468"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_STRING", 
+                "language": "LANG_ENGLISH", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_ENGLISH_US", 
+                "offset": "0x1578253c", 
+                "size": "0x0000005e"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_GROUP_CURSOR", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "MS Windows cursor resource - 1 icon, 32x32, hotspot @1x1", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782614", 
+                "size": "0x00000014"
+            }, 
+            {
+                "name": "RT_VERSION", 
+                "language": "LANG_HEBREW", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_DEFAULT", 
+                "offset": "0x15782628", 
+                "size": "0x000002e8"
+            }, 
+            {
+                "name": "None", 
+                "language": "LANG_NEUTRAL", 
+                "filetype": "data", 
+                "sublanguage": "SUBLANG_NEUTRAL", 
+                "offset": "0x15782910", 
+                "size": "0x00015b60"
+            }
+        ], 
+        "pe_versioninfo": [
+            {
+                "name": "LegalCopyright", 
+                "value": "Copyright \\xa9 2007 - 2013 Nir Sofer"
+            }, 
+            {
+                "name": "InternalName", 
+                "value": "VideoCacheView"
+            }, 
+            {
+                "name": "FileVersion", 
+                "value": "2.65"
+            }, 
+            {
+                "name": "CompanyName", 
+                "value": "NirSoft"
+            }, 
+            {
+                "name": "ProductName", 
+                "value": "VideoCacheView"
+            }, 
+            {
+                "name": "ProductVersion", 
+                "value": "2.65"
+            }, 
+            {
+                "name": "FileDescription", 
+                "value": "VideoCacheView"
+            }, 
+            {
+                "name": "OriginalFilename", 
+                "value": "VideoCacheView.exe"
+            }, 
+            {
+                "name": "Translation", 
+                "value": "0x0409 0x04b0"
+            }
+        ], 
+        "pe_sections": [
+            {
+                "size_of_data": "0x00014a00", 
+                "virtual_address": "0x00001000", 
+                "entropy": 6.597092090173992, 
+                "name": ".text", 
+                "virtual_size": "0x00014993"
+            }, 
+            {
+                "size_of_data": "0x00004200", 
+                "virtual_address": "0x00016000", 
+                "entropy": 5.239327920577711, 
+                "name": ".rdata", 
+                "virtual_size": "0x000040b2"
+            }, 
+            {
+                "size_of_data": "0x00003600", 
+                "virtual_address": "0x0001b000", 
+                "entropy": 6.68698360480548, 
+                "name": ".data", 
+                "virtual_size": "0x1575916c"
+            }, 
+            {
+                "size_of_data": "0x00009e00", 
+                "virtual_address": "0x15775000", 
+                "entropy": 0.0, 
+                "name": ".aspack", 
+                "virtual_size": "0x00009c40"
+            }, 
+            {
+                "size_of_data": "0x00019600", 
+                "virtual_address": "0x1577f000", 
+                "entropy": 5.351260472680294, 
+                "name": ".rsrc", 
+                "virtual_size": "0x00019470"
+            }
+        ]
+    }, 
+    "behavior": {
+        "generic": [
+            {
+                "process_name": "lsass.exe", 
+                "ppid": 528, 
+                "pid": 680, 
+                "first_seen": 1456290098.375, 
+                "summary": {}
+            }, 
+            {
+                "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "ppid": 508, 
+                "pid": 572, 
+                "first_seen": 1456290270.25, 
+                "summary": {
+                    "command_line": [
+                        "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" "
+                    ], 
+                    "regkey_read": [
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonThousandSep", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sNegativeSign", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Locale\\00000409", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonDecimalSep", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\Locale", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sTimeFormat", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language Groups\\1", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sMonGrouping", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\iCalendarType", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sPositiveSign", 
+                        "HKEY_CURRENT_USER\\Control Panel\\International\\sGrouping"
+                    ], 
+                    "dll_loaded": [
+                        "ntdll"
+                    ]
+                }
+            }, 
+            {
+                "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "ppid": 572, 
+                "pid": 1204, 
+                "first_seen": 1456289567.5, 
+                "summary": {
+                    "file_recreated": [
+                        "\\Device\\KsecDD"
+                    ], 
+                    "dll_loaded": [
+                        "gdiplus.dll", 
+                        "urlmon.dll", 
+                        "wininet.dll", 
+                        "kernel32.dll", 
+                        "advapi32.dll", 
+                        "ole32.dll", 
+                        "ws2_32.dll", 
+                        "comctl32.dll"
+                    ], 
+                    "file_failed": [
+                        "C:\\WINDOWS\\WindowsShell.Config"
+                    ], 
+                    "regkey_opened": [
+                        "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN", 
+                        "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Ranges\\", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\", 
+                        "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\OLEAUT\\UserEra", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Performance", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Ole", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\OLEAUT", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\crypt32\\Performance", 
+                        "HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\msasn1", 
+                        "HKEY_CLASSES_ROOT\\PROTOCOLS\\Name-Space Handler\\", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Ranges\\", 
+                        "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_GET_URL_DOM_FILEPATH_UNENCODED", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD", 
+                        "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING", 
+                        "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+                    ], 
+                    "mutex": [
+                        "ZonesCounterMutex", 
+                        "ZonesCacheCounterMutex", 
+                        "ZonesLockedCacheCounterMutex"
+                    ], 
+                    "file_opened": [
+                        "C:\\WINDOWS\\explorer.exe", 
+                        "C:\\WINDOWS\\WindowsShell.Manifest", 
+                        "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp"
+                    ], 
+                    "command_line": [
+                        "C:\\WINDOWS\\explorer.exe"
+                    ], 
+                    "regkey_read": [
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Ole\\RWLockResourceTimeOut", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableAll", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\DisableImprovedZoneCheck", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableAllForOle32", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableTypeLib", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Session Manager\\CriticalSectionTimeout", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\{00020400-0000-0000-C000-000000000046}\\InterfaceHelperDisableAll", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_CURRENT_USER\\Control Panel\\Desktop\\SmoothScroll", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\{00020400-0000-0000-C000-000000000046}\\InterfaceHelperDisableAllForOle32", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\EnableBalloonTips", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING\\*", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\LeakTrack", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe"
+                    ]
+                }
+            }
+        ], 
+        "apistats": {
+            "1204": {
+                "LdrUnloadDll": 1, 
+                "DeviceIoControl": 1, 
+                "RegCloseKey": 26, 
+                "GetSystemInfo": 5, 
+                "RegQueryValueExA": 3, 
+                "NtTerminateProcess": 1, 
+                "NtQueryValueKey": 8, 
+                "RegCreateKeyExA": 1, 
+                "RegQueryValueExW": 36, 
+                "NtOpenDirectoryObject": 1, 
+                "NtMapViewOfSection": 4, 
+                "CreateActCtxW": 2, 
+                "RegOpenKeyExW": 25, 
+                "NtAllocateVirtualMemory": 39, 
+                "RegOpenKeyExA": 16, 
+                "LdrGetDllHandle": 20, 
+                "NtFreeVirtualMemory": 46, 
+                "NtQuerySystemInformation": 2, 
+                "NtEnumerateValueKey": 1, 
+                "NtResumeThread": 1, 
+                "NtOpenFile": 3, 
+                "NtUnmapViewOfSection": 3, 
+                "NtCreateFile": 3, 
+                "GetSystemTimeAsFileTime": 1, 
+                "GetSystemDirectoryA": 1, 
+                "RegEnumKeyExA": 2, 
+                "NtCreateMutant": 3, 
+                "RtlCreateUserThread": 1, 
+                "NtCreateSection": 3, 
+                "SearchPathW": 1, 
+                "NtOpenKey": 10, 
+                "LdrGetProcedureAddress": 23, 
+                "GetFileType": 6, 
+                "LdrLoadDll": 11, 
+                "NtQueryInformationFile": 1, 
+                "CreateProcessInternalW": 1, 
+                "NtClose": 17
+            }, 
+            "572": {
+                "NtQuerySystemInformation": 1, 
+                "FindResourceA": 45, 
+                "GetSystemTimeAsFileTime": 3, 
+                "SizeofResource": 45, 
+                "WriteProcessMemory": 6, 
+                "NtUnmapViewOfSection": 2, 
+                "NtOpenKey": 53, 
+                "LoadResource": 45, 
+                "LdrGetProcedureAddress": 30, 
+                "SetUnhandledExceptionFilter": 2, 
+                "NtGetContextThread": 1, 
+                "NtResumeThread": 1, 
+                "NtClose": 78, 
+                "NtAllocateVirtualMemory": 9, 
+                "NtSetContextThread": 1, 
+                "LdrLoadDll": 1, 
+                "NtTerminateProcess": 3, 
+                "LdrGetDllHandle": 4, 
+                "CreateProcessInternalW": 1, 
+                "NtFreeVirtualMemory": 2, 
+                "NtQueryValueKey": 52
+            }
+        }, 
+        "processes": [
+            {
+                "process_path": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "calls": [], 
+                "track": false, 
+                "pid": 680, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "time": 0, 
+                "tid": 464, 
+                "first_seen": 1456290098.375, 
+                "ppid": 528, 
+                "type": "process"
+            }, 
+            {
+                "process_path": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "calls": [], 
+                "track": true, 
+                "pid": 572, 
+                "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                "time": 0, 
+                "tid": 600, 
+                "first_seen": 1456290270.25, 
+                "ppid": 508, 
+                "type": "process"
+            }, 
+            {
+                "process_path": "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "calls": [], 
+                "track": true, 
+                "pid": 1204, 
+                "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                "time": 0, 
+                "tid": 1208, 
+                "first_seen": 1456289567.5, 
+                "ppid": 572, 
+                "type": "process"
+            }
+        ], 
+        "processtree": [
+            {
+                "track": false, 
+                "pid": 680, 
+                "process_name": "lsass.exe", 
+                "command_line": "C:\\WINDOWS\\system32\\lsass.exe", 
+                "first_seen": 1456290098.375, 
+                "ppid": 528, 
+                "children": []
+            }, 
+            {
+                "track": true, 
+                "pid": 572, 
+                "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                "first_seen": 1456290270.25, 
+                "ppid": 508, 
+                "children": [
+                    {
+                        "track": true, 
+                        "pid": 1204, 
+                        "process_name": "7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                        "command_line": "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                        "first_seen": 1456289567.5, 
+                        "ppid": 572, 
+                        "children": []
+                    }
+                ]
+            }
+        ], 
+        "summary": {
+            "file_recreated": [
+                "\\Device\\KsecDD"
+            ], 
+            "dll_loaded": [
+                "gdiplus.dll", 
+                "urlmon.dll", 
+                "ntdll", 
+                "wininet.dll", 
+                "kernel32.dll", 
+                "advapi32.dll", 
+                "ole32.dll", 
+                "ws2_32.dll", 
+                "comctl32.dll"
+            ], 
+            "file_failed": [
+                "C:\\WINDOWS\\WindowsShell.Config"
+            ], 
+            "regkey_opened": [
+                "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING", 
+                "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\", 
+                "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN", 
+                "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Ranges\\", 
+                "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\", 
+                "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND", 
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\OLEAUT\\UserEra", 
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Performance", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE", 
+                "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Ole", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\OLEAUT", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\crypt32\\Performance", 
+                "HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\msasn1", 
+                "HKEY_CLASSES_ROOT\\PROTOCOLS\\Name-Space Handler\\", 
+                "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Ranges\\", 
+                "HKEY_CURRENT_USER\\Software\\Policies\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_GET_URL_DOM_FILEPATH_UNENCODED", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD", 
+                "HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Internet Explorer\\Main\\FeatureControl", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING", 
+                "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+            ], 
+            "mutex": [
+                "ZonesCounterMutex", 
+                "ZonesCacheCounterMutex", 
+                "ZonesLockedCacheCounterMutex"
+            ], 
+            "file_opened": [
+                "C:\\WINDOWS\\explorer.exe", 
+                "C:\\WINDOWS\\WindowsShell.Manifest", 
+                "C:\\Documents and Settings\\Administrator\\Local Settings\\Temp"
+            ], 
+            "command_line": [
+                "\"C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe\" ", 
+                "C:\\WINDOWS\\explorer.exe"
+            ], 
+            "regkey_read": [
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL\\*", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sNegativeSign", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sGrouping", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Ole\\RWLockResourceTimeOut", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sTimeFormat", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableAll", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\DisableImprovedZoneCheck", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_LOCALMACHINE_LOCKDOWN\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableAllForOle32", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\Locale", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_VALIDATE_NAVIGATE_URL\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonGrouping", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\InterfaceHelperDisableTypeLib", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Session Manager\\CriticalSectionTimeout", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ADDON_MANAGEMENT\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MK_PROTOCOL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sPositiveSign", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\{00020400-0000-0000-C000-000000000046}\\InterfaceHelperDisableAll", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_UNC_SAVEDFILECHECK\\*", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonThousandSep", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_PROTOCOL_LOCKDOWN\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language Groups\\1", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\sMonDecimalSep", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_SNIFFING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ZONE_ELEVATION\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\International\\iCalendarType", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_HTTP_USERNAME_PASSWORD_DISABLE\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Control Panel\\Desktop\\SmoothScroll", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SAFE_BINDTOOBJECT\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WINDOW_RESTRICTIONS\\*", 
+                "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Locale\\00000409", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\Interface\\{00020400-0000-0000-C000-000000000046}\\InterfaceHelperDisableAllForOle32", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_FILEDOWNLOAD\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_OBJECT_CACHING\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\EnableBalloonTips", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_WEBOC_POPUPMANAGEMENT\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_SECURITYBAND\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING\\*", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\LeakTrack", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BEHAVIORS\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe", 
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_RESTRICT_ACTIVEXINSTALL\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe"
+            ]
+        }
+    }, 
+    "debug": {
+        "errors": [], 
+        "log": [
+            "2016-02-24 03:49:24,000 [analyzer] DEBUG: Starting analyzer from: C:\\tmpanmg0b\n", 
+            "2016-02-24 03:49:24,015 [analyzer] DEBUG: Pipe server name: \\\\.\\PIPE\\hLbiuhLZNuSRhDwurefgBByFRqQoUc\n", 
+            "2016-02-24 03:49:24,015 [analyzer] DEBUG: Log pipe server name: \\\\.\\PIPE\\rWihbJYqJJxgJEMSJBTq\n", 
+            "2016-02-24 03:49:24,015 [analyzer] DEBUG: No analysis package specified, trying to detect it automagically.\n", 
+            "2016-02-24 03:49:24,015 [analyzer] INFO: Automatically selected analysis package \"exe\"\n", 
+            "2016-02-24 03:49:24,625 [analyzer] DEBUG: Started auxiliary module Disguise\n", 
+            "2016-02-24 03:49:24,796 [analyzer] DEBUG: Loaded monitor into process with pid 680\n", 
+            "2016-02-24 03:49:24,796 [lib.api.process] INFO: Successfully injected process with pid None\n", 
+            "2016-02-24 03:49:24,796 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets\n", 
+            "2016-02-24 03:49:24,796 [analyzer] DEBUG: Started auxiliary module Human\n", 
+            "2016-02-24 03:49:24,796 [analyzer] DEBUG: Started auxiliary module InstallCertificate\n", 
+            "2016-02-24 03:49:24,796 [analyzer] DEBUG: Started auxiliary module Screenshots\n", 
+            "2016-02-24 03:49:24,828 [lib.api.process] INFO: Successfully executed process from path u'C:\\\\DOCUME~1\\\\ADMINI~1\\\\LOCALS~1\\\\Temp\\\\7ed58ef4fd3dc4efaea9e595614553445afb055c0c675b692f12a5629251b040.exe' with arguments '' and pid 572\n", 
+            "2016-02-24 03:49:24,983 [analyzer] DEBUG: Loaded monitor into process with pid 572\n", 
+            "2016-02-24 03:49:40,108 [lib.api.process] INFO: Successfully injected process with pid 1204\n", 
+            "2016-02-24 03:49:40,108 [analyzer] INFO: Injected into process with pid 1204 and name \n", 
+            "2016-02-24 03:49:40,125 [analyzer] DEBUG: Received request to inject pid=1204, but we are already injected there.\n", 
+            "2016-02-24 03:49:40,187 [analyzer] INFO: Process with pid 572 has terminated\n", 
+            "2016-02-24 03:49:40,250 [analyzer] DEBUG: Loaded monitor into process with pid 1204\n", 
+            "2016-02-24 03:49:40,358 [lib.api.process] INFO: Successfully injected process with pid 716\n", 
+            "2016-02-24 03:49:40,358 [analyzer] INFO: Injected into process with pid 716 and name explorer.exe\n", 
+            "2016-02-24 03:49:40,358 [analyzer] DEBUG: Received request to inject pid=716, but we are already injected there.\n", 
+            "2016-02-24 03:49:41,187 [analyzer] INFO: Process with pid 1204 has terminated\n", 
+            "2016-02-24 03:49:52,203 [analyzer] INFO: Process with pid 716 has terminated\n", 
+            "2016-02-24 03:49:52,203 [analyzer] INFO: Process list is empty, terminating analysis.\n", 
+            "2016-02-24 03:49:53,203 [analyzer] INFO: Analysis completed.\n"
+        ]
+    }, 
+    "strings": [
+        "!This program cannot be run in DOS mode.", 
+        "`.rdata", 
+        "@.data", 
+        ".aspack", 
+        "<xtQ<XtM", 
+        "HHtYHHt", 
+        "?If90t", 
+        "C =02CVu", 
+        ".t|PVj@", 
+        "B 02CV", 
+        "HHt$HHt", 
+        "?If90t", 
+        "HHt$HHt", 
+        ";t$,v-", 
+        "UQPXY]Y[", 
+        "F Pj*S", 
+        "F$Pj+Sj", 
+        "F(Pj,S", 
+        "F,Pj-S", 
+        "F0Pj.S", 
+        "F4Pj/S", 
+        "F8PjDS", 
+        "F<PjES", 
+        "F@PjFS", 
+        "FDPjGS", 
+        "FHPjHS", 
+        "FLPjIS", 
+        "FPPjJS", 
+        "FTPjKS", 
+        "FXPjLS", 
+        "F\\PjMS", 
+        "F`PjNS", 
+        "FdPjOS", 
+        "FhPj8S", 
+        "FlPj9S", 
+        "FpPj:S", 
+        "FtPj;S", 
+        "FxPj<S", 
+        "F|Pj=S", 
+        "C PjPV", 
+        "C$PjQV", 
+        "C*PjTV", 
+        "C+PjUV", 
+        "C,PjVV", 
+        "C-PjWV", 
+        "C.PjRV", 
+        "C/PjSV", 
+        "CHPjPV", 
+        "CLPjQV", 
+        "PPPPPPPP", 
+        "PPPPPPPP", 
+        "uTVWhM", 
+        "^SSSSS", 
+        "j@j ^V", 
+        "URPQQh", 
+        "t\"SS9] u", 
+        "<+t\"<-t", 
+        "+t HHt", 
+        "t VV9u", 
+        "Name is: %s", 
+        "Choose your hero type!", 
+        "Warrior | Mage | Archer", 
+        "Warrior", 
+        "Archer", 
+        "You have chosen the %s category!", 
+        "Type y to confirm and n to cancel.", 
+        "Enter your characters name!", 
+        "Error allocation aligned memory.", 
+        "This pointer, %d, is aligned on %d", 
+        "This pointer, %d, is not aligned on %d", 
+        "This pointer, %d, is aligned on %d", 
+        "This pointer, %d, is not aligned on %d", 
+        "Error allocation aligned offset memory.", 
+        "This pointer, %d, is offset by %d on alignment of %d", 
+        "This pointer, %d, does not satisfy offset %d and alignment %d", 
+        "Error reallocation aligned offset memory.", 
+        "This pointer, %d, is offset by %d on alignment of %d", 
+        "This pointer, %d, does not satisfy offset %d and alignment %d", 
+        "Multiplying 2 floating point numbers 500 million times...", 
+        "Program takes %6.0f seconds.", 
+        "Enter three integers: ", 
+        "%i %i %i", 
+        "You entered ", 
+        ";N!3@L%@", 
+        "LC_TIME", 
+        "LC_NUMERIC", 
+        "LC_MONETARY", 
+        "LC_CTYPE", 
+        "LC_COLLATE", 
+        "LC_ALL", 
+        "\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 
+        "(null)", 
+        "`h````", 
+        "xpxxxx", 
+        "HH:mm:ss", 
+        "dddd, MMMM dd, yyyy", 
+        "MM/dd/yy", 
+        "December", 
+        "November", 
+        "October", 
+        "September", 
+        "August", 
+        "February", 
+        "January", 
+        "Saturday", 
+        "Friday", 
+        "Thursday", 
+        "Wednesday", 
+        "Tuesday", 
+        "Monday", 
+        "Sunday", 
+        "FlsFree", 
+        "FlsSetValue", 
+        "FlsGetValue", 
+        "FlsAlloc", 
+        "`h`hhh", 
+        "xppwpp", 
+        "\u001f !\"#$%&'()*+,-./0123456789:;<=>?@abcdefghijklmnopqrstuvwxyz[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 
+        "\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~", 
+        "united-states", 
+        "united-kingdom", 
+        "trinidad & tobago", 
+        "south-korea", 
+        "south-africa", 
+        "south korea", 
+        "south africa", 
+        "slovak", 
+        "puerto-rico", 
+        "pr-china", 
+        "pr china", 
+        "new-zealand", 
+        "hong-kong", 
+        "holland", 
+        "great britain", 
+        "england", 
+        "britain", 
+        "america", 
+        "swedish-finland", 
+        "spanish-venezuela", 
+        "spanish-uruguay", 
+        "spanish-puerto rico", 
+        "spanish-peru", 
+        "spanish-paraguay", 
+        "spanish-panama", 
+        "spanish-nicaragua", 
+        "spanish-modern", 
+        "spanish-mexican", 
+        "spanish-honduras", 
+        "spanish-guatemala", 
+        "spanish-el salvador", 
+        "spanish-ecuador", 
+        "spanish-dominican republic", 
+        "spanish-costa rica", 
+        "spanish-colombia", 
+        "spanish-chile", 
+        "spanish-bolivia", 
+        "spanish-argentina", 
+        "portuguese-brazilian", 
+        "norwegian-nynorsk", 
+        "norwegian-bokmal", 
+        "norwegian", 
+        "italian-swiss", 
+        "irish-english", 
+        "german-swiss", 
+        "german-luxembourg", 
+        "german-lichtenstein", 
+        "german-austrian", 
+        "french-swiss", 
+        "french-luxembourg", 
+        "french-canadian", 
+        "french-belgian", 
+        "english-usa", 
+        "english-us", 
+        "english-uk", 
+        "english-trinidad y tobago", 
+        "english-south africa", 
+        "english-nz", 
+        "english-jamaica", 
+        "english-ire", 
+        "english-caribbean", 
+        "english-can", 
+        "english-belize", 
+        "english-aus", 
+        "english-american", 
+        "dutch-belgian", 
+        "chinese-traditional", 
+        "chinese-singapore", 
+        "chinese-simplified", 
+        "chinese-hongkong", 
+        "chinese", 
+        "canadian", 
+        "belgian", 
+        "australian", 
+        "american-english", 
+        "american english", 
+        "american", 
+        "Norwegian-Nynorsk", 
+        "CorExitProcess", 
+        "GetProcessWindowStation", 
+        "GetUserObjectInformationW", 
+        "GetLastActivePopup", 
+        "GetActiveWindow", 
+        "MessageBoxW", 
+        "1#QNAN", 
+        "1#SNAN", 
+        "GetWindowThreadProcessId", 
+        "EnumWindows", 
+        "GetWindowTextW", 
+        "IsWindowEnabled", 
+        "EnumChildWindows", 
+        "PostMessageW", 
+        "GetNextDlgTabItem", 
+        "GetDlgItem", 
+        "DestroyWindow", 
+        "CreateDialogIndirectParamW", 
+        "SetActiveWindow", 
+        "GetActiveWindow", 
+        "GetWindowTextLengthW", 
+        "SystemParametersInfoA", 
+        "GetDlgCtrlID", 
+        "DeferWindowPos", 
+        "EqualRect", 
+        "ScreenToClient", 
+        "AdjustWindowRectEx", 
+        "RegisterClassW", 
+        "GetClassInfoW", 
+        "GetClassInfoExW", 
+        "MessageBoxW", 
+        "UpdateWindow", 
+        "GetKeyState", 
+        "TrackPopupMenu", 
+        "MapWindowPoints", 
+        "PeekMessageW", 
+        "GetMessageTime", 
+        "GetTopWindow", 
+        "EndDeferWindowPos", 
+        "BeginDeferWindowPos", 
+        "GetLastActivePopup", 
+        "GetForegroundWindow", 
+        "GetClassLongW", 
+        "GetCapture", 
+        "WinHelpW", 
+        "SendDlgItemMessageA", 
+        "SendDlgItemMessageW", 
+        "RegisterWindowMessageW", 
+        "CheckMenuItem", 
+        "EnableMenuItem", 
+        "GetMenuCheckMarkDimensions", 
+        "SetMenuItemBitmaps", 
+        "PostThreadMessageW", 
+        "RegisterClipboardFormatW", 
+        "MessageBeep", 
+        "GetNextDlgGroupItem", 
+        "InvalidateRgn", 
+        "CharNextW", 
+        "CharUpperW", 
+        "UnregisterClassW", 
+        "GetSysColorBrush", 
+        "ShowOwnedPopups", 
+        "SetWindowContextHelpId", 
+        "USER32.dll", 
+        "GetFileTitleW", 
+        "GetSaveFileNameW", 
+        "COMDLG32.dll", 
+        "CLSIDFromProgID", 
+        "OleIsCurrentClipboard", 
+        "CoRevokeClassObject", 
+        "CoRegisterMessageFilter", 
+        "CoTaskMemFree", 
+        "CoTaskMemAlloc", 
+        "OleFlushClipboard", 
+        "CLSIDFromString", 
+        "CoGetClassObject", 
+        "StgOpenStorageOnILockBytes", 
+        "StgCreateDocfileOnILockBytes", 
+        "CreateILockBytesOnHGlobal", 
+        "OleUninitialize", 
+        "CoFreeUnusedLibraries", 
+        "OleInitialize", 
+        "ole32.dll", 
+        "CreateRectRgn", 
+        "CreateCompatibleDC", 
+        "SelectObject", 
+        "BitBlt", 
+        "DeleteDC", 
+        "CreateFontW", 
+        "CreatePen", 
+        "GetTextExtentPoint32W", 
+        "TextOutW", 
+        "GetDeviceCaps", 
+        "GetObjectW", 
+        "CreateBitmap", 
+        "SetBkColor", 
+        "GetPixel", 
+        "SetPixel", 
+        "GetCurrentObject", 
+        "GetTextAlign", 
+        "GetTextMetricsW", 
+        "CreateFontIndirectW", 
+        "AddFontResourceA", 
+        "CreateBitmapIndirect", 
+        "CreateDIBitmap", 
+        "AnimatePalette", 
+        "BeginPath", 
+        "GDI32.dll", 
+        "GetFileVersionInfoSizeA", 
+        "GetFileVersionInfoA", 
+        "VerQueryValueA", 
+        "VERSION.dll", 
+        "EnumProcessModules", 
+        "GetModuleFileNameExW", 
+        "GetModuleInformation", 
+        "EnumProcesses", 
+        "PSAPI.DLL", 
+        "PathFindExtensionA", 
+        "PathFindFileNameA", 
+        "SHLWAPI.dll", 
+        "FindFirstFileW", 
+        "GetCurrencyFormatA", 
+        "GetBinaryTypeW", 
+        "OpenFileMappingW", 
+        "GetTapeStatus", 
+        "SetHandleCount", 
+        "ConnectNamedPipe", 
+        "DecodePointer", 
+        "RtlUnwind", 
+        "InterlockedDecrement", 
+        "InterlockedIncrement", 
+        "GetSystemTimeAsFileTime", 
+        "GetCommandLineA", 
+        "HeapSetInformation", 
+        "GetStartupInfoW", 
+        "EncodePointer", 
+        "EnterCriticalSection", 
+        "LeaveCriticalSection", 
+        "UnhandledExceptionFilter", 
+        "SetUnhandledExceptionFilter", 
+        "IsDebuggerPresent", 
+        "TerminateProcess", 
+        "GetCurrentProcess", 
+        "GetCPInfo", 
+        "GetACP", 
+        "GetOEMCP", 
+        "IsValidCodePage", 
+        "TlsAlloc", 
+        "TlsGetValue", 
+        "TlsSetValue", 
+        "TlsFree", 
+        "GetModuleHandleW", 
+        "SetLastError", 
+        "GetCurrentThreadId", 
+        "GetLastError", 
+        "GetProcAddress", 
+        "ReadConsoleInputA", 
+        "SetConsoleMode", 
+        "GetConsoleMode", 
+        "HeapFree", 
+        "MultiByteToWideChar", 
+        "WideCharToMultiByte", 
+        "IsProcessorFeaturePresent", 
+        "InitializeCriticalSectionAndSpinCount", 
+        "DeleteCriticalSection", 
+        "GetUserDefaultLCID", 
+        "GetLocaleInfoW", 
+        "GetLocaleInfoA", 
+        "EnumSystemLocalesA", 
+        "IsValidLocale", 
+        "GetStringTypeW", 
+        "HeapAlloc", 
+        "HeapSize", 
+        "HeapQueryInformation", 
+        "HeapReAlloc", 
+        "ExitProcess", 
+        "WriteFile", 
+        "GetStdHandle", 
+        "GetModuleFileNameW", 
+        "GetModuleFileNameA", 
+        "FreeEnvironmentStringsW", 
+        "GetEnvironmentStringsW", 
+        "GetFileType", 
+        "HeapCreate", 
+        "QueryPerformanceCounter", 
+        "GetTickCount", 
+        "GetCurrentProcessId", 
+        "LCMapStringW", 
+        "CreateFileW", 
+        "CloseHandle", 
+        "WriteConsoleW", 
+        "LoadLibraryW", 
+        "GetConsoleCP", 
+        "FlushFileBuffers", 
+        "SetFilePointer", 
+        "ReadFile", 
+        "SetStdHandle", 
+        "KERNEL32.dll", 
+        "eJ|{m8O", 
+        "|Qedt#V", 
+        ")\"{#_\\(", 
+        "\\ZEDGFA", 
+        "g%S\\RS", 
+        "h,YUUJ", 
+        "q3CNLM", 
+        "z:MGGD", 
+        "e'EQPQ", 
+        "n.CHKH", 
+        "w5YOBC", 
+        "a#d]\\]", 
+        "j*hTWT", 
+        "s1pKNO", 
+        "t8tBAF", 
+        "}?Lyxy", 
+        "_X7!!&", 
+        "%s-\"B__\\/(", 
+        "5610YjkV?", 
+        ",]4]0[J%$", 
+        "\\_^;X[Z", 
+        "#\"-,/.*(+*", 
+        "GIF89a", 
+        "!!!)))**41)!63%111::2999<<DG", 
+        "G((J<!B91V99f", 
+        "$i'(k,3j78u'(y,6v57v:BRB", 
+        "CC8QQ:cJ!cR!kR!kR)hX9sZ!wZ){c)BBBGGLJJJVBBXUIWWWYY`kBBcZRyII}LQ}TVwV`ccWwhKzz[bbbkkckkkkkqyffqqbspl}znssstt{zpp~~r{{{||", 
+        "@kxu(1M", 
+        "}'y5U{>B", 
+        "p$4w@5", 
+        "kAhk[{", 
+        "8B/Nl3w", 
+        "_1WeU[YpjNW", 
+        "5Chs2+h", 
+        "gF{X' 96", 
+        "?IKBIX)YF", 
+        "kJq*Wp", 
+        "                          ", 
+        "abcdefghijklmnopqrstuvwxyz", 
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+        "                          ", 
+        "abcdefghijklmnopqrstuvwxyz", 
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+        "99999999999999999999999999999", 
+        "QQQ[[[[fffffffffffffffffff", 
+        "<<<<<<<<<<<<<<<<<<<<<<<=", 
+        "OOOOOOOOOOOOOOOOOOOOO", 
+        "OOOOOOOOOOOOOOOOOOOOO", 
+        "OOOOOOOOOOOOOOOOOOOOO", 
+        "9:YYYYYYYYYhhhhhhhhpppppppppzzz", 
+        "9:VVVVVVVVVeeeeeeeeqqqqqqqqqsss", 
+        "9:WWx=====866666666,,,,67Kttttt", 
+        "'6=rrrrr", 
+        "'6=mmmmm", 
+        "#6=ooooo", 
+        "+..*(!1dddd", 
+        "6=ppppp", 
+        "%+..*(2eeee", 
+        "6=qqqqq", 
+        "\"%+..*3eeee", 
+        "6=qqqqq", 
+        "\"%+..4^^^^", 
+        "6=llllln9:SS", 
+        "\"%+.5____", 
+        "6=iiiiRX", 
+        "\u001f)AAAA", 
+        "6=iiiNP", 
+        "::G:::::", 
+        "6=FILM", 
+        "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", 
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaac", 
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+        "cccccccc[EUUOHD?7:>CGKMMMMMQZ`q", 
+        "(2552-&", 
+        "+2552-&", 
+        "&+2552-&", 
+        "#&+2552-&", 
+        "~~~~~~~~", 
+        "#&+2552-&", 
+        "#&+2552-&A", 
+        "#&+2552-I", 
+        "#&+2552N", 
+        "#&+255R", 
+        "#&+25V", 
+        "#&@\\XXS;0", 
+        "]]]u]]]]]]]]", 
+        "\u001f'//'$", 
+        ")bjoprtw", 
+        "]\u001fHfsW", 
+        "}z{yzwx", 
+        ">hfgu<", 
+        "mi l?[", 
+        "#:W&(DM3/", 
+        ">ga_d E~", 
+        "(\"}4fSu ", 
+        "*P+>G '", 
+        "\\HNv2w", 
+        "8sA*ns9", 
+        "^PX(\u001fTj5", 
+        "C#`%\"W", 
+        "N^CzF/", 
+        "Ox ^:9", 
+        "76)Rt9", 
+        "-vHPkT", 
+        "klue^+", 
+        "X<N}(h", 
+        "Oc=dDaTr", 
+        "p\\m|NN", 
+        "RD4b,8", 
+        "Ur{&F8", 
+        "kLCPLD", 
+        "h^^EI_", 
+        "S/($71", 
+        "$k3L)(3 ", 
+        "k#!:,K", 
+        "XL2b$G", 
+        "}GuUCl=", 
+        "-Tvt!R", 
+        "iPN4\\H", 
+        "Z*DB+H#", 
+        "REXcn#A", 
+        "NDVcE*-", 
+        "%/Q\"lw", 
+        "&5^FK[", 
+        "MRq7<\"", 
+        "mY,wBm", 
+        "[ntEha", 
+        "u9t^ @dN_", 
+        "4EJq}G", 
+        "+D\\<W8", 
+        "2&YBR*I_2NF", 
+        "[ykxcDy_wj\"", 
+        "WBNCu$", 
+        "K:gvyK", 
+        "+K4FnV", 
+        "/_FR97", 
+        "?y'a6Z", 
+        "yrNg1vn", 
+        "7?$[B:", 
+        "\\VJ8q!E", 
+        "xs~l!ln", 
+        "ZxKy2v", 
+        "/DPD2D+%", 
+        "%SCo@._?+(", 
+        "oU+L}D", 
+        "c|.@)T", 
+        "8ei<v^", 
+        "vqAtt}hV", 
+        "UL5o-q&", 
+        "gYi{ew", 
+        "FA^\\:?", 
+        "@kcN)u", 
+        "e1)cPFr,", 
+        "eV@{@5", 
+        "v='e`xB", 
+        "zE,\"x]qun[", 
+        ":9.X8*", 
+        "8/RKvb", 
+        "g;[\\s>", 
+        "V:nFBCLf", 
+        "N;($*H", 
+        "? 2.(?", 
+        "P?O\\Q/yG", 
+        "S1;^tpz", 
+        "?eI8Gw2Ot05@", 
+        "D-M{sj", 
+        "JAY6X~W", 
+        "q`WMYOBQ", 
+        "@r p1v", 
+        ".)0;oa$", 
+        "L!Ju/l", 
+        "G\u001f%-u9{(z", 
+        "8y(yy%", 
+        "PADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDINGPADDINGXXPADDING", 
+        "(null)", 
+        "HH:mm:ss", 
+        "dddd, MMMM dd, yyyy", 
+        "MM/dd/yy", 
+        "December", 
+        "November", 
+        "October", 
+        "September", 
+        "August", 
+        "February", 
+        "January", 
+        "Saturday", 
+        "Friday", 
+        "Thursday", 
+        "Wednesday", 
+        "Tuesday", 
+        "Monday", 
+        "Sunday", 
+        "nKERNEL32.DLL", 
+        ";T^h<U_i=V`j>Wak?Xbl@YcmAZdnB[eoC\\fpD]gq", 
+        "         (((((                  H", 
+        "         h((((                  H", 
+        "                                 H", 
+        "mscoree.dll", 
+        "runtime error ", 
+        "TLOSS error", 
+        "SING error", 
+        "DOMAIN error", 
+        "- Attempt to use MSIL code from this assembly during native code initialization", 
+        "This indicates a bug in your application. It is most likely the result of calling an MSIL-compiled (/clr) function from a native constructor or from DllMain.", 
+        "- not enough space for locale information", 
+        "- Attempt to initialize the CRT more than once.", 
+        "This indicates a bug in your application.", 
+        "- CRT not initialized", 
+        "- unable to initialize heap", 
+        "- not enough space for lowio initialization", 
+        "- not enough space for stdio initialization", 
+        "- pure virtual function call", 
+        "- not enough space for _onexit/atexit table", 
+        "- unable to open console device", 
+        "- unexpected heap error", 
+        "- unexpected multithread lock error", 
+        "- not enough space for thread data", 
+        "- abort() has been called", 
+        "- not enough space for environment", 
+        "- not enough space for arguments", 
+        "- floating point support not loaded", 
+        "AMicrosoft Visual C++ Runtime Library", 
+        "<program name unknown>", 
+        "Runtime Error!", 
+        "Program: ", 
+        "CONIN$", 
+        "WUSER32.DLL", 
+        "CONOUT$", 
+        "DI_MPPLAY", 
+        "DI_MPPREV", 
+        "DI_MPRECORD", 
+        "DI_MPSTEP", 
+        "DI_MPSTOP", 
+        "EN_MPBACK", 
+        "EN_MPEJECT", 
+        "EN_MPNEXT", 
+        "EN_MPPAUSE", 
+        "EN_MPPLAY", 
+        "EN_MPPREV", 
+        "EN_MPRECORD", 
+        "EN_MPSTEP", 
+        "EN_MPSTOP", 
+        "SMALLICONS", 
+        "DVCLAL", 
+        "PACKAGEINFO", 
+        "TABOUTFORM", 
+        "TBMPFORM", 
+        "TDIALOGFORM", 
+        "TDLGEDFORM", 
+        "TICONFORM", 
+        "TMAINFORM", 
+        "TMENUFORM", 
+        "TRSRCFORM", 
+        "MAINICON", 
+        "%d Video Files", 
+        ", %d Selected", 
+        "Created by using", 
+        "Select a filename to save", 
+        "Video Cache List", 
+        "No0Do you want to delete the selected cache files ?*Select the cache folder of Mozilla/Firefox", 
+        "Loading... %d#Select the folder to copy the files Select the cache folder of Opera-Select the cache folder of Chrome Web browser!Select the right Temporary Folder", 
+        "Copying File: %s'Choose a configuration filename to load3Choose a filename to save the current configuration", 
+        "This video file is in MPEG-DASH format. In order to allow VideoCacheView to convert this stream into a valid MP4 file, you have to install the GPAC software package: http://gpac.wp.mines-telecom.fr/downloads/gpac-nightly-builds/", 
+        "Text File", 
+        "Tab delimited text file", 
+        "Tabular Text File", 
+        "HTML File - Horizontal", 
+        "HTML File - Vertical", 
+        "XML File", 
+        "Comma delimited text file", 
+        "VideoCacheView Config File", 
+        "All Files", 
+        "Filename", 
+        "Content Type", 
+        "Download URL", 
+        "Last Accessed Date", 
+        "Last Modified Date", 
+        "Full-Path Filename", 
+        "File Size", 
+        "Browser", 
+        "In Cache", 
+        "Copy Name", 
+        "Cache Type", 
+        "Split Files Count", 
+        "Your IP Address", 
+        "Internet Explorer", 
+        "Mozilla/Firefox", 
+        "Chrome", 
+        "Safari", 
+        "Web Browser", 
+        "Temporary Folder", 
+        "Open properties window\u001fOpen URL in default Web browser", 
+        "Play the file from the cache", 
+        "Open file with...", 
+        "Process ID", 
+        "Process Name", 
+        "Full Path", 
+        "VS_VERSION_INFO", 
+        "StringFileInfo", 
+        "040904b0", 
+        "CompanyName", 
+        "NirSoft", 
+        "FileDescription", 
+        "VideoCacheView", 
+        "FileVersion", 
+        "InternalName", 
+        "VideoCacheView", 
+        "LegalCopyright", 
+        "Copyright ", 
+        " 2007 - 2013 Nir Sofer", 
+        "OriginalFilename", 
+        "VideoCacheView.exe", 
+        "ProductName", 
+        "VideoCacheView", 
+        "ProductVersion", 
+        "VarFileInfo", 
+        "Translation"
+    ], 
+    "network": {
+        "tls": [], 
+        "udp": [
+            {
+                "src": "192.168.57.104", 
+                "dst": "192.168.57.255", 
+                "offset": 896, 
+                "time": -19.180717945098877, 
+                "dport": 137, 
+                "sport": 137
+            }, 
+            {
+                "src": "192.168.57.104", 
+                "dst": "239.255.255.250", 
+                "offset": 2964, 
+                "time": -19.180728912353516, 
+                "dport": 1900, 
+                "sport": 1045
+            }, 
+            {
+                "src": "192.168.57.104", 
+                "dst": "8.8.8.8", 
+                "offset": 3728, 
+                "time": -0.15127897262573242, 
+                "dport": 53, 
+                "sport": 1067
+            }
+        ], 
+        "icmp": [], 
+        "http": [
+            {
+                "count": 1, 
+                "body": "", 
+                "uri": "http://wachapikchaid91.com/0pylxwinwhgu", 
+                "user-agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; InfoPath.2)", 
+                "method": "POST", 
+                "host": "wachapikchaid91.com", 
+                "version": "1.1", 
+                "path": "/0pylxwinwhgu", 
+                "data": "POST /0pylxwinwhgu HTTP/1.1\r\nAccept: */*\r\nContent-Type: application/x-www-form-urlencoded\r\nConnection: Close\r\nContent-Length: 102\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; InfoPath.2)\r\nHost: wachapikchaid91.com\r\nCache-Control: no-cache\r\n\r\n", 
+                "port": 80
+            }
+        ], 
+        "smtp": [], 
+        "tcp": [
+            {
+                "src": "192.168.57.104", 
+                "dst": "139.162.142.155", 
+                "offset": 248, 
+                "time": 0.01693105697631836, 
+                "dport": 80, 
+                "sport": 1068
+            }
+        ], 
+        "mitm": [], 
+        "hosts": [
+            "139.162.142.155", 
+            "8.8.8.8"
+        ], 
+        "pcap_sha256": "b356f8bda58a84bec6518d77169b33dad24cbef5ab57ade2911e7e96ce0c70ff", 
+        "dns": [
+            {
+                "type": "None", 
+                "request": "wachapikchaid91.com", 
+                "answers": [
+                    {
+                        "data": "139.162.142.155", 
+                        "type": "A"
+                    }
+                ]
+            }
+        ], 
+        "http_ex": [], 
+        "domains": [
+            {
+                "ip": "", 
+                "domain": "wachapikchaid91.com"
+            }
+        ], 
+        "dead_hosts": [], 
+        "sorted_pcap_sha256": "83acd49c4ac46868e554900110277c777d86fd4530cca1776378a7db926e0735", 
+        "irc": [], 
+        "https_ex": []
+    }
+}
