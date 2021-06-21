@@ -1,1 +1,0 @@
-# Hashes of file that should not be reported to MISP should be added here
