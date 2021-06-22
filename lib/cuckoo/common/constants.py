@@ -14,7 +14,7 @@ CUCKOO_GUEST_INIT = 0x001
 CUCKOO_GUEST_RUNNING = 0x002
 CUCKOO_GUEST_COMPLETED = 0x003
 CUCKOO_GUEST_FAILED = 0x004
-GITHUB_URL = "https://github.com/cuckoosandbox/cuckoo"
-ISSUES_PAGE_URL = "https://github.com/cuckoosandbox/cuckoo/issues"
+GITHUB_URL = "https://github.com/PowerLZY/Bold-Falcon"
+ISSUES_PAGE_URL = "https://github.com/PowerLZY/Bold-Falcon/issues"
 
 LATEST_HTTPREPLAY = "0.1.11"
