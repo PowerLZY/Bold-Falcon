@@ -18,6 +18,7 @@ class Instance(object):
 
     def __init__(self):
         self.json_path = ""
+        self.bin_path = ""
         self.name = ""
         self.report = None
         self.total = None
