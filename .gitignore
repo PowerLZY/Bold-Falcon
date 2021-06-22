@@ -42,6 +42,5 @@ sample_data/
 # Ignore Jupyter Notebook examples' checkpoints
 examples/.ipynb_checkpoints
 /agent/
-/analyzer/windows/
 /data/monitor/
 /modules/signatures/
