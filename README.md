@@ -8,6 +8,7 @@
 + [cuckooautoinstall](https://github.com/buguroo/cuckooautoinstall)
 + [cuckooML](https://github.com/honeynet/cuckooml)
 + [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn)
+
 #### 源码分析
 + [cuckoo技术分析全景图](https://cloud.tencent.com/developer/article/1597020)
 + [cuckoo沙箱源码分析上](https://bbs.pediy.com/thread-260038.htm)
@@ -15,8 +16,6 @@
 + [cuckoo沙箱源码分析后](https://bbs.pediy.com/thread-260252.htm)
 + [腾讯哈勃Linux沙箱源码分析上](https://zhuanlan.zhihu.com/p/54756592)
 + [腾讯哈勃Linux沙箱源码分析下](https://zhuanlan.zhihu.com/p/54756845)
-  
-+ https://bbs.pediy.com/thread-260252.htm
 
 #### 项目结构更新
   - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
