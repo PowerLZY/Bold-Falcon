@@ -7,6 +7,7 @@
 + [docker-cuckoo](https://github.com/blacktop/docker-cuckoo)
 + [cuckooautoinstall](https://github.com/buguroo/cuckooautoinstall)
 + [cuckooML](https://github.com/honeynet/cuckooml)
++ [Panda-Sandbox](https://github.com/PowerLZY/Panda-Sandbox)
 + [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn)
 
 #### 源码分析
@@ -28,7 +29,7 @@
   - [x] DLL注入、动态信息提取原理
   - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
-  - [ ] 动态牌子
+  - [ ] [动态牌子](https://img.shields.io)
   - [ ] 创建Bold-Falcon logo in logo.py
   - [ ] pypi上传模块，pip安装
   - [x] requirements.txt 整理
