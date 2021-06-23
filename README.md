@@ -22,6 +22,7 @@
   - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
   - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage、log等目录
   - [ ] 更新源码简介信息
+
 #### 主要更新内容
 
 + 学习内容
@@ -34,6 +35,8 @@
   - [ ] pypi上传模块，pip安装
   - [x] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
+  - [ ] 解析plugins.py, class RunSignatures()原理
+  - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
