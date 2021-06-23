@@ -511,8 +511,9 @@ class GuestManager(object):
             return
 
         end = time.time() + self.timeout
-        count = 0 #
+
         while db.guest_get_status(self.task_id) == "running":
+            count = 0
             if count >= 8:
                 log.debug("%s: analysis still processing", self.vmid)
                 count = 0
