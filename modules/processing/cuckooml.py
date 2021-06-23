@@ -405,6 +405,8 @@ class ML(object):
             return None
 
         # Add base -1 to count so that 0 is in its own bin
+        if value < 0:
+            value = 0
         return int(log(value + base - 1, base))
 
 

@@ -24,6 +24,9 @@ from lib.cuckoo.core.database import Database
 
 try:
     import libvirt
+    # ToDo:libvirt是提供了一个方便的方式来管理虚拟机和其他虚拟化功能的软件的集合，
+    # 如存储和网络接口管理。这些软件包括一个API库，一个守护进程（Libvirtd），
+    # 和一个命令行实用程序（virsh）。
     HAVE_LIBVIRT = True
 except ImportError:
     HAVE_LIBVIRT = False
