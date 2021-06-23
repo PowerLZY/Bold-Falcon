@@ -71,8 +71,7 @@ if relabelled:
                         vt.normalize(report["virustotal"]["scans"][vendor]["result"])
 
                     for label_type in report["virustotal"]["scans"][vendor]["normalized"]:
-                        norm_lower[label_type] += \
-                            report["virustotal"]["scans"][vendor]["normalized"][label_type]
+                        norm_lower[label_type] += report["virustotal"]["scans"][vendor]["normalized"][label_type]
 
                 labeller = Instance()
                 for label_type in norm_lower:

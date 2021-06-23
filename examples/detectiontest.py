@@ -1,3 +1,4 @@
+# coding=utf-8
 import sys
 sys.path.append("..")
 
@@ -14,16 +15,18 @@ loader.load_binaries("../sample_data/dict")
 simple_features_dict = loader.get_simple_features()
 features_dict = loader.get_features()
 """
-{simple_features_dict['165']:
-u'injection_runpe': u'Executed a process and injected code into it, probably while unpacking', 
-u'worm_renocide': u'Creates known Renocide Worm files, registry keys and/or mutexes', 
-u'pe_features': u'The executable has PE anomalies (could be a false positive)', 
-u'raises_exception': u'One or more processes crashed', 
-u'dumped_buffer': u'One or more potentially interesting buffers were extracted, these generally contain injected code, configuration data, etc.', 
-u'antisandbox_productid': u'Retrieves Windows ProductID, probably to fingerprint the sandbox',
-u'antivirus_virustotal': u'File has been identified by at least one AntiVirus on VirusTotal as malicious', 
-u'allocates_rwx': u'Allocates read-write-execute memory (usually to unpack itself)',
- u'packer_upx': u'The executable is compressed using UPX'}
+例子：
+simple_features_dict['165']:{
+    u'injection_runpe': u'Executed a process and injected code into it, probably while unpacking', 
+    u'worm_renocide': u'Creates known Renocide Worm files, registry keys and/or mutexes', 
+    u'pe_features': u'The executable has PE anomalies (could be a false positive)', 
+    u'raises_exception': u'One or more processes crashed', 
+    u'dumped_buffer': u'One or more potentially interesting buffers were extracted, these generally contain injected code, configuration data, etc.', 
+    u'antisandbox_productid': u'Retrieves Windows ProductID, probably to fingerprint the sandbox',
+    u'antivirus_virustotal': u'File has been identified by at least one AntiVirus on VirusTotal as malicious', 
+    u'allocates_rwx': u'Allocates read-write-execute memory (usually to unpack itself)',
+    u'packer_upx': u'The executable is compressed using UPX'
+}
 """
 labels_dict = loader.get_labels()
 
@@ -40,3 +43,5 @@ ml.load_labels(labels_dict)
 simple_features = ml.simple_features
 features = ml.features
 labels = ml.labels
+
+# json

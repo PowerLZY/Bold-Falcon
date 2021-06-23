@@ -679,7 +679,6 @@ class Processing(object):
         """
         raise NotImplementedError
 
-
 class Detection(object):
     """Base abstract class for detection module."""
     order = 1
@@ -729,7 +728,6 @@ class Detection(object):
         @raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
-
 
 class Signature(object):
     """Base class for Cuckoo signatures."""
