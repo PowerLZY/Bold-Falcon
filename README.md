@@ -1,14 +1,14 @@
 # 毕方云沙箱（恶意软件检测平台）
 
 #### 开源资料
-+ [cuckoo](https://github.com/cuckoosandbox/cuckoo)
-+ [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified)
-+ [cuckooDroid](https://github.com/idanr1986/cuckoo-droid)
-+ [docker-cuckoo](https://github.com/blacktop/docker-cuckoo)
-+ [cuckooautoinstall](https://github.com/buguroo/cuckooautoinstall)
-+ [cuckooML](https://github.com/honeynet/cuckooml)
-+ [Panda-Sandbox](https://github.com/PowerLZY/Panda-Sandbox)
-+ [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn)
++ [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
++ [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified) Modified edition of cuckoo
++ [cuckooDroid](https://github.com/idanr1986/cuckoo-droid) CuckooDroid - Automated Android Malware Analysis with Cuckoo Sandbox.
++ [docker-cuckoo](https://github.com/blacktop/docker-cuckoo) Cuckoo Sandbox Dockerfile
++ [cuckooautoinstall](https://github.com/buguroo/cuckooautoinstall) Auto Installer Script for Cuckoo Sandbox
++ [cuckooML](https://github.com/honeynet/cuckooml) CuckooML: Machine Learning for Cuckoo Sandbox
++ [Panda-Sandbox](https://github.com/PowerLZY/Panda-Sandbox) 
++ [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn) HaboMalHunter is a sub-project of Habo Malware Analysis System
 
 #### 源码分析
 + [cuckoo技术分析全景图](https://cloud.tencent.com/developer/article/1597020)
