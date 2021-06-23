@@ -679,6 +679,58 @@ class Processing(object):
         """
         raise NotImplementedError
 
+
+class Detection(object):
+    """Base abstract class for detection module."""
+    order = 1
+    enabled = True
+
+    def __init__(self):
+        self.key = None
+        self.task = None
+        self.options = None  # conf options
+        self.json_path = None  # 原文件结果路径
+        self.bin_path = None  # 原文件路径
+        self.labels = None
+        self.features = None
+        self.results = None  # 保持模型预测结果
+
+    def set_path(self, analysis_path):
+        """Set paths.
+        @param analysis_path: analysis folder path.
+        """
+        self.analysis_path = analysis_path
+        self.file_path = os.path.realpath(os.path.join(self.analysis_path, "binary"))
+
+    # 特征提取
+    # 特征工程
+    # 特征保存pandas
+    def load_binaries(self):
+        pass
+
+    def load_features(self, features_dict):
+        pass
+
+
+    def load_model(self):
+        pass
+
+
+    def predict(self):
+        pass
+
+
+    def set_results(self, results):
+        """Set the results - the fat dictionary."""
+        self.results = results
+
+    def run(self):
+        """Start detection.
+        @raise NotImplementedError: this method is abstract.
+        """
+        raise NotImplementedError
+
+
 class Signature(object):
     """Base class for Cuckoo signatures."""
     name = ""
