@@ -44,8 +44,8 @@
   + [ ] 图标+起名
 
 + 家族签名模块
-  - [x] cuckoo 社区签名库 https://github.com/cuckoosandbox/community
-  - [x] https://www.secpulse.com/archives/75180.html
+  - [x] [cuckoo 社区签名库](https://github.com/cuckoosandbox/community)
+  - [x] [cuckoo的行为签名](https://www.secpulse.com/archives/75180.html)
   - [ ] 添加挖矿+使用自定义签名
 
 + 机器学习模块
@@ -64,14 +64,7 @@
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
   + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
-
-#### 文档结构
-
-+ 说明
-+ 安装
-+ 使用
-+ 开发文档
-+ 使用案例
+  
 
 
 
