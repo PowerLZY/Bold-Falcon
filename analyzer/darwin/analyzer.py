@@ -1,16 +1,14 @@
-# Copyright (C) 2015-2018 Cuckoo Foundation.
-# This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
-# See the file 'docs/LICENSE' for copying permission.
+#!/usr/bin/env python
+# Copyright (C) 2015 Dmitry Rodionov
+# This software may be modified and distributed under the terms
+# of the MIT license. See the LICENSE file for details.
 
-import hashlib
 import logging
-import os
-import pkgutil
-import sys
-import traceback
-import urllib
-import urllib2
-import xmlrpclib
+from sys import stderr
+from hashlib import sha256
+from xmlrpclib import Server
+from traceback import format_exc
+from os import path, getcwd, makedirs
 
 from lib.common.config import Config
 from lib.common.hashing import hash_file
@@ -19,11 +17,6 @@ from lib.core.constants import PATHS
 from lib.core.packages import choose_package_class
 from lib.core.osx import set_wallclock
 from lib.core.host import CuckooHost
-from lib.common.abstracts import Auxiliary
-from lib.common.exceptions import CuckooDisableModule
-from modules import auxiliary
-
-log = logging.getLogger("analyzer")
 
 class Macalyzer(object):
     """Cuckoo OS X analyser.
@@ -49,49 +42,13 @@ class Macalyzer(object):
         """
         self.bootstrap()
 
-        self.log.debug("Starting analyzer from %s", os.getcwd())
+        self.log.debug("Starting analyzer from %s", getcwd())
         self.log.debug("Storing results at: %s", PATHS["root"])
 
         package = self._setup_analysis_package()
 
         if self.config.clock:
             set_wallclock(self.config.clock)
-
-        # Initialize Auxiliary modules
-        Auxiliary()
-        prefix = auxiliary.__name__ + "."
-        for loader, name, ispkg in pkgutil.iter_modules(auxiliary.__path__, prefix):
-            if ispkg:
-                continue
-
-            # Import the auxiliary module.
-            try:
-                __import__(name, globals(), locals(), ["dummy"], -1)
-            except ImportError as e:
-                log.warning("Unable to import the auxiliary module "
-                            "\"%s\": %s", name, e)
-
-        # Walk through the available auxiliary modules.
-        aux_enabled, aux_avail = [], []
-        for module in Auxiliary.__subclasses__():
-            # Try to start the auxiliary module.
-            try:
-                aux = module(options=self.config.options, analyzer=self)
-                aux_avail.append(aux)
-                aux.start()
-            except (NotImplementedError, AttributeError):
-                log.warning("Auxiliary module %s was not implemented",
-                            module.__name__)
-            except CuckooDisableModule:
-                continue
-            except Exception as e:
-                log.warning("Cannot execute auxiliary module %s: %s",
-                            module.__name__, e)
-            else:
-                log.debug("Started auxiliary module %s",
-                          module.__name__)
-                aux_enabled.append(aux)
-
         self._analysis(package)
 
         return self._complete()
@@ -107,7 +64,7 @@ class Macalyzer(object):
 
     def _detect_target(self):
         if self.config.category == "file":
-            self.target = os.path.join("/tmp/", str(self.config.file_name))
+            self.target = path.join("/tmp/", str(self.config.file_name))
         else: # It's not a file, but a URL
             self.target = self.config.target
 
@@ -137,18 +94,18 @@ class Macalyzer(object):
         self.files_to_upload = package.touched_files
 
     def _upload_file(self, filepath):
-        if not os.path.isfile(filepath):
+        if not path.isfile(filepath):
             return
         # Check whether we've already dumped this file - in that case skip it
         try:
-            hashsum = hash_file(hashlib.sha256, filepath)
+            hashsum = hash_file(sha256, filepath)
             if sha256 in self.uploaded_hashes:
                 return
         except IOError as e:
             self.log.info("Error dumping file from path \"%s\": %s", filepath, e)
             return
-        filename = "%s_%s" % (hashsum[:16], os.path.basename(filepath))
-        upload_path = os.path.join("files", filename)
+        filename = "%s_%s" % (hashsum[:16], path.basename(filepath))
+        upload_path = path.join("files", filename)
 
         try:
             upload_to_host(filepath, upload_path)
@@ -158,10 +115,10 @@ class Macalyzer(object):
 
 def _create_result_folders():
     for _, folder in PATHS.items():
-        if os.path.exists(folder):
+        if path.exists(folder):
             continue
         try:
-            os.makedirs(folder)
+            makedirs(folder)
         except OSError:
             pass
 
@@ -196,25 +153,15 @@ if __name__ == "__main__":
         error = "Keyboard Interrupt"
 
     except Exception as err:
-        error_exc = traceback.format_exc()
+        error_exc = format_exc()
         error = str(err)
         if len(analyzer.log.handlers):
             analyzer.log.exception(error_exc)
         else:
-            sys.stderr.write("{0}\n".format(error_exc))
+            stderr.write("{0}\n".format(error_exc))
     # Once the analysis is completed or terminated for any reason, we report
     # back to the agent, notifying that it can report back to the host.
     finally:
-        try:
-            # Establish connection with the agent XMLRPC server.
-            server = xmlrpclib.Server("http://127.0.0.1:8000")
-            server.complete(success, error, PATHS["root"])
-        except Exception as e:
-            # new agent
-            data = {
-                "status": "complete",
-                "description": success
-            }
-            urllib2.urlopen(
-                "http://127.0.0.1:8000/status", urllib.urlencode(data)
-            )
+        # Establish connection with the agent XMLRPC server.
+        server = Server("http://127.0.0.1:8000")
+        server.complete(success, error, PATHS["root"])

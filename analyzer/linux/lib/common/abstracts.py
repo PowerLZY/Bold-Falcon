@@ -31,8 +31,9 @@ class Package(object):
         return True
 
     def execute(self, cmd):
-        """Start an executable for analysis.
-        @param cmd: executable path
+        """Starts an executable for analysis.
+        @param path: executable path
+        @param args: executable arguments
         @return: process pid
         """
         p = Process()

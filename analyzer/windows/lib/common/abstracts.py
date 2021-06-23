@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -131,15 +130,15 @@ class Package(object):
 
     def execute(self, path, args, mode=None, maximize=False, env=None,
                 source=None, trigger=None):
-        """Start an executable for analysis.启动可执行文件进行分析
-        @param path: executable path 可执行路径
-        @param args: executable arguments 可执行参数
-        @param mode: monitor mode - which functions to instrument 监控模式-要检测的功能
-        @param maximize: whether the GUI should start maximized GUI是否应该开始最大化
-        @param env: additional environment variables 其他环境变量
-        @param source: parent process of our process 进程的父进程
-        @param trigger: trigger to indicate analysis start 指示分析开始的触发器
-        @return: process pid 进程pid
+        """Start an executable for analysis.
+        @param path: executable path
+        @param args: executable arguments
+        @param mode: monitor mode - which functions to instrument
+        @param maximize: whether the GUI should start maximized
+        @param env: additional environment variables
+        @param source: parent process of our process
+        @param trigger: trigger to indicate analysis start
+        @return: process pid
         """
         dll = self.options.get("dll")
         free = self.options.get("free")

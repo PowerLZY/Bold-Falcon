@@ -100,7 +100,6 @@ def subprocess_checkcall(args, env=None):
         stderr=subprocess.PIPE, env=env,
     )
 
-#process.execute() -> subprocess.check_output()
 def subprocess_checkoutput(args, env=None):
     return subprocess.check_output(
         args, stdin=subprocess.PIPE, stderr=subprocess.PIPE, env=env,
@@ -285,9 +284,9 @@ class Process(object):
         @param dll: dll path.
         @param free: do not inject our monitor.
         @param curdir: current working directory.
-        @param source: process identifier or process name which will 将成为新进程的父进程的进程标识符或进程名称。
+        @param source: process identifier or process name which will
                        become the parent process for the new process.
-        @param mode: monitor mode - which functions to instrument. 监视器模式-仪器的功能。
+        @param mode: monitor mode - which functions to instrument.
         @param maximize: whether the GUI should be maximized.
         @param env: environment variables.
         @param trigger: trigger to indicate analysis start
@@ -336,10 +335,6 @@ class Process(object):
             argv += ["--maximize"]
 
         try:
-            """
-            启动inject-x86/x64.exe作为中间人，它的任务是负责把目标样本的进程给启动，
-            但是将主线程给挂起来suspend，同时把目标样本进程的pid和主线程tid通过print输出，随后便退出
-            """
             output = subprocess_checkoutput(argv, env)
             self.pid, self.tid = map(int, output.split())
         except subprocess.CalledProcessError as e:
@@ -350,7 +345,6 @@ class Process(object):
             return False
 
         # Report this PID to the kernel driver (if present).
-        # 执行注入功能
         zer0m0n.addpid(self.pid)
 
         # With .NET for AnyCPU target, a 32-bit PE file can start a 64-bit
@@ -393,11 +387,6 @@ class Process(object):
             ]
 
         try:
-            """
-            再次启动inject-x86/x64.exe作为中间人，这一次它的主要任务是执行注入功能，
-            将cuckoo的核心模块monitor-x86/x64.dll注入到目标样本的进程，注入方式有两种：远程线程注入和apc注入
-            最后，通过唤醒目标样本进程的主线程，真正让样本run起来了。
-            """
             subprocess_checkoutput(argv, env)
         except subprocess.CalledProcessError as e:
             log.error(
@@ -428,7 +417,6 @@ class Process(object):
 
     def inject(self, dll=None, apc=False, track=True, mode=None):
         """Inject our monitor into the specified process.
-           将监视器注入指定的进程
         @param dll: Cuckoo DLL path.
         @param apc: Use APC injection.
         @param track: Track this process in the analyzer.

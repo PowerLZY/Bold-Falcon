@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2011-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -447,11 +446,6 @@ class Analyzer(object):
         """Prepare env for analysis."""
         # Get SeDebugPrivilege for the Python process. It will be needed in
         # order to perform the injections.
-        """
-        1.提升当前进程（Analyzer所属的python进程）权限，获得SeDebugPrivilege和SeLoadDriverPrivilege权限
-        用于后续操作样本所在进程和加载驱动使用。
-        2.启动两个管道服务器，分别用于和目标样本进程的代码日志传输和函数执行记录传输
-        """
         grant_privilege("SeDebugPrivilege")
         grant_privilege("SeLoadDriverPrivilege")
 
@@ -482,9 +476,6 @@ class Analyzer(object):
 
         # Initialize and start the Command Handler pipe server. This is going
         # to be used for communicating with the monitored processes.
-        """
-        初始化并启动命令处理程序管道服务器. 这将用于与被监视的进程通信
-        """
         self.command_pipe = PipeServer(
             PipeDispatcher, self.config.pipe, message=True,
             dispatcher=CommandPipeHandler(self)
@@ -495,9 +486,6 @@ class Analyzer(object):
         # Initialize and start the Log Pipe Server - the log pipe server will
         # open up a pipe that monitored processes will use to send logs to
         # before they head off to the host machine.
-        """
-        初始化并启动日志管道服务器-日志管道服务器将打开一个管道，受监视的进程将使用该管道在将日志发送到主机之前向其发送日志。
-        """
         destination = self.config.ip, self.config.port
         self.log_pipe_server = PipeServer(
             PipeForwarder, self.config.logpipe, destination=destination
@@ -539,7 +527,7 @@ class Analyzer(object):
         """Run analysis.
         @return: operation status.
         """
-        self.prepare() # 准备工作
+        self.prepare()
         self.path = os.getcwd()
 
         log.debug("Starting analyzer from: %s", self.path)
@@ -575,7 +563,6 @@ class Analyzer(object):
             log.info("Automatically selected analysis package \"%s\"", package)
         # Otherwise just select the specified package.
         else:
-            # 选择 package 不同扩展名的文件选定不同的命令来启动分析
             package = self.config.package
 
         # Generate the package path.
@@ -610,7 +597,6 @@ class Analyzer(object):
             self.target = self.package.move_curdir(self.target)
 
         # Initialize Auxiliary modules
-        # 启动一系列辅助分析工具，Auxiliary为抽象基类，遍历所有该类的子类并启动之，主要包括截屏工具、驱动加载工具等
         Auxiliary()
         prefix = auxiliary.__name__ + "."
         for loader, name, ispkg in pkgutil.iter_modules(auxiliary.__path__, prefix):
@@ -650,16 +636,13 @@ class Analyzer(object):
                 aux_enabled.append(aux)
 
         # Inform zer0m0n of the ResultServer address.
-        # 绑定 zer0m0n结果服务器地址。
         zer0m0n.resultserver(self.config.ip, self.config.port)
 
         # Forward the command pipe and logpipe names on to zer0m0n.
-        # 将命令管道和日志管道名称转发到zer0m0n。
         zer0m0n.cmdpipe(self.config.pipe)
         zer0m0n.channel(self.config.logpipe)
 
         # Hide the Cuckoo Analyzer & Cuckoo Agent.
-        #隐藏代理和分析进程
         zer0m0n.hidepid(self.pid)
         zer0m0n.hidepid(self.ppid)
 
