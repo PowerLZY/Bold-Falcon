@@ -21,7 +21,6 @@
 #### 项目结构更新
   - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
   - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage、log等目录
-  - [ ] 更新源码简介信息
 
 #### 主要更新内容
 
@@ -41,7 +40,7 @@
 + 设计文档
   + [x] 参考文献记录（设计依据）
   + [x] 国内沙箱深度调研
-  + [ ] 图标+起名
+  + [x] 图标+起名
 
 + 家族签名模块
   - [x] [cuckoo 社区签名库](https://github.com/cuckoosandbox/community)
