@@ -28,8 +28,7 @@ Note that if you want to access the API over an insecure network such as the
 Internet, you should run the API server behind `nginx`_ described in the
 next section and enable HTTPS.
 
-Web deployment
---------------
+#### Web deployment
 
 While the default method of starting the API server works fine for many cases,
 some users may wish to deploy the server in a robust manner. This can be done
@@ -43,8 +42,7 @@ available as packages::
 
     $ sudo apt-get install uwsgi uwsgi-plugin-python nginx
 
-uWSGI setup
-^^^^^^^^^^^
+#### uWSGI setup
 
 First, use uWSGI to run the API server as an application.
 
@@ -83,8 +81,7 @@ Enable the app configuration and start the server.
    The UNIX socket is created in a conventional location as well,
    ``/run/uwsgi/app/cuckoo-api/socket``.
 
-nginx setup
-^^^^^^^^^^^
+#### nginx setup
 
 With the API server running in uWSGI, nginx can now be set up to run as a web
 server/reverse proxy, backending HTTP requests to it.
@@ -126,11 +123,7 @@ Various configurations may be applied to extend this configuration, such as to
 tune server performance, add authentication, or to secure communications using
 HTTPS.
 
-.. _`uWSGI`: http://uwsgi-docs.readthedocs.org/en/latest/
-.. _`nginx`: http://nginx.org/
-
-Resources
-=========
+### Resources
 
 Following is a list of currently available resources and a brief description of
 each one. For details click on the resource name.
@@ -189,8 +182,8 @@ each one. For details click on the resource name.
 
 .. _tasks_create_file:
 
-/tasks/create/file
-------------------
+#### /tasks/create/file
+
 
 **POST /tasks/create/file**
 
@@ -252,8 +245,7 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 
 .. _tasks_create_url:
 
-/tasks/create/url
------------------
+#### /tasks/create/url
 
 **POST /tasks/create/url**
 
@@ -314,8 +306,7 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 
 .. _tasks_create_submit:
 
-/tasks/create/submit
---------------------
+#### /tasks/create/submit
 
 **POST /tasks/create/submit**
 
@@ -399,8 +390,7 @@ submit ID as well as the task IDs of the newly created task(s).
 
 .. _tasks_list:
 
-/tasks/list
------------
+#### /tasks/list
 
 **GET /tasks/list/** *(int: limit)* **/** *(int: offset)*
 
@@ -479,8 +469,7 @@ Returns list of tasks.
 
 .. _tasks_sample:
 
-/tasks/sample
--------------
+#### /tasks/sample
 
 **GET /tasks/sample/** *(int: sample_id)*
 
@@ -536,8 +525,7 @@ Returns list of tasks for sample.
 
 .. _tasks_view:
 
-/tasks/view
------------
+#### /tasks/view
 
 **GET /tasks/view/** *(int: id)*
 
@@ -599,8 +587,7 @@ Note: possible value for key ``status``:
 
 .. _tasks_reschedule:
 
-/tasks/reschedule
------------------
+#### /tasks/reschedule
 
 **GET /tasks/reschedule/** *(int: id)* **/** *(int: priority)*
 
@@ -633,8 +620,7 @@ is 1).
 
 .. _tasks_delete:
 
-/tasks/delete
--------------
+#### /tasks/delete
 
 **GET /tasks/delete/** *(int: id)*
 
@@ -658,8 +644,7 @@ Removes the given task from the database and deletes the results.
 
 .. _tasks_report:
 
-/tasks/report
--------------
+#### /tasks/report
 
 **GET /tasks/report/** *(int: id)* **/** *(str: format)*
 
@@ -684,8 +669,7 @@ Returns the report associated with the specified task ID.
 
 .. _tasks_summary:
 
-/tasks/summary
---------------
+#### /tasks/summary
 
 **GET /tasks/summary/** *(int: id)*
 
@@ -708,8 +692,8 @@ Returns a condensed report associated with the specified task ID in JSON format.
 
 .. _tasks_shots:
 
-/tasks/screenshots
-------------------
+#### /tasks/screenshots
+
 
 **GET /tasks/screenshots/** *(int: id)* **/** *(str: number)*
 
@@ -732,8 +716,7 @@ Returns one or all screenshots associated with the specified task ID.
 
 .. _tasks_rereport:
 
-/tasks/rereport
----------------
+#### /tasks/rereport
 
 **GET /tasks/rereport/** *(int: id)*
 
@@ -764,8 +747,7 @@ Re-run reporting for task associated with the specified task ID.
 
 .. _tasks_reboot:
 
-/tasks/reboot
--------------
+#### /tasks/reboot
 
 **GET /tasks/reboot/** *(int: id)* **
 
@@ -797,9 +779,7 @@ Add a reboot task to database from an existing analysis ID.
 
 .. _memory_list:
 
-/memory/list
-------------
-
+#### /memory/list
 **GET /memory/list/** *(int: id)*
 
 Returns a list of memory dump files or one memory dump file associated with the specified task ID.
@@ -820,8 +800,8 @@ Returns a list of memory dump files or one memory dump file associated with the 
 
 .. _memory_get:
 
-/memory/get
------------
+#### /memory/get
+
 
 **GET /memory/get/** *(int: id)* **/** *(str: number)*
 
@@ -844,8 +824,7 @@ Returns one memory dump file associated with the specified task ID.
 
 .. _files_view:
 
-/files/view
------------
+#### /files/view
 
 **GET /files/view/md5/** *(str: md5)*
 
@@ -893,8 +872,7 @@ Returns details on the file matching either the specified MD5 hash, SHA256 hash 
 
 .. _files_get:
 
-/files/get
-----------
+#### /files/get
 
 **GET /files/get/** *(str: sha256)*
 
@@ -913,8 +891,7 @@ Returns details on the file matching either the specified MD5 hash, SHA256 hash 
 
 .. _api_pcap_get:
 
-/pcap/get
----------
+#### /pcap/get
 
 **GET /pcap/get/** *(int: task)*
 
@@ -933,8 +910,7 @@ Returns the content of the PCAP associated with the given task.
 
 .. _machines_list:
 
-/machines/list
---------------
+#### /machines/list
 
 **GET /machines/list**
 
@@ -980,8 +956,7 @@ Returns a list with details on the analysis machines available to Cuckoo.
 
 .. _machines_view:
 
-/machines/view
---------------
+#### /machines/view
 
 **GET /machines/view/** *(str: name)*
 
@@ -1026,7 +1001,7 @@ Returns details on the analysis machine associated with the given name.
 
 .. _cuckoo_status:
 
-/cuckoo/status
+#### /cuckoo/status
 --------------
 
 **GET /cuckoo/status/**
@@ -1102,8 +1077,7 @@ Unix!)
 
 .. _vpn_status:
 
-/vpn/status
------------
+#### /vpn/status
 
 **GET /vpn/status**
 
@@ -1122,8 +1096,7 @@ Returns VPN status.
 
 .. _exit:
 
-/exit
------
+#### /exit
 
 **GET /exit**
 
