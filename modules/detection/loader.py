@@ -18,16 +18,16 @@ class Loader(object):
         self.binaries_updated = False
 
 
-    def load_binaries(self, directory):
+    def load_binaries_dir(self, directory):
         """Load all binaries' reports from given directory."""
         self.binaries_location = directory + "/"
+        # 导入整个文件夹的json
         for f in os.listdir(directory):
             self.binaries[f] = Instance()
             self.binaries[f].load_json(directory+"/"+f, f)
             self.binaries[f].label_sample()
             self.binaries[f].extract_features()
             self.binaries[f].extract_basic_features()
-
 
     def update_binaries(self, elements, root, locations):
         """在给定的位置将“elements”附加到加载的json"""
