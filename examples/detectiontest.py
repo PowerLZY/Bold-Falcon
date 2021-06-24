@@ -1,19 +1,27 @@
 # coding=utf-8
 import sys
+import os
 sys.path.append("..")
-
+from lib.cuckoo.common.constants import CUCKOO_ROOT
 from modules.detection.instance import Instance
 from modules.detection.loader import Loader
+from modules.detection.string_ngram import Strings_ngram
 from modules.processing.cuckooml import ML
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
 from pprint import pprint
 
 # The first stage is to load the data from the directory holding all the JSONs
 loader = Loader()
-loader.load_binaries("../sample_data/dict")
+loader.load_binaries_dir("../sample_data/dict")
 
 # Then we extract all the relevant information from the loaded samples.
 simple_features_dict = loader.get_simple_features()
 features_dict = loader.get_features()
+features_strings = features_dict['66']["strings"]
+
+
+
 """
 例子：
 simple_features_dict['165']:{
