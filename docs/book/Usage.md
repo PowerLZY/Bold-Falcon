@@ -5,17 +5,9 @@ sort: 2
 
 
 ## REST API
-========
-REST API
-========
 
-As mentioned in :doc:`submit`, Cuckoo provides a simple and lightweight REST
-API server that is under the hood implemented using `Flask`_.
 
-.. _`Flask`: http://flask.pocoo.org/
-
-Starting the API server
-=======================
+### Starting the API server
 
 In order to start the API server you can simply do::
 
