@@ -111,7 +111,8 @@ class Instance(object):
         """Extract static features of the loaded sample."""
         self.feature_static_metadata()
         self.feature_static_signature()
-        self.feature_static_heuristic()
+        # self.feature_static_heuristic()
+        self.feature_static_string()
         self.feature_static_packer()
         self.feature_static_pef()
         self.feature_static_imports()
@@ -129,8 +130,7 @@ class Instance(object):
     def feature_static_metadata(self):
         """Create features form extracted binary metadata."""
         # Get binary size
-        self.features["size"] = \
-            self.report.get("target", {}).get("file", {}).get("size")
+        self.features["size"] = self.report.get("target", {}).get("file", {}).get("size")
 
         # Get binary timestamp in the UNIX timestamp format
         str_dt = self.report.get("static", {}).get("pe_timestamp")
@@ -157,12 +157,11 @@ class Instance(object):
     def feature_static_signature(self):
         """Create features form binary signature check."""
         # Check availability of digital signature
-        self.features["signed"] = \
-            bool(self.report.get("static", {}).get("signature", []))
+        self.features["signed"] = bool(self.report.get("static", {}).get("signature", []))
+
 
         # ExifTool output
-        et_tokens = ["Comments", "ProductName", "LegalCopyright", \
-                     "InternalName", "CompanyName"]
+        et_tokens = ["Comments", "ProductName", "LegalCopyright", "InternalName", "CompanyName"]
         for token in et_tokens:
             self.features[token] = None
         for attr in self.report.get("static", {}).get("pe_versioninfo", []):
@@ -242,6 +241,10 @@ class Instance(object):
                 if ref is not None:
                     self.features["static_imports"][ddl_name].append(ref)
 
+    def feature_static_string(self):
+        """Create Static string list"""
+        self.features['strings'] = self.report.get("strings", {})
+
 
     def feature_dynamic_imports(self):
         """Extract features from dynamic imports, mutexes, and processes."""
@@ -260,6 +263,8 @@ class Instance(object):
         self.features["dynamic_imports"] = \
             self.report.get("behavior", {}).get("summary", {})\
             .get("dll_loaded", [])
+
+
 
 
     def feature_dynamic_filesystem(self):
