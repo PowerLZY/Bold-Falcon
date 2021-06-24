@@ -2,14 +2,12 @@
 sort: 2
 ---
 # 使用
-.. Usage chapter frontpage
 
 Usage
 =====
 
 This chapter explains how to use Cuckoo.
 
-.. toctree::
 
     start
     submit
@@ -82,8 +80,6 @@ verbosity.
 Cuckoo Working Directory Usage
 ==============================
 
-.. note:: Before reading this page, please read on installing Cuckoo and
-    the :doc:`../installation/host/cwd`.
 
 Before we go into the subject of using the ``CWD`` we're first going to walk
 you through the many improvements on your Quality of Life during your daily
@@ -128,7 +124,7 @@ latest version of Cuckoo in a ``virtualenv`` environment may look roughly as
 follows (note the ``pip install -U pip setuptools``, for more information see
 also :ref:`pip_install_issue`).
 
-.. code-block:: bash
+
 
     $ virtualenv venv
     $ . venv/bin/activate
@@ -175,7 +171,6 @@ daemon. Which is equally straightforward. Do keep in mind that, by default,
 the command will run indefinitely (unless a ``maximum analysis count`` was
 provided through the ``-m`` parameter, e.g., ``-m 5``).
 
-.. code-block:: bash
 
     # This command is equal to what used to be "./cuckoo.py -d".
     (venv)$ cuckoo -d
@@ -185,7 +180,7 @@ For small and/or home setups this may be done using the built-in Django web
 server as follows, although we recommend a proper :ref:`web_deployment` for
 any bigger setup.
 
-.. code-block:: bash
+
 
     (venv)$ cuckoo web
     Performing system checks...
@@ -211,7 +206,7 @@ Submit an Analysis
     * :ref:`distpy`
     * :ref:`python`
 
-.. _submitpy:
+
 
 Submission Utility
 ==================
