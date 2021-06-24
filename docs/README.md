@@ -22,9 +22,6 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
 - [ ] 打包Docker\shells安装
 - [x] 恶意软件检测安全策略（卡巴斯基
 
----
-sort: 4
----
 # 主要更新内容
 
 + 学习内容
