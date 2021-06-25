@@ -1,4 +1,4 @@
-<img src="resources/test.png" align="right" width="320px" height="220px">
+<img src="resources/test.png" align="left" width="320px" height="220px">
 
 # 毕方云沙箱（恶意软件检测平台）
 二次开发一个开源cuckoo沙箱，重写整个前端的用户交互和添加基于机器学习的检测模块。
