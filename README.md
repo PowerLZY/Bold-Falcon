@@ -1,10 +1,7 @@
-<img src="resources/test.png" align="right" width="300px" height="220px">
-
-# Elastic Malware Benchmark for Empowering Researchers
-
-The EMBER dataset is a collection of features from PE files that serve as a benchmark dataset for researchers. The EMBER2017 dataset contained features from 1.1 million PE files scanned in or before 2017 and the EMBER2018 dataset contains features from 1 million PE files scanned in or before 2018. This repository makes it easy to reproducibly train the benchmark models, extend the provided feature set, or classify new PE files with the benchmark models.
+<img src="resources/test.png" align="right" width="320px" height="220px">
 
 # 毕方云沙箱（恶意软件检测平台）
+二次开发一个开源cuckoo沙箱，重写整个前端的用户交互和添加基于机器学习的检测模块。
 
 #### 开源资料
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
