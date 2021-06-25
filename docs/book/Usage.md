@@ -22,34 +22,7 @@ sort: 2
 
 
 ### 资源
-
-以下是当前可用资源的列表。
-| 资源                           | 描述                                                                                                     |
-| ------                           |------|
-|  `POST tasks_create_file`  | 将文件添加到待处理和分析的挂起任务列表中。                                           |
-|  `POST tasks_create_url`    | 将URL添加到待处理和分析的挂起任务列表中。                                          |
-| `POST tasks_create_submit` |   将一个或多个文件和/或嵌入存档中的文件添加到挂起任务列表中。                        |
-| ` GET tasks_list`           |      返回存在是数据库中的任务列表，可以选择指定要返回的条目的限制。                                            |
-| ` GET tasks_view`           |         返回分配给指定ID的任务的详细信息。                                            |
-| `GET tasks_reschedule`     | 重新安排分配给指定ID的任务。                                                                |
-| `GET tasks_delete`         | 从数据库中删除给定任务并删除结果。                                               |
-| `GET tasks_report`         | 返回通过分析与指定ID关联的任务而生成的报告，可以选择指定要返回的报告格式，如果未指定任何格式，则将返回JSON报告。|
-| `GET tasks_summary`        | 返回JSON格式的压缩报表。                                                                   |
-| `GET tasks_shots`          |  检索与给定分析任务ID关联的一个或所有屏幕截图。                                      |
-| `GET tasks_rereport`       |     为与给定分析任务ID关联的任务重新运行报告。                                          |
-| `GET tasks_reboot`         |    重新启动给定的分析任务ID。                                                                             |
-| `GET memory_list`          | 返回与给定分析任务ID关联的内存转储文件列表。                                  |
-| `GET  memory_get`           |   检索一个与给定分析任务ID关联的内存转储文件。                                       |
-| `GET files_view`           | 按MD5 hash、SHA256 hash或内部ID（由任务详细信息引用）搜索分析的二进制文件。       |
-| `GET files_get`            |  返回具有指定SHA256哈希的二进制文件的内容。                                              |
-| `GET api_pcap_get`         |   返回与给定任务关联的PCAP的内容。                                             |
-| `GET machines_list`        |   返回杜鹃可用的分析机器列表。                                                     |
-| `GET machines_view`        |    返回与指定名称关联的分析计算机的详细信息。                                   |
-| `GET cuckoo_status`        |       返回基本的沙箱状态，包括版本和任务概述。                                     |
-| `GET vpn_status`           | 返回VPN的状态                                                                                             |
-| `GET exit`                 | 关闭API服务器                                                                                     |
-
-
+![image](https://user-images.githubusercontent.com/16918550/123376421-08511980-d5bd-11eb-847e-2adc918c83b1.png)
 #### /tasks/create/file
 **POST /tasks/create/file**
 
