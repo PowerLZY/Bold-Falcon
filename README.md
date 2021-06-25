@@ -1,4 +1,4 @@
-<img src="resources/test.png" align="right" width="250px" height="250px">
+<img src="resources/test.png" align="right" width="250px" height="300px">
 
 # Elastic Malware Benchmark for Empowering Researchers
 
