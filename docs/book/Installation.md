@@ -5,7 +5,9 @@ sort: 2
 # 安装
 
 ## 安装Host
+
 ### 安装必需的软件包和库
+
 #### 安装Python库(在基于Ubuntu/Debian的发行版上)
 Cuckoo主机组件完全用Python编写，因此需要安装适当版本的Python。在这一点上，我们只是全力支持Python 2.7。我们不支持Python和Python3的旧版本(尽管Python3支持在我们的Todo列表中是低优先级的)。
 要使Cuckoo正确安装和运行，需要来自APT存储库的以下软件包：
@@ -19,11 +21,11 @@ Cuckoo主机组件完全用Python编写，因此需要安装适当版本的Pytho
     $ sudo apt-get install mongodb
 为了将PostgreSQL用作数据库(我们的建议)，还必须安装PostgreSQL：
 
-     $ sudo apt-get install postgresql libpq-dev
+    $ sudo apt-get install postgresql libpq-dev
   
 如果要使用KVM作为机器模块，则必须安装KVM：
   
-      $ sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils python-libvirt
+    $ sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils python-libvirt
 如果要使用XenServer，则必须安装XenAPIPython包：
   
     $ sudo pip install XenAPI
@@ -34,10 +36,11 @@ Cuckoo主机组件完全用Python编写，因此需要安装适当版本的Pytho
     $ brew install libmagic cairo pango openssl
 此外，您还希望公开标准GCC/Clang包含目录中的OpenSSL头文件，以便yara-python可以成功编译。这是可以做到的如下:
 
-      $ cd /usr/local/include
+    $ cd /usr/local/include
     $ ln -s ../opt/openssl/include/openssl .
 
 #### 安装Python库(在Windows 7上)
+
 #### 虚拟化软件
 假设您决定选择VirtualBox，则可以在官方下载页面。请在您的UbuntuLTS计算机上找到安装VirtualBox最新版本的命令。注意，Cuckoo支持VirtualBox 4.3、5.0、5.1和5.2：
 
@@ -123,10 +126,10 @@ guacd是一个可选服务，它为RDP、VNC和SSH提供转换层，用于Cuckoo
  
 尽管如此，全球在您的操作系统中安装Cuckoo大部分都很好，我们极力推荐将布谷鸟安装在virtualenv，大致如下：
 
-$ virtualenv venv
-$ . venv/bin/activate
-(venv)$ pip install -U pip setuptools
-(venv)$ pip install -U cuckoo
+    $ virtualenv venv
+    $ . venv/bin/activate
+    (venv)$ pip install -U pip setuptools
+    (venv)$ pip install -U cuckoo
 
 使用virtualenv:
 
