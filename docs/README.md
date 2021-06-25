@@ -1,28 +1,27 @@
-# 云沙箱（恶意软件检测平台）
+# 毕方云沙箱（恶意软件检测平台）
 
+#### 开源资料
++ [cuckoo](https://github.com/cuckoosandbox/cuckoo)
++ [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified)
++ [cuckooDroid](https://github.com/idanr1986/cuckoo-droid)
++ [docker-cuckoo](https://github.com/blacktop/docker-cuckoo)
++ [cuckooautoinstall](https://github.com/buguroo/cuckooautoinstall)
++ [cuckooML](https://github.com/honeynet/cuckooml)
++ [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn)
 
-**资料：**
+#### 源码分析
++ [cuckoo技术分析全景图](https://cloud.tencent.com/developer/article/1597020)
++ [cuckoo沙箱源码分析上](https://bbs.pediy.com/thread-260038.htm)
++ [cuckoo沙箱源码分析中](https://bbs.pediy.com/thread-260087.htm)
++ [cuckoo沙箱源码分析后](https://bbs.pediy.com/thread-260252.htm)
++ [腾讯哈勃Linux沙箱源码分析上](https://zhuanlan.zhihu.com/p/54756592)
++ [腾讯哈勃Linux沙箱源码分析下](https://zhuanlan.zhihu.com/p/54756845)
 
-cuckoo 使用手册 https://zhuanlan.zhihu.com/p/43410960
-
-Cuckooml-blog https://honeynet.github.io/cuckooml/
-
-pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/details/89525865
-
-在 Pycharm 中玩转 GitHub https://zhuanlan.zhihu.com/p/145649307
-
-**学习内容：**
-
-- [x] Github 多人协作
-- [ ] Yara规则
-- [ ] ssdeep
-- [ ] Cuckoo 社区签名库
-- [ ] DLL注入
-- [ ] 历届比赛调研
-- [ ] 打包Docker\shells安装
-- [x] 恶意软件检测安全策略（卡巴斯基
-
-# 主要更新内容
+#### 项目结构更新
+  - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
+  - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage、log等目录
+  - [ ] 更新源码简介信息
+#### 主要更新内容
 
 + 学习内容
   - [x] Yara规则、ssdeep
@@ -61,6 +60,36 @@ pycharm和Github多人协作教程 https://blog.csdn.net/qq_34484082/article/det
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
   + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
+
+#### 文档结构
+
++ 说明
++ 安装
++ 使用
++ 开发文档
++ 使用案例
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
