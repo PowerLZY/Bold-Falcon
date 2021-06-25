@@ -7,195 +7,60 @@ sort: 2
 ## REST API
 
 
-### Starting the API server
+### 启动API服务器
 
-In order to start the API server you can simply do::
+为了启动API服务器，您只需:
 
     $ cuckoo api
 
-By default it will bind the service on **localhost:8090**. If you want to change
-those values, you can use the following syntax::
+默认情况下，它绑定的服务是**localhost:8090**,如果你想要的去改变这些值，可以使用如下语法：
 
     $ cuckoo api --host 0.0.0.0 --port 1337
     $ cuckoo api -H 0.0.0.0 -p 1337
 
-To allow only authenticated access to the API, the ``api_token`` in
-``cuckoo.conf`` must be set to a secret value. In new Cuckoo installations,
-a random token is automatically generated for you.
-To access the API, you must send the ``Authorization: Bearer <token>`` header
-with all your requests using the token defined in the configuration.
-Note that if you want to access the API over an insecure network such as the
-Internet, you should run the API server behind `nginx`_ described in the
-next section and enable HTTPS.
+使用API需要进行身份验证，必须将``cuckoo.conf``的``api_token``的值填充在``Authorization: Bearer <token>``中。
 
-#### Web deployment
 
-While the default method of starting the API server works fine for many cases,
-some users may wish to deploy the server in a robust manner. This can be done
-by exposing the API as a WSGI application through a web server. This section shows
-a simple example of deploying the API via `uWSGI`_ and `nginx`_. These
-instructions are written with Ubuntu GNU/Linux in mind, but may be adapted for
-other platforms.
+### 资源
 
-This solution requires uWSGI, the uWSGI Python plugin, and nginx. All are
-available as packages::
+以下是当前可用资源的列表。
+| 资源                           | 描述                                                                                                     |
+| ------                           |------|
+|  `POST tasks_create_file`  | 将文件添加到待处理和分析的挂起任务列表中。                                           |
+|  `POST tasks_create_url`    | 将URL添加到待处理和分析的挂起任务列表中。                                          |
+| `POST tasks_create_submit` |   将一个或多个文件和/或嵌入存档中的文件添加到挂起任务列表中。                        |
+| ` GET tasks_list`           |      返回存在是数据库中的任务列表，可以选择指定要返回的条目的限制。                                            |
+| ` GET tasks_view`           |         返回分配给指定ID的任务的详细信息。                                            |
+| `GET tasks_reschedule`     | 重新安排分配给指定ID的任务。                                                                |
+| `GET tasks_delete`         | 从数据库中删除给定任务并删除结果。                                               |
+| `GET tasks_report`         | 返回通过分析与指定ID关联的任务而生成的报告，可以选择指定要返回的报告格式，如果未指定任何格式，则将返回JSON报告。|
+| `GET tasks_summary`        | 返回JSON格式的压缩报表。                                                                   |
+| `GET tasks_shots`          |  检索与给定分析任务ID关联的一个或所有屏幕截图。                                      |
+| `GET tasks_rereport`       |     为与给定分析任务ID关联的任务重新运行报告。                                          |
+| `GET tasks_reboot`         |    重新启动给定的分析任务ID。                                                                             |
+| `GET memory_list`          | 返回与给定分析任务ID关联的内存转储文件列表。                                  |
+| `GET  memory_get`           |   检索一个与给定分析任务ID关联的内存转储文件。                                       |
+| `GET files_view`           | 按MD5 hash、SHA256 hash或内部ID（由任务详细信息引用）搜索分析的二进制文件。       |
+| `GET files_get`            |  返回具有指定SHA256哈希的二进制文件的内容。                                              |
+| `GET api_pcap_get`         |   返回与给定任务关联的PCAP的内容。                                             |
+| `GET machines_list`        |   返回杜鹃可用的分析机器列表。                                                     |
+| `GET machines_view`        |    返回与指定名称关联的分析计算机的详细信息。                                   |
+| `GET cuckoo_status`        |       返回基本的沙箱状态，包括版本和任务概述。                                     |
+| `GET vpn_status`           | 返回VPN的状态                                                                                             |
+| `GET exit`                 | 关闭API服务器                                                                                     |
 
-    $ sudo apt-get install uwsgi uwsgi-plugin-python nginx
-
-#### uWSGI setup
-
-First, use uWSGI to run the API server as an application.
-
-To begin, create a uWSGI configuration file at
-``/etc/uwsgi/apps-available/cuckoo-api.ini`` that contains the actual
-configuration as reported by the ``cuckoo api --uwsgi`` command::
-
-    $ cuckoo api --uwsgi
-    [uwsgi]
-    plugins = python
-    virtualenv = /home/cuckoo/cuckoo
-    module = cuckoo.apps.api
-    callable = app
-    uid = cuckoo
-    gid = cuckoo
-    env = CUCKOO_APP=api
-    env = CUCKOO_CWD=/home/..somepath..
-
-This configuration inherits a number of settings from the distribution's
-default uWSGI configuration and imports ``cuckoo.apps.api`` from the Cuckoo
-package to do the actual work. In this example we installed Cuckoo in a
-virtualenv located at ``/home/cuckoo/cuckoo``. If Cuckoo is installed globally
-no virtualenv option is required.
-
-Enable the app configuration and start the server.
-
-.. code-block:: bash
-
-    $ sudo ln -s /etc/uwsgi/apps-available/cuckoo-api.ini /etc/uwsgi/apps-enabled/
-    $ sudo service uwsgi start cuckoo-api    # or reload, if already running
-
-.. note::
-
-   Logs for the application may be found in the standard directory for distribution
-   app instances, i.e., ``/var/log/uwsgi/app/cuckoo-api.log``.
-   The UNIX socket is created in a conventional location as well,
-   ``/run/uwsgi/app/cuckoo-api/socket``.
-
-#### nginx setup
-
-With the API server running in uWSGI, nginx can now be set up to run as a web
-server/reverse proxy, backending HTTP requests to it.
-
-To begin, create a nginx configuration file at
-``/etc/nginx/sites-available/cuckoo-api`` that contains the actual
-configuration as reportd by the ``cuckoo api --nginx`` command::
-
-    $ cuckoo api --nginx
-    upstream _uwsgi_cuckoo_api {
-        server unix:/run/uwsgi/app/cuckoo-api/socket;
-    }
-
-    server {
-        listen localhost:8090;
-
-        # REST API app
-        location / {
-            client_max_body_size 1G;
-            uwsgi_pass  _uwsgi_cuckoo_api;
-            include     uwsgi_params;
-        }
-    }
-
-Make sure that nginx can connect to the uWSGI socket by placing its user in the
-**cuckoo** group::
-
-    $ sudo adduser www-data cuckoo
-
-Enable the server configuration and start the server.
-
-.. code-block:: bash
-
-    $ sudo ln -s /etc/nginx/sites-available/cuckoo-api /etc/nginx/sites-enabled/
-    $ sudo service nginx start    # or reload, if already running
-
-At this point, the API server should be available at port **8090** on the server.
-Various configurations may be applied to extend this configuration, such as to
-tune server performance, add authentication, or to secure communications using
-HTTPS.
-
-### Resources
-
-Following is a list of currently available resources and a brief description of
-each one. For details click on the resource name.
-
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| Resource                            | Description                                                                                                      |
-+=====================================+==================================================================================================================+
-| ``POST`` :ref:`tasks_create_file`   | Adds a file to the list of pending tasks to be processed and analyzed.                                           |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``POST`` :ref:`tasks_create_url`    | Adds an URL to the list of pending tasks to be processed and analyzed.                                           |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``POST`` :ref:`tasks_create_submit` | Adds one or more files and/or files embedded in archives to the list of pending tasks.                           |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_list`           | Returns the list of tasks stored in the internal Cuckoo database.                                                |
-|                                     | You can optionally specify a limit of entries to return.                                                         |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_sample`         | Returns the list of tasks stored in the internal Cuckoo database for a given sample.                             |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_view`           | Returns the details on the task assigned to the specified ID.                                                    |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_reschedule`     | Reschedule a task assigned to the specified ID.                                                                  |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_delete`         | Removes the given task from the database and deletes the results.                                                |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_report`         | Returns the report generated out of the analysis of the task associated with the specified ID.                   |
-|                                     | You can optionally specify which report format to return, if none is specified the JSON report will be returned. |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_summary`        | Returns a condensed report in JSON format.                                                                       |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_shots`          | Retrieves one or all screenshots associated with a given analysis task ID.                                       |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_rereport`       | Re-run reporting for task associated with a given analysis task ID.                                              |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`tasks_reboot`         | Reboot a given analysis task ID.                                                                                 |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`memory_list`          | Returns a list of memory dump files associated with a given analysis task ID.                                    |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`memory_get`           | Retrieves one memory dump file associated with a given analysis task ID.                                         |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`files_view`           | Search the analyzed binaries by MD5 hash, SHA256 hash or internal ID (referenced by the tasks details).          |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`files_get`            | Returns the content of the binary with the specified SHA256 hash.                                                |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`api_pcap_get`         | Returns the content of the PCAP associated with the given task.                                                  |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`machines_list`        | Returns the list of analysis machines available to Cuckoo.                                                       |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`machines_view`        | Returns details on the analysis machine associated with the specified name.                                      |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`cuckoo_status`        | Returns the basic cuckoo status, including version and tasks overview.                                           |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`vpn_status`           | Returns VPN status.                                                                                              |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| ``GET`` :ref:`exit`                 | Shuts down the API server.                                                                                       |
-+-------------------------------------+------------------------------------------------------------------------------------------------------------------+
-
-.. _tasks_create_file:
 
 #### /tasks/create/file
-
-
 **POST /tasks/create/file**
 
-Adds a file to the list of pending tasks. Returns the ID of the newly created task.
+将文件添加到挂起任务的列表中。返回新创建任务的ID。
 
-**Example request**::
+**请求示例**:
 
     curl -H "Authorization: Bearer S4MPL3" -F file=@/path/to/file http://localhost:8090/tasks/create/file
 
-**Example request using Python**..
+**使用Python的请求示例**..
 
-.. code-block:: python
 
     import requests
 
@@ -213,15 +78,13 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 
     # Add your code for error checking if task_id is None.
 
-**Example response**.
-
-.. code-block:: json
+**响应示例**.
 
     {
         "task_id" : 1
     }
 
-**Form parameters**:
+**参数**:
 
 * ``file`` *(required)* - sample file (multipart encoded file content)
 * ``package`` *(optional)* - analysis package to be used for the analysis
@@ -238,12 +101,11 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 * ``unique`` *(optional)* - only submit samples that have not been analyzed before
 * ``enforce_timeout`` *(optional)* - enable to enforce the execution for the full timeout value
 
-**Status codes**:
+**状态码**:
 
 * ``200`` - no error
 * ``400`` - duplicated file detected (when using unique option)
 
-.. _tasks_create_url:
 
 #### /tasks/create/url
 
@@ -251,15 +113,12 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 
 Adds a file to the list of pending tasks. Returns the ID of the newly created task.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl -H "Authorization: Bearer S4MPL3" -F url="http://www.malicious.site" http://localhost:8090/tasks/create/url
 
 **Example request using Python**.
-
-.. code-block:: python
 
     import requests
 
@@ -278,7 +137,6 @@ Adds a file to the list of pending tasks. Returns the ID of the newly created ta
 
 **Example response**.
 
-.. code-block:: json
 
     {
         "task_id" : 1
@@ -314,9 +172,8 @@ Adds one or more files and/or files embedded in archives *or* a newline
 separated list of URLs/hashes to the list of pending tasks. Returns the
 submit ID as well as the task IDs of the newly created task(s).
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     # Submit two executables.
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F files=@1.exe -F files=@2.exe
@@ -329,7 +186,6 @@ submit ID as well as the task IDs of the newly created task(s).
 
 **Example request using Python**.
 
-.. code-block:: python
 
     import requests
 
@@ -361,7 +217,6 @@ submit ID as well as the task IDs of the newly created task(s).
 
 **Example response** from the executable submission.
 
-.. code-block:: json
 
     {
         "submit_id": 1,
@@ -388,7 +243,6 @@ submit ID as well as the task IDs of the newly created task(s).
 
 * ``200`` - no error
 
-.. _tasks_list:
 
 #### /tasks/list
 
@@ -396,15 +250,12 @@ submit ID as well as the task IDs of the newly created task(s).
 
 Returns list of tasks.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/list
 
 **Example response**.
-
-.. code-block:: json
 
     {
         "tasks": [
@@ -475,15 +326,13 @@ Returns list of tasks.
 
 Returns list of tasks for sample.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/sample/1
 
 **Example response**.
 
-.. code-block:: json
 
     {
         "tasks": [
@@ -523,23 +372,19 @@ Returns list of tasks for sample.
 
 * ``200`` - no error
 
-.. _tasks_view:
-
 #### /tasks/view
 
 **GET /tasks/view/** *(int: id)*
 
 Returns details on the task associated with the specified ID.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/view/1
 
 **Example response**.
 
-.. code-block:: json
 
     {
         "task": {
@@ -585,7 +430,6 @@ Note: possible value for key ``status``:
 * ``200`` - no error
 * ``404`` - task not found
 
-.. _tasks_reschedule:
 
 #### /tasks/reschedule
 
@@ -594,15 +438,12 @@ Note: possible value for key ``status``:
 Reschedule a task with the specified ID and priority (default priority
 is 1).
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/reschedule/1
 
 **Example response**.
 
-.. code-block:: json
 
     {
         "status": "OK"
@@ -618,7 +459,6 @@ is 1).
 * ``200`` - no error
 * ``404`` - task not found
 
-.. _tasks_delete:
 
 #### /tasks/delete
 
@@ -626,9 +466,7 @@ is 1).
 
 Removes the given task from the database and deletes the results.
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/delete/1
 
@@ -642,17 +480,13 @@ Removes the given task from the database and deletes the results.
 * ``404`` - task not found
 * ``500`` - unable to delete the task
 
-.. _tasks_report:
-
 #### /tasks/report
 
 **GET /tasks/report/** *(int: id)* **/** *(str: format)*
 
 Returns the report associated with the specified task ID.
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例t**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/report/1
 
@@ -675,9 +509,8 @@ Returns the report associated with the specified task ID.
 
 Returns a condensed report associated with the specified task ID in JSON format.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl http://localhost:8090/tasks/summary/1
 
@@ -690,8 +523,6 @@ Returns a condensed report associated with the specified task ID in JSON format.
 * ``200`` - no error
 * ``404`` - report not found
 
-.. _tasks_shots:
-
 #### /tasks/screenshots
 
 
@@ -699,10 +530,7 @@ Returns a condensed report associated with the specified task ID in JSON format.
 
 Returns one or all screenshots associated with the specified task ID.
 
-**Example request**.
-
-.. code-block:: bash
-
+**请求示例**.
     wget http://localhost:8090/tasks/screenshots/1
 
 **Parameters**:
@@ -714,7 +542,6 @@ Returns one or all screenshots associated with the specified task ID.
 
 * ``404`` - file or folder not found
 
-.. _tasks_rereport:
 
 #### /tasks/rereport
 
@@ -722,15 +549,11 @@ Returns one or all screenshots associated with the specified task ID.
 
 Re-run reporting for task associated with the specified task ID.
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/rereport/1
 
 **Example response**.
-
-.. code-block:: json
 
     {
         "success": true
@@ -745,7 +568,6 @@ Re-run reporting for task associated with the specified task ID.
 * ``200`` - no error
 * ``404`` - task not found
 
-.. _tasks_reboot:
 
 #### /tasks/reboot
 
@@ -753,15 +575,13 @@ Re-run reporting for task associated with the specified task ID.
 
 Add a reboot task to database from an existing analysis ID.
 
-**Example request**.
+**请求示例**.
 
-.. code-block:: bash
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/reboot/1
 
 **Example response**.
 
-.. code-block:: json
 
     {
         "task_id": 1,
@@ -777,16 +597,12 @@ Add a reboot task to database from an existing analysis ID.
 * ``200`` - success
 * ``404`` - error creating reboot task
 
-.. _memory_list:
-
 #### /memory/list
 **GET /memory/list/** *(int: id)*
 
 Returns a list of memory dump files or one memory dump file associated with the specified task ID.
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     wget http://localhost:8090/memory/list/1
 
@@ -798,7 +614,6 @@ Returns a list of memory dump files or one memory dump file associated with the 
 
 * ``404`` - file or folder not found
 
-.. _memory_get:
 
 #### /memory/get
 
@@ -809,7 +624,6 @@ Returns one memory dump file associated with the specified task ID.
 
 **Example request**.
 
-.. code-block:: bash
 
     wget http://localhost:8090/memory/get/1/1908
 
@@ -822,7 +636,6 @@ Returns one memory dump file associated with the specified task ID.
 
 * ``404`` - file or folder not found
 
-.. _files_view:
 
 #### /files/view
 
@@ -834,15 +647,11 @@ Returns one memory dump file associated with the specified task ID.
 
 Returns details on the file matching either the specified MD5 hash, SHA256 hash or ID.
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/view/id/1
 
 **Example response**.
-
-.. code-block:: json
 
     {
         "sample": {
@@ -858,73 +667,62 @@ Returns details on the file matching either the specified MD5 hash, SHA256 hash 
         }
     }
 
-**Parameters**:
+**参数**:
 
 * ``md5`` *(optional)* - MD5 hash of the file to lookup
 * ``sha256`` *(optional)* - SHA256 hash of the file to lookup
 * ``id`` *(optional)* *(int)* - ID of the file to lookup
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-* ``400`` - invalid lookup term
-* ``404`` - file not found
-
-.. _files_get:
+* ``200`` - 成功
+* ``400`` - 无效的查找项
+* ``404`` - 文件找不到
 
 #### /files/get
 
 **GET /files/get/** *(str: sha256)*
 
- Returns the binary content of the file matching the specified SHA256 hash.
+返回与指定SHA256哈希匹配的文件的二进制内容。
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/get/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 > sample.exe
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-* ``404`` - file not found
+* ``200`` - 成功
+* ``404`` - 文件找不到
 
-.. _api_pcap_get:
 
 #### /pcap/get
 
 **GET /pcap/get/** *(int: task)*
 
-Returns the content of the PCAP associated with the given task.
+返回与给定任务关联的PCAP的内容。
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/pcap/get/1 > dump.pcap
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-* ``404`` - file not found
+* ``200`` - 成功
+* ``404`` - 文件找不到
 
-.. _machines_list:
 
 #### /machines/list
 
 **GET /machines/list**
 
-Returns a list with details on the analysis machines available to Cuckoo.
 
-**Example request**.
+返回一个列表，其中包含沙箱可以使用的分析机器的详细信息。
 
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
 
-**Example response**.
-
-.. code-block:: json
+**响应示例**.
 
     {
         "machines": [
@@ -950,27 +748,19 @@ Returns a list with details on the analysis machines available to Cuckoo.
         ]
     }
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-
-.. _machines_view:
+* ``200`` - 成功
 
 #### /machines/view
 
 **GET /machines/view/** *(str: name)*
-
-Returns details on the analysis machine associated with the given name.
-
-**Example request**.
-
-.. code-block:: bash
+返回与给定名称关联的分析计算机的详细信息。
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/view/cuckoo1
 
-**Example response**.
-
-.. code-block:: json
+**响应示例**.
 
     {
         "machine": {
@@ -994,47 +784,30 @@ Returns details on the analysis machine associated with the given name.
         }
     }
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-* ``404`` - machine not found
+* ``200`` - 成功
+* ``404`` - 机器找不到
 
-.. _cuckoo_status:
 
 #### /cuckoo/status
 --------------
 
 **GET /cuckoo/status/**
 
-Returns status of the cuckoo server. In version 1.3 the diskspace
-entry was added. The diskspace entry shows the used, free, and total
-diskspace at the disk where the respective directories can be found.
-The diskspace entry allows monitoring of a Cuckoo node through the
-Cuckoo API. Note that each directory is checked separately as one
-may create a symlink for $CUCKOO/storage/analyses to a separate
-harddisk, but keep $CUCKOO/storage/binaries as-is. (This feature is
-only available under Unix!)
+返回布谷鸟服务器的状态。
 
-In version 1.3 the cpuload entry was also added - the cpuload entry
-shows the CPU load for the past minute, the past 5 minutes, and the
-past 15 minutes, respectively. (This feature is only available under
-Unix!)
-
-**Diskspace directories**:
+**磁盘空间目录**:
 
 * ``analyses`` - $CUCKOO/storage/analyses/
 * ``binaries`` - $CUCKOO/storage/binaries/
 * ``temporary`` - ``tmppath`` as specified in ``conf/cuckoo.conf``
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/cuckoo/status
 
-**Example response**.
-
-.. code-block:: json
+**响应示例**.
 
     {
         "tasks": {
@@ -1070,46 +843,40 @@ Unix!)
         }
     }
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - no error
-* ``404`` - machine not found
+* ``200`` - 成功
+* ``404`` - 机器找不到
 
-.. _vpn_status:
 
 #### /vpn/status
 
 **GET /vpn/status**
 
-Returns VPN status.
+返回VPN状态
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/vpn/status
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - show status
-* ``500`` - not available
+* ``200`` - 成功
+* ``500`` - 不可得
 
-.. _exit:
 
 #### /exit
 
 **GET /exit**
 
-Shuts down the server if in debug mode and using the werkzeug server.
+如果处于调试模式并使用werkzeug服务器，则关闭服务器。
 
-**Example request**.
-
-.. code-block:: bash
+**请求示例**.
 
     curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
 
-**Status codes**:
+**状态码**:
 
-* ``200`` - success
-* ``403`` - this call can only be used in debug mode
-* ``500`` - error
+* ``200`` - 成功
+* ``403`` - 此调用只能在调试模式下使用
+* ``500`` - 错误
