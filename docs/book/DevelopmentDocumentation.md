@@ -330,13 +330,13 @@ class RunAuxiliary(object):
 
 ```python
 class MyMachinery(Machinery):
- 		def start(self, label):
- 				# 开启定义虚拟机管理软件
-		def initialize(self, module_name):
-      	self._initialize(module_name)
-        # 初始化配置信息
- 		def stop(self, label):
- 				# 关闭定义虚拟机管理软件
+    def start(self, label):
+    # 开启定义虚拟机管理软件
+    def initialize(self, module_name):
+    self._initialize(module_name)
+    # 初始化配置信息
+    def stop(self, label):
+    # 关闭定义虚拟机管理软件
 ```
 
 - start()：开启定义虚拟机管理软件
