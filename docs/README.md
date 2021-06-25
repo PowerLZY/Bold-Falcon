@@ -1,6 +1,7 @@
 # 毕方云沙箱（恶意软件检测平台）
 
 #### 开源资料
+  - [x] [用Github Page快速创建项目文档网站](https://github.com/cuckoosandbox/cuckoo)
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo)
 + [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified)
 + [cuckooDroid](https://github.com/idanr1986/cuckoo-droid)
