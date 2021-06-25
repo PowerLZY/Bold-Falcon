@@ -63,79 +63,43 @@ sort: 5
 
 **工作目录**存放程序所有使用的文件（代理、分析脚本、配置文件、日志、注入程序、签名、结果目录、Web设置、白名单、Yara规则和MongoDB数据库等），其CWD内容如下：
 
-```json
-- agent
-  - agent.py 代理文件
-- analyzer
-	- windows windows文件分析脚本
-	- android （可扩展）
-	- linux （可扩展）
-- conf
-  - auxiliary 辅助模块配置文件
-  - cuckoo.conf 沙箱主机配置文件
-	- processing 结果处理模块的配置文件
-	- models 机器学习模块的配置文件
-	- reporting 报告生成模块的配置文件
-	- virualbox 虚拟机管理软件的配置模块
-- log 日志
-- monitor 进程注入的DLL
-- signatures 签名
-- models 模型
-	- 静态特征
-		- ember.model
-		- malconv.model
-	- 动态特征
-		- api_gram.model
-- storage
-	- analyses
-		- task_id 结果目录
-			- 结果容器
-			- report
-- web 前端配置文件
-- whitelist 白名单
-- yara yara规则
-- cuckoo.db 数据库
-```
+	- agent
+	  - agent.py 代理文件
+	- analyzer
+		- windows windows文件分析脚本
+		- android （可扩展）
+		- linux （可扩展）
+	- conf
+	  - auxiliary 辅助模块配置文件
+	  - cuckoo.conf 沙箱主机配置文件
+		- processing 结果处理模块的配置文件
+		- models 机器学习模块的配置文件
+		- reporting 报告生成模块的配置文件
+		- virualbox 虚拟机管理软件的配置模块
+	- log 日志
+	- monitor 进程注入的DLL
+	- signatures 签名
+	- models 模型
+		- 静态特征
+			- ember.model
+			- malconv.model
+		- 动态特征
+			- api_gram.model
+	- storage
+		- analyses
+			- task_id 结果目录
+				- 结果容器
+				- report
+	- web 前端配置文件
+	- whitelist 白名单
+	- yara yara规则
+	- cuckoo.db 数据库
+
 
 ### 2.5 功能列表
 
 #### **2.5.1  文件对象**
-
-<table align="center">
-	<tr>
-	    <th>客户机环境</th>
-	    <th>文件对象</th>
-	</tr>
-	<tr>
-	    <th rowspan="7">Windows</th>
-	    <td>通用Windows可执行文件</td>
-	</tr>
-	<tr>
-	    <td>DLL文件</td>
-	</tr>
-	<tr>
-        <td>PDF文档</td>
-	</tr>
-	<tr>
-	    <td>Microsoft Office文档</td>
-	</tr>
-	<tr>
-        <td>ZIP文件</td>
-	</tr>
-	<tr>
-	    <td>Java JAR文件</td>
-	</tr>
-	<tr>
-	    <td>Python文件</td>
-	</tr>
-  <tr>
-    <th>Linux(后续工作)</th>
-    <td>基于Shell的通用可执行文件</td>
-</tr>
-<tr>
-    <th>Android(后续工作)</th>
-    <td>APK文件</td>
-</tr>
+![image](https://user-images.githubusercontent.com/16918550/123396584-0c3c6600-d5d4-11eb-8c8f-f4a323599b02.png)
 
 #### **2.5.2  数据集描述**
 
