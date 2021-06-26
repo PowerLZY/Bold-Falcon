@@ -26,8 +26,7 @@ log = logging.getLogger(__name__)
 
 _modules = defaultdict(list)
 
-def enumerate_plugins(dirpath, module_prefix, namespace, class_,
-                      attributes={}):
+def enumerate_plugins(dirpath, module_prefix, namespace, class_, attributes={}):
     """Import plugins of type `class` located at `dirpath` into the
     `namespace` that starts with `module_prefix`. If `dirpath` represents a
     filepath then it is converted into its containing directory. The
@@ -79,16 +78,18 @@ def load_plugins(module): # 导入插件
                 register_plugin("machinery", value)
             elif issubclass(value, Processing) and value is not Processing:
                 register_plugin("processing", value)
+            # elif issubclass(value, Detection) and value is not Detection:
+                # register_plugin("detection", value)
             elif issubclass(value, Report) and value is not Report:
                 register_plugin("reporting", value)
             elif issubclass(value, Signature) and value is not Signature:
                 register_plugin("signatures", value)
-
+# 全局注册_modules
 def register_plugin(group, name):
     global _modules
     group = _modules.setdefault(group, [])
     group.append(name)
-
+# _modules[group]
 def list_plugins(group=None):
     if group:
         return _modules[group]

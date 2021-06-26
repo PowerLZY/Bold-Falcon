@@ -20,7 +20,7 @@ from lib.cuckoo.common.utils import create_folder
 from lib.cuckoo.core.database import Database, TASK_COMPLETED, TASK_REPORTED
 from lib.cuckoo.core.guest import GuestManager
 from lib.cuckoo.core.plugins import list_plugins, RunAuxiliary, RunProcessing
-from lib.cuckoo.core.plugins import RunSignatures, RunReporting
+from lib.cuckoo.core.plugins import RunDetection, RunSignatures, RunReporting
 from lib.cuckoo.core.resultserver import ResultServer
 from lib.cuckoo.core.rooter import rooter, vpns
 
@@ -444,6 +444,7 @@ class AnalysisManager(threading.Thread):
         """Process the analysis results and generate the enabled reports."""
         results = RunProcessing(task=self.task).run()
         RunSignatures(results=results).run()
+        #RunDetection(results=results).run()
         RunReporting(task=self.task, results=results).run()
 
         # If the target is a file and the user enabled the option,
