@@ -288,7 +288,7 @@ class GuestManager(object):
                 "notify us if the issue persists."
             )
 
-        r.raise_for_status()
+        #r.raise_for_status() # 判断返回的Response类型状态是不是200
         return r
 
     def post(self, method, *args, **kwargs):
