@@ -64,6 +64,10 @@
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
   + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
   
+#### 常见问题
++ Machine * status gurumeditation
+    -  找到虚拟机安装目录下VBox.log日志文件
+    -  在日志文件中找到ProcessID, ```kill - 9 ProcessID```
 
 
 
