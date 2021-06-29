@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -75,6 +76,7 @@ def check_configs():
 
     return True
 
+# 添加样本分析目录
 def create_structure():
     """Creates Cuckoo directories."""
     folders = [
@@ -185,7 +187,7 @@ def init_console_logging():
     log.addHandler(ch)
 
     log.setLevel(logging.INFO)
-
+#
 def init_tasks():
     """Check tasks and reschedule uncompleted ones."""
     db = Database()
@@ -221,6 +223,7 @@ def delete_file(*rel_path):
             os.path.join(*rel_path), e
         )
 
+# 初始化功能模块 class modules
 def init_modules(machinery=True):
     """Initializes plugins."""
     log.debug("Importing modules...")
@@ -232,6 +235,10 @@ def init_modules(machinery=True):
     # Import all processing modules.
     import modules.processing
     import_package(modules.processing)
+
+    # ToDo:Import all processing modules.
+    import modules.detection
+    import_package(modules.detection)
 
     # Import all signatures.
     import modules.signatures
