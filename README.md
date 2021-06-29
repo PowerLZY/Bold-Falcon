@@ -59,6 +59,7 @@
   - [ ] 定义基类Ml、loader等；
   - [ ] 定义模型命名规则
   - [ ] 添加Smaple——malware，200个json report样本；**gist.github.com**
+  - [ ] 沙箱应该设置多久去运行恶意软件？[Does Every Second Count? NDSS 2021](https://www.ndss-symposium.org/ndss-paper/does-every-second-count-time-based-evolution-of-malware-behavior-in-sandboxes/)
 
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
