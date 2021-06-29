@@ -54,6 +54,11 @@ def enumerate_plugins(dirpath, module_prefix, namespace, class_, attributes={}):
         plugins.append(subclass)
     return plugins
 
+def import_package(package):
+    prefix = package.__name__ + "."
+    for loader, name, ispkg in pkgutil.iter_modules(package.__path__, prefix):
+        import_plugin(name)
+
 def import_plugin(name):
     try:
         module = __import__(name, globals(), locals(), ["dummy"], -1)
@@ -62,11 +67,6 @@ def import_plugin(name):
                                   "\"{0}\": {1}".format(name, e))
     else:
         load_plugins(module)
-
-def import_package(package):
-    prefix = package.__name__ + "."
-    for loader, name, ispkg in pkgutil.iter_modules(package.__path__, prefix):
-        import_plugin(name)
 
 def load_plugins(module): # 导入插件
 
@@ -251,7 +251,7 @@ class RunProcessing(object):
         # If none is specified for the modules, they are selected in
         # alphabetical order.
         processing_list = list_plugins(group="processing")
-
+        # [<class 'modules.processing.analysisinfo.AnalysisInfo'>, ... <class 'modules.processing.virustotal.VirusTotal'>]
         # If no modules are loaded, return an empty dictionary.
         if processing_list:
             processing_list.sort(key=lambda module: module.order)

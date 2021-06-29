@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
@@ -334,7 +335,7 @@ moloch_mapper = {
 def moloch(request, **kwargs):
     if not settings.MOLOCH_ENABLED:
         return render(request, "error.html", {
-            "error": "Moloch is not enabled!",
+            "error": "后续扩展:Moloch: 网络流量收集与分析系统",
         })
 
     query = []

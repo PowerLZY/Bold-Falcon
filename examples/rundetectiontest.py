@@ -7,7 +7,7 @@ import logging
 from collections import defaultdict
 from distutils.version import StrictVersion
 
-from lib.cuckoo.common.abstracts import Auxiliary, Machinery, LibVirtMachinery, Processing
+from lib.cuckoo.common.abstracts import Auxiliary, Machinery, LibVirtMachinery, Processing, Detection
 from lib.cuckoo.common.abstracts import Report, Signature
 from lib.cuckoo.common.config import Config
 from lib.cuckoo.common.constants import CUCKOO_ROOT, CUCKOO_VERSION
@@ -17,17 +17,11 @@ from lib.cuckoo.common.exceptions import CuckooProcessingError
 from lib.cuckoo.common.exceptions import CuckooReportError
 from lib.cuckoo.common.exceptions import CuckooDependencyError
 from modules.detection.loader import Loader
-
+from lib.cuckoo.core.startup import init_logging, init_modules
 
 log = logging.getLogger(__name__)
 
 _modules = defaultdict(list)
-
-def list_plugins(group=None):
-    if group:
-        return _modules[group]
-    else:
-        return _modules
 
 class RunProcessing(object):
     """Analysis Results Processing Engine.
@@ -238,8 +232,8 @@ class RunDetection(object):
         # Order modules using the user-defined sequence number.
         # If none is specified for the modules, they are selected in
         # alphabetical order.
-        #detection_list = list_plugins(group="detection")
-        detection_list = ['strings_ngram']
+        detection_list = list_plugins(group="detection")
+
         # If no modules are loaded, return an empty dictionary.
         if detection_list:
             detection_list.sort(key=lambda module: module.order)
@@ -254,9 +248,70 @@ class RunDetection(object):
         else:
             log.info("No detection modules loaded")
 
+""" From plugin.py """
+def import_package(package):
+    prefix = package.__name__ + "."
+    for loader, name, ispkg in pkgutil.iter_modules(package.__path__, prefix):
+        import_plugin(name)
+
+def import_plugin(name):
+    try:
+        module = __import__(name, globals(), locals(), ["dummy"], -1)
+    except ImportError as e:
+        raise CuckooCriticalError("Unable to import plugin "
+                                  "\"{0}\": {1}".format(name, e))
+    else:
+        load_plugins(module)
+
+def load_plugins(module): # 导入插件
+
+    for name, value in inspect.getmembers(module):
+        if inspect.isclass(value):
+            if issubclass(value, Auxiliary) and value is not Auxiliary:
+                register_plugin("auxiliary", value)
+            elif issubclass(value, Machinery) and value is not Machinery and value is not LibVirtMachinery:
+                register_plugin("machinery", value)
+            elif issubclass(value, Processing) and value is not Processing:
+                register_plugin("processing", value)
+            elif issubclass(value, Detection) and value is not Detection:
+                # 只导入detection的子类
+                register_plugin("detection", value)
+            elif issubclass(value, Report) and value is not Report:
+                register_plugin("reporting", value)
+            elif issubclass(value, Signature) and value is not Signature:
+                register_plugin("signatures", value)
+# 全局注册_modules
+def register_plugin(group, name):
+    global _modules
+    group = _modules.setdefault(group, [])
+    group.append(name)
+# _modules[group]
+def list_plugins(group=None):
+    if group:
+        return _modules[group]
+    else:
+        return _modules
+
+def init_modules(machinery=True):
+    """Initializes plugins."""
+    log.debug("Importing modules...")
+
+    # Import all processing modules.
+    import modules.processing
+    import_package(modules.processing)
+
+    # ToDo:Import all processing modules.
+    import modules.detection
+    import_package(modules.detection)
+
+
+
+
+
 if __name__ == "__main__":
 
     # The first stage is to load the data from the directory holding all the JSONs
+    init_modules()
     loader = Loader()
     loader.load_binaries_dir("../sample_data/dict")
     result = loader.binaries['133'].report

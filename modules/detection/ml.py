@@ -714,6 +714,10 @@ class ML(object):
 
         dataset = pd.concat([features, labels], axis=1)
         dataset.to_csv(filename, encoding='utf-8')
+
+    # ToDo: load_model(self, model_path)
+    # ToDo: predict()
+
     # 聚类和异常检测
     def cluster_dbscan(self, features=None, eps=20.0, min_samples=5, dry=False):
         """Do *dbscan* clustering and return """
