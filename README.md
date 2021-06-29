@@ -39,6 +39,7 @@
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
   - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
+  - [ ] [malware-detection](https://github.com/dchad/malware-detection)
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
