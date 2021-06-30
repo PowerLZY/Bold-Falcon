@@ -7,8 +7,12 @@
 import os
 import re
 import logging
+import collections
+import datetime
+import json
+import sys
 import time
-
+import pandas as pd
 import xml.etree.ElementTree as ET
 
 from lib.cuckoo.common.config import Config
@@ -1089,11 +1093,14 @@ class Detection(object):
         self.key = None
         self.task = None
         self.options = None  # conf options
-        self.json_path = None  # 原文件结果路径
+        # self.json_path = None  # 原文件结果路径
         self.bin_path = None  # 原文件路径
         self.labels = None
         self.features = None
-        self.results = None  # 保持模型预测结果
+        self.binaries = {}
+        self.binaries_location = ""
+        self.binaries_updated = False
+        self.results = {}  # 保持模型预测结果
 
     def set_path(self, analysis_path):
         """Set paths.
@@ -1105,25 +1112,95 @@ class Detection(object):
     # 特征提取
     # 特征工程
     # 特征保存pandas
-    def load_binaries(self):
-        pass
-
     def load_features(self, features_dict):
         pass
-
 
     def load_model(self):
         pass
 
-
     def predict(self):
         pass
 
-
-    def set_results(self, results):
+    def load_binaries(self, results):
         """Set the results - the fat dictionary."""
-        self.results = results
+        # 特征提取
+        self.binaries = Instance()
+        self.binaries.load_json(results)
+        self.binaries.extract_features()
+        #self.binaries.extract_basic_features()
 
+    def get_features(self):
+        """Return complex binary features as a labelled dictionary."""
+        features = {}
+        if isinstance(self.binaries, list):
+            for i in self.binaries:
+                features[i] = self.binaries[i].features
+        elif isinstance(self.binaries, Instance):
+            features = self.binaries.features
+        else:
+            # Unknown binary format
+            print >> sys.stderr, "Could not get the features *", self.binaries, "* is of " "unknown type: ", type(
+                self.binaries), "."
+        return features
+    # ------------------- only dir --------------------------
+    def load_binaries_dir(self, directory):
+        """
+        Load all binaries' reports from given directory.
+        """
+        self.binaries_location = directory + "/"
+        # 导入整个文件夹的json
+        for f in os.listdir(directory):
+            self.binaries[f] = Instance()
+            self.binaries[f].load_json(directory + "/" + f, f)
+            self.binaries[f].label_sample()
+            self.binaries[f].extract_features()
+            self.binaries[f].extract_basic_features()
+
+    def update_binaries(self, elements, root, locations):
+        """在给定的位置将“elements”附加到加载的json"""
+        if isinstance(elements, pd.DataFrame) and isinstance(locations, dict):
+            self.binaries_updated = True
+            for i in elements.index:
+                for j in elements.columns:
+                    self.binaries[i].update(elements[j][i], root + [locations[j]])
+        elif isinstance(locations, str):
+            self.binaries_updated = True
+            for i in self.binaries:
+                self.binaries[i].update(elements, root + [locations])
+
+    def save_binaries(self, alternative_location=""):
+        """Save the binaries to given location if they have been updated."""
+        if self.binaries_updated:
+            save_location = self.binaries_location
+            if alternative_location:
+                save_location = alternative_location
+                if save_location[-1] != "/":
+                    save_location += "/"
+
+            # Create directory if it does not exist
+            if not os.path.exists(save_location):
+                os.makedirs(save_location)
+
+            for f in self.binaries:
+                self.binaries[f].save_json(save_location)
+            self.binaries_updated = False
+        else:
+            print "The binaries haven't been updated. No need to save them."
+
+    def get_labels(self):
+        """Return binary labels as a labelled dictionary."""
+        labels = {}
+        for i in self.binaries:
+            labels[i] = self.binaries[i].label
+        return labels
+
+    def get_simple_features(self):
+        """Return simplified binary features as a labelled dictionary."""
+        simple_features = {}
+        for i in self.binaries:
+            simple_features[i] = self.binaries[i].basic_features
+        return simple_features
+    # ------------------- only dir --------------------------
     def run(self):
         """Start detection.
         @raise NotImplementedError: this method is abstract.
