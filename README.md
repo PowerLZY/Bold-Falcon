@@ -1,7 +1,7 @@
 <img src="resources/logo.png" align="right" width="256px" height="176px">
 
 # 毕方智能云沙箱
-毕方智能云沙箱(***Bold-Falcon***)是一个开源的自动化恶意软件分析系统。它用于自动运行和分析文件，并收集全面的分析结果，概述恶意软件在独立操作系统中运行时所做的工作。我们的工作是二次开发开源cuckoo沙箱，重写整个前端的用户交互和添加基于机器学习的检测模块，使恶意软件分析系统可以**思考**。
+毕方智能云沙箱(***Bold-Falcon***)是一个开源的自动化恶意软件分析系统。它用于自动运行和分析文件，并收集全面的分析结果，概述恶意软件在独立操作系统中运行时所做的工作。我们的工作是二次开发开源cuckoo沙箱，包括**更新项目结构**，**重写整个前端的用户交互**和**添加基于机器学习的检测模块**，使恶意软件分析系统可以**思考**。
 
 #### 开源资料
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
