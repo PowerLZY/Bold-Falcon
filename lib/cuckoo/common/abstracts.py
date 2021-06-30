@@ -1109,6 +1109,11 @@ class Detection(object):
         self.analysis_path = analysis_path
         self.file_path = os.path.realpath(os.path.join(self.analysis_path, "binary"))
 
+    def set_task(self, task):
+        """Add task information.
+        @param task: task dictionary.
+        """
+        self.task = task
     # 特征提取
     # 特征工程
     # 特征保存pandas
