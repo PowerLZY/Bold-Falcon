@@ -71,10 +71,11 @@
   
 #### 常见问题
 + Machine * status gurumeditation
-    -  找到虚拟机安装目录下VBox.log日志文件
-    -  在日志文件中找到ProcessID, ```kill - 9 ProcessID```
-
-
+  -  找到虚拟机安装目录下VBox.log日志文件
+  -  在日志文件中找到ProcessID, ```kill - 9 ProcessID```
++ python 2/3 joblib.dump() 和 joblib.load()
+  - 不同python版本的pickle.dump()和pickle.load()是可以相互转换和支持的
+  - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
 
 
 
