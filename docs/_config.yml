@@ -13,3 +13,5 @@ exclude:
   - CNAME
   - Gemfile
   - Gemfile.lock
+
+theme: jekyll-theme-slate
