@@ -77,7 +77,36 @@
   - 不同python版本的pickle.dump()和pickle.load()是可以相互转换和支持的
   - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
 
+#### 文档结构
 
++ 说明
+  + 背景介绍
+  + 内容设计
+  + 功能全景图
++ 安装
+  + **准备主机**
+  + Preparing the Guest
++ 使用
+  + **Starting Cuckoo**
+  + **Submit an Analysis**
+  + **Web interface**
+  + **REST API**
+  + **Analysis Packages**
+  + **Analysis Results**
+  + **Tasks Clean**
++ 开发
+  + 开发环境配置
+    + Development with the Python Package
+    + Developing with Pycharm
+  + 辅助功能模块
+  + 机器交互模块
+  + 文件分析模块
+  + 结果处理模块
+  + 家族签名模块
+  + 机器学习模块
+  + 报告生成模块
+  + 用户交互模块
++ 扩展
 
 
 
