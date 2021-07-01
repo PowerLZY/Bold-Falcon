@@ -170,7 +170,7 @@ title Microsoft Malware - 10868 entries
 | **TargetInfo**       | 包括有关分析文件的信息，如哈希，ssdeep等                     |
 | **VirusTotal**       | 搜索VirusTotal.com分析文件的防病毒签名                       |
 
-#### **1.1.2.5.3  核心检测方法**
+#### **1.2.5.3  核心检测方法**
 
 **1）签名检测（500+开源签名）**
 
