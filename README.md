@@ -32,10 +32,9 @@
   - [x] DLL注入、动态信息提取原理
   - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
-  - [ ] [动态牌子](https://img.shields.io)
+  - [ ] [制作动态牌子](https://zhuanlan.zhihu.com/p/217540872)
   - [ ] 创建Bold-Falcon logo in logo.py
-  - [ ] pypi上传模块，pip安装
-  - [x] requirements.txt 整理
+  - [ ] [pypi上传模块，pip安装](https://zhuanlan.zhihu.com/p/73199573)
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
   - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
