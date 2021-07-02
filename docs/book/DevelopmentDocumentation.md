@@ -4,8 +4,80 @@ sort: 4
 # 开发
 
 ## 4.1 开发环境配置
-### 4.1.1 Development with the Python Package
-### 4.1.2 Developing with Pycharm
+### 4.1.1 开发用到的Python库
+初始化一个新的  ``virtualenv``。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
+
+	$ virtualenv /tmp/cuckoo-development
+激活``virtualenv``。这必须在每次启动新的shell会话时完成(除非将命令放入~/.bashrc或者类似的，当然)。
+
+	$ . /tmp/cuckoo-development/bin/activate
+为了创建一个Cuckoo分发包，需要从我们的社区储存库这个版本的布谷鸟。幸运的是，我们提供了一个简单易用的脚本来半自动地为您获取它们。在存储库根目录中，可以按以下方式运行以自动获取二进制文件。
+
+	(cuckoo-development)$ python stuff/monitor.py
+您现在可以修改和测试文件了。注意，代码文件位于布谷鸟/目录Git存储库和事实，即使您将测试一个development存储库的版本，所有规则从布谷鸟工作目录和布谷鸟工作目录的使用还在原地。
+### 4.1.2 使用Pycharm开发
+#### 位置和概念
+- CuckoWeb提供了Web接口和RESTAPI
+- Django项目根目录位于``cuckoo/web``
+- 配置位于``cuckoo/web/web/settings.py``
+- URL调度程序在``cuckoo/web/web/urls.py``，以及其他地点，如(但不限于)``cuckoo/web/analysis/urls.py``
+- HTML模板使用Django模板语言。
+- 前端使用``cuckoo/web/static/js/cuckoo/``对于与Cuckoo相关的JavaScript包含，而它们的源代码位于`` cuckoo/web/static/js/cuckoo/src/(ECMAScript 5/6)-见‘JavaScript Transspling’``一段。
+- 所谓的“控制器”用于代替基于类的视图，其中控制器负责(通常是后端)不属于视图函数的操作。例子：``cuckoo/web/controllers/analysis/analysis.py``
+- 视图函数是视图使用的函数，位于``routes.py``。例子：``cuckoo/web/controllers/analysis/routes.py``
+- API函数是api使用的函数，位于``api.py``。例子：``cuckoo/web/controllers/analysis/api.py``
+#### 运行调试
+直接从PyCharm运行和调试cuckoo web可以直接绕过cuckoo启动和使用PyCharm的内置Django服务器。谢天谢地，为了做到这一点，没有对Cuckoo代码进行任何修改。
+首先，建议您在virtualenv为了保持Cuckoo所需的依赖关系与您的系统范围内安装的Python分开。其次，应在开发模式下安装布谷鸟；python setup.py develop.
+假设Cuckoo安装正确(并且有一个活动的工作目录；请参见布谷市工作目录安装)；启动PyCharm并打开Cuckoo目录。去Run->Edit Configurations并单击+纽扣。选择‘Django服务器’。使用下列值：
+- **Name** - web
+- **Host** - 127.0.0.1
+- **Port** - 8080
+- **Environment variables** -点击 ``...`` 并增加2个新值: ``CUCKOO_APP``: ``web`` and ``CUCKOO_CWD``: ``/home/test/.cuckoo/``, 其中路径是您的 `CWD <https://cuckoo.sh/docs/installation/host/cwd.html#cwd-path>`_ (Cuckoo 工作目录).
+- **Python interpreter** - 如果选定的virtualenv不存在，请使用 ``File->Settings->Project: Cuckoo->Project Interpreter``
+- **Working directory** -Django项目根的绝对路径. 对于我来说是 ``/home/test/PycharmProjects/virtualenv/cuckoo/cuckoo/web/``
+Cuckoweb现在可以从PyCharm运行(并调试)。去Run->Run->web从菜单和网络服务器开始。
+
+#### JavaScript transpiling
+Cuckoweb中的Javascript代码是在ECMAScript 6中开发的。为了兼容浏览器，需要将它转回ECMAScript 5。
+首先，使PyCharm对ECMAScript 6语法进行正则化和理解。去File->Settings->Languages & Frameworks->Javascript并从“Javascript语言版本”下拉菜单中选择“ECMAScript 6”。命中Apply.
+然后，使用Babel传输Javascript代码。在Cuckoo项目根中安装Babel(需要npm):
+
+	(cuckoo)    test:$ pwd
+	/home/test/PycharmProjects/virtualenv/cuckoo
+	(cuckoo)    test:$ npm install --save-dev babel-cl
+它将创建一个名为node_modules在布谷鸟项目的根中。切换回PyCharm并打开任意.js文件在cuckoo/web/static/js/cuckoo/src/。PyCharm将询问您是否要为该文件配置一个文件监视程序。点击Add watcher(如果此选项对您不可用，请在File->Settings->Tools->File watchers).
+在下面的弹出屏幕‘Edit Watcher’中，输入这些值。
+
+- **Name** -  Babel ES6->ES5
+- **Description** - Transpiles ECMAScript 6 code to ECMAScript 5
+- **Output filters** - None
+- **Show console** - Error
+- **Immediate file synchronisation** - yes
+- **Track only root files** - yes
+- **Trigger watcher regardless of syntax errors** - no
+- **File type** - Javascript
+- **Scope** - Click ``...`` -> Click ``+`` (add scope) -> Click ``local`` -> Press ``OK``. In the file browser, browse to ``cuckoo/web/static/js/cuckoo/src/`` and whilst selecting the ``src`` folder, click ``include``. The files containing in ``src`` should now turn green. Press ``OK``.
+- **Program** - Should be the absolute path to ``node_modules/.bin/babel``, for me this is ``/home/test/PycharmProjects/virtualenv/cuckoo/node_modules/.bin/babel``. Double check that the path you enter reflects the actual location of the ``node_modules/.bin/babel`` file.
+- **Arguments** - ``--source-maps --out-file $FileNameWithoutExtension$.js $FilePath$``
+- **Working directory** - Browse and select ``cuckoo/web/static/js/cuckoo``
+- **Output paths to refresh** ``$FileNameWithoutExtension$-compiled.js:$FileNameWithoutExtension$-compiled.js.map``
+最后manage.py需要创建文件，以便PyCharm将其视为Django项目。创建以下文件cuckoo/web/web/manage.py内容如下：
+	
+	#!/usr/bin/env python
+	import sys
+
+	if __name__ == "__main__":
+	   from django.core.management import execute_from_command_line
+	   execute_from_command_line(sys.argv)
+转到文件->设置->语言和框架->Django和；
+
+	- **Django Project root** - ``cuckoo/web``
+	- **Settings** - ``web/settings.py``
+	- **Manage script** - ``web/manage.py``
+#### 测试
+配置现在应该已经完成。尝试从PyCharm内部运行Cuckoo&愉快的编码！
+
 ## 4.2 辅助功能模块
 ### 4.2.1 设计说明
 
