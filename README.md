@@ -44,9 +44,16 @@
   - [x] DLL注入、动态信息提取原理
   - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
+<<<<<<< HEAD
   - [ ] [制作动态牌子](https://zhuanlan.zhihu.com/p/217540872)
   - [ ] 创建Bold-Falcon logo in logo.py
   - [ ] [pypi上传模块，pip安装](https://zhuanlan.zhihu.com/p/73199573)
+=======
+  - [ ] [动态牌子](https://img.shields.io)
+  - [x] 创建Bold-Falcon logo in logo.py 
+  - [ ] pypi上传模块，pip安装
+  - [x] requirements.txt 整理
+>>>>>>> update
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
   - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
@@ -87,7 +94,8 @@
 + python 2/3 joblib.dump() 和 joblib.load()
   - 不同python版本的pickle.dump()和pickle.load()是可以相互转换和支持的
   - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
-
++ Pytorch Cpu 导入 Gpu 训练的模型
+  - `model.load(model_path, map_location='cpu')`
 #### 文档结构
 
 + 说明
@@ -115,6 +123,7 @@
   + 结果处理模块
   + 家族签名模块
   + 机器学习模块
+    + 文献整理
   + 报告生成模块
   + 用户交互模块
 + 扩展
