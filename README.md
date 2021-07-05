@@ -30,7 +30,7 @@
   - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
   - [ ] [动态牌子](https://img.shields.io)
-  - [ ] 创建Bold-Falcon logo in logo.py
+  - [x] 创建Bold-Falcon logo in logo.py 
   - [ ] pypi上传模块，pip安装
   - [x] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
@@ -99,6 +99,7 @@
   + 结果处理模块
   + 家族签名模块
   + 机器学习模块
+    + 文献整理
   + 报告生成模块
   + 用户交互模块
 + 扩展
