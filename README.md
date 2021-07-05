@@ -71,7 +71,8 @@
 + python 2/3 joblib.dump() 和 joblib.load()
   - 不同python版本的pickle.dump()和pickle.load()是可以相互转换和支持的
   - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
-
++ Pytorch Cpu 导入 Gpu 训练的模型
+  - `model.load(model_path, map_location='cpu')`
 #### 文档结构
 
 + 说明
