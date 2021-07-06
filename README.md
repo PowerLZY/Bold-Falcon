@@ -27,11 +27,10 @@
 + 学习内容
   - [x] Yara规则、ssdeep
   - [x] DLL注入、动态信息提取原理
-  - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
   - [x] [动态牌子](https://img.shields.io)
-  - [x] 创建Bold-Falcon logo in logo.py 
-  - [ ] pypi上传模块，pip安装 
+  - [x] 创建Bold-Falcon logo 
+  - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
   - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
   - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
   - [x] requirements.txt 整理
@@ -79,37 +78,8 @@
   - `sphinx-quickstart`
   - `sphinx-apidoc -o ./source ../Bold-Falcon`
   - `python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html`
-#### 文档结构
 
-+ 说明
-  + 背景介绍
-  + 内容设计
-  + 功能全景图
-+ 安装
-  + **准备主机**
-  + Preparing the Guest
-+ 使用
-  + **Starting Cuckoo**
-  + **Submit an Analysis**
-  + **Web interface**
-  + **REST API**
-  + **Analysis Packages**
-  + **Analysis Results**
-  + **Tasks Clean**
-+ 开发
-  + 开发环境配置
-    + Development with the Python Package
-    + Developing with Pycharm
-  + 辅助功能模块
-  + 机器交互模块
-  + 文件分析模块
-  + 结果处理模块
-  + 家族签名模块
-  + 机器学习模块
-    + 文献整理
-  + 报告生成模块
-  + 用户交互模块
-+ 扩展
+
 
 
 
