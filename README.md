@@ -29,9 +29,11 @@
   - [x] DLL注入、动态信息提取原理
   - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
-  - [ ] [动态牌子](https://img.shields.io)
+  - [x] [动态牌子](https://img.shields.io)
   - [x] 创建Bold-Falcon logo in logo.py 
-  - [ ] pypi上传模块，pip安装
+  - [ ] pypi上传模块，pip安装 
+  - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
+  - [ ] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
   - [x] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
