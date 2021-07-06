@@ -33,7 +33,7 @@
   - [x] 创建Bold-Falcon logo in logo.py 
   - [ ] pypi上传模块，pip安装 
   - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
-  - [ ] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
+  - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
   - [x] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
@@ -75,6 +75,10 @@
   - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
 + Pytorch Cpu 导入 Gpu 训练的模型
   - `model.load(model_path, map_location='cpu')`
++ Sphinx-readthedocs 开发文档自动生成
+  - `sphinx-quickstart`
+  - `sphinx-apidoc -o ./source ../Bold-Falcon`
+  - `python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html`
 #### 文档结构
 
 + 说明
