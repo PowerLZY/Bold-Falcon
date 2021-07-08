@@ -1,24 +1,4 @@
-```shell
-                          ____        _     _       _____     _                 
-                         | __ )  ___ | | __| |     |  ___|_ _| | ___ ___  _ __  
-                         |  _ \ / _ \| |/ _` |_____| |_ / _` | |/ __/ _ \| '_ \ 
-                         | |_) | (_) | | (_| |_____|  _| (_| | | (_| (_) | | | |
-                         |____/ \___/|_|\__,_|     |_|  \__,_|_|\___\___/|_| |_|
-
-
-```
-<font color=#D2691E>`列表`</font>
-
-![](https://img.shields.io/badge/GitHub-Bold--Falcon-000000)
-<img src="resources/logo.png" align="right" width="256px" height="176px">
-
-# 毕方智能云沙箱
-毕方智能云沙箱(***Bold-Falcon***)是一个开源的自动化恶意软件分析系统。它用于自动运行和分析文件，并收集全面的分析结果，概述恶意软件在独立操作系统中运行时所做的工作。我们的工作是二次开发开源cuckoo沙箱，包括**更新项目结构**，**重写整个前端的用户交互**和**添加基于机器学习的检测模块**，使恶意软件分析系统可以**思考**。
-
-
-**`开发文档:`** https://shpnix.readthedocs.io/en/latest/index.html
-
-**`说明文档:`** https://powerlzy.github.io/bold-falcon/
+# 毕方云沙箱（恶意软件检测平台）
 
 #### 开源资料
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
@@ -47,22 +27,16 @@
 + 学习内容
   - [x] Yara规则、ssdeep
   - [x] DLL注入、动态信息提取原理
-  - [x] 历届网络技术挑战赛调研
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
-<<<<<<< HEAD
-  - [ ] [制作动态牌子](https://zhuanlan.zhihu.com/p/217540872)
-  - [ ] 创建Bold-Falcon logo in logo.py
-  - [ ] [pypi上传模块，pip安装](https://zhuanlan.zhihu.com/p/73199573)
-=======
-  - [ ] [动态牌子](https://img.shields.io)
-  - [x] 创建Bold-Falcon logo in logo.py 
-  - [ ] pypi上传模块，pip安装
+  - [x] [动态牌子](https://img.shields.io)
+  - [x] 创建Bold-Falcon logo 
+  - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
+  - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
+  - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
   - [x] requirements.txt 整理
->>>>>>> update
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
   - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
-  - [ ] [malware-detection](https://github.com/dchad/malware-detection)
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
@@ -83,7 +57,6 @@
   - [ ] 定义基类Ml、loader等；
   - [ ] 定义模型命名规则
   - [ ] 添加Smaple——malware，200个json report样本；**gist.github.com**
-  - [ ] 沙箱应该设置多久去运行恶意软件？[Does Every Second Count? NDSS 2021](https://www.ndss-symposium.org/ndss-paper/does-every-second-count-time-based-evolution-of-malware-behavior-in-sandboxes/)
 
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
@@ -101,37 +74,12 @@
   - 在python3中，您应该使用较低的协议号来编写pickle数据 ```pickle.dump(your_object, your_file, protocol=2)```
 + Pytorch Cpu 导入 Gpu 训练的模型
   - `model.load(model_path, map_location='cpu')`
-#### 文档结构
++ Sphinx-readthedocs 开发文档自动生成
+  - `sphinx-quickstart`
+  - `sphinx-apidoc -o ./source ../Bold-Falcon`
+  - `python -m sphinx -T -E -b html -d _build/doctrees -D language=en . _build/html`
 
-+ 说明
-  + 背景介绍
-  + 内容设计
-  + 功能全景图
-+ 安装
-  + **准备主机**
-  + Preparing the Guest
-+ 使用
-  + **Starting Cuckoo**
-  + **Submit an Analysis**
-  + **Web interface**
-  + **REST API**
-  + **Analysis Packages**
-  + **Analysis Results**
-  + **Tasks Clean**
-+ 开发
-  + 开发环境配置
-    + Development with the Python Package
-    + Developing with Pycharm
-  + 辅助功能模块
-  + 机器交互模块
-  + 文件分析模块
-  + 结果处理模块
-  + 家族签名模块
-  + 机器学习模块
-    + 文献整理
-  + 报告生成模块
-  + 用户交互模块
-+ 扩展
+
 
 
 
