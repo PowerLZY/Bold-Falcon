@@ -5,7 +5,7 @@ sort: 4
 
 ## 4.1 开发环境配置
 ### 4.1.1 开发用到的Python库
-初始化一个新的  ``virtualenv``。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
+初始化一个新的`virtualenv`。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
 
 	$ virtualenv /tmp/cuckoo-development
 激活``virtualenv``。这必须在每次启动新的shell会话时完成(除非将命令放入~/.bashrc或者类似的，当然)。
@@ -1310,7 +1310,7 @@ class RunReporting(object):
 
 **1）前端框架Django**
 
-​	  前端基于Python的Django框架开发，Django是一个开源的Web应用框架，采用MTV的框架模式：Model(模型), Template(模板), Views(视图)
+前端基于Python的Django框架开发，Django是一个开源的Web应用框架，采用MTV的框架模式：Model(模型), Template(模板), Views(视图)
 
 | 模块     | 功能                                                         |
 | -------- | ------------------------------------------------------------ |
@@ -1431,7 +1431,8 @@ db = Database()
 	#数据库连接
 	
 class AnalysisApi(object):
-	def tasks_list(request, body):
+
+    def tasks_list(request, body):
         #获取任务列表
     def task_info(request, task_id):
         #获取指定任务信息
@@ -1445,22 +1446,5 @@ class AnalysisApi(object):
         #返回最近任务
     ...
 ```
-
-### 4.9.2 设计流程
-
-**1) 前端样式设计**
-
-**首页：**首页包含系统名称以及LOGO（待定），报告搜索框，待测文件、URL上传模块，以及查看所有报告模块。
-
-![主页](/Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/076b7987d1501ed1ebeee6aecab0dccc/Message/MessageTemp/209186dee58a2f4b843a841addd1a580/File/图-交互设计/主页.png)
-
-**分析报告页面：**分析报告页面是已检测文件列表，包括文件名称、文件类型、系统环境、上传时间、威胁等级等信息。
-
-![分析报告](/Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/076b7987d1501ed1ebeee6aecab0dccc/Message/MessageTemp/209186dee58a2f4b843a841addd1a580/File/图-交互设计/分析报告.png)
-
-**报告详情页面：**报告详情页面是单个检测文件的详细检测结果，包含文件基本信息、静态特征信息、动态特征信息、危险度评分、运行截图等。
-
-![报告详情](/Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/076b7987d1501ed1ebeee6aecab0dccc/Message/MessageTemp/209186dee58a2f4b843a841addd1a580/File/图-交互设计/报告详情.png)
-
 
   
