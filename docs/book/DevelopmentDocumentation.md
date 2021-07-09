@@ -1,231 +1,87 @@
 ---
 sort: 4
 ---
-# 设计文档
-
-## 一、背景介绍
-
-### 1.1 恶意软件
-
-恶意软件意软件是指为达成某种恶意目的而编写的可执行程序，包括病毒、蠕虫和特洛伊木马。其中勒索软件给社会造成了严重影响，勒索软件主要采用邮件钓鱼、账号爆破和漏洞利用等方式攻击企业、政府和教育等中大型政企机构，从中牟取暴利。同时，恶意软件的数量也在逐年增加，如2020年，安全社区( https://www.av-test.org/en/statistics/malware) 已知的恶意可执行软件的数量已经超过11亿，而且这个数字可能还会持续增长。造成恶意软件数量增加的原因有以下三点：第一，随着网络技术的高速发展，恶意软件的传播途径也越来越多，如下载盗版电影、搜索热话题和安装来路不明的防病毒软件等。第二，自动化恶意软件生成工具的滥用导致恶意软件变体数量的增多。第三，恶意软件犯罪团伙逐渐形成规模化的商业运行，形成新的恶意软件合作生态。
-
- 目前恶意软件检测方法对比如下：
-
-
-### 1.2 恶意软件造成的财富损失
-
-尽管勒索软件约占恶意软件总事件的3%,，但相比其他恶意软件破坏力更大，一旦遭遇勒索，企业将面临业务中断、高额赎金的风险、高额赎金的风险。根据 Coveware 的数据显示，与 2019 年相比，2020 年第二季度的赎金要求同比增加了 4 倍。
-
-
-### 1.3 沙箱
-
-#### 1.3.1 沙箱的介绍     
-
-沙箱，英文**sandbox**。在计算机领域指一种虚拟技术，且多用于计算机安全技术。安全软件可以先让它在沙盒中运行。沙箱中的所有改动对操作系统不会造成任何损失。通常这种技术被计算机技术人员广泛使用，尤其是计算机反病毒行业，沙箱是一个观察计算机病毒的重要环境。影子系统即是利用了这种技术的软件之一。沙箱早期主要用于测试可疑软件等，比如黑客们为了试用某种病毒或者不安全产品，往往可以将它们在沙箱环境中运行。经典的沙箱系统的实现途径一般是通过拦截系统调用，监视程序行为，然后依据用户定义的策略来控制和限制程序对计算机资源的使用，比如改写注册表，读写磁盘等。
-
-#### 1.3.2 沙箱的工作原理
-
-沙箱的工作原理为通过重定向技术，把程序生成和修改的文件，定向到本身的文件夹中。这也包括数据的变更，包括注册表和一些系统的核心数据。通过加载自身的驱动来保护底层数据，属于驱动级别的保护。如果我们用沙箱来测试病毒的，在里面运行病毒可以说也是安全操作。所以，绝大多数的病毒软件都有沙箱的功能。
-
-### 1.4 沙箱深度调研对
-
-国内外基于机器学习安全产品现在如下
-
-## 二、内容设计
-
-### 2.1 核心组成部分
-
-- 主机（一台）：系统的核心服务器端，运行着云沙箱的核心组件，负责恶意软件分析任务的启动和分析结果报告的生成，同时负责管理多个客户机。
-
-- 客户机（若干）：多个独立的隔离环境（即多台虚拟机），负责提供虚拟环境供恶意软件样本运行，同时检测目标样本的运行情况，并将检测到的数据反馈给主机。
-
-### 2.2 系统架构图
-
-主机和客户机之间通过虚拟网络连接，多个客户机与主机共同组成一个局域网
-
-### 2.3 系统部署环境
-
-
-| 名称       | 版本                  |
-| ---------- | --------------------- |
-| **主机**   | 16.04                 |
-| **客户机** | Windows XP（32-bits） |
-| **Django** | 1.8.4                 |
-| **Python** | 2.7                   |
-| ...        | ...                   |
-
-
-
-
-
-### 2.4 工作目录CWD（Contain Working Directory)
-
-**工作目录**存放程序所有使用的文件（代理、分析脚本、配置文件、日志、注入程序、签名、结果目录、Web设置、白名单、Yara规则和MongoDB数据库等），其CWD内容如下：
-
-	- agent
-	  - agent.py 代理文件
-	- analyzer
-		- windows windows文件分析脚本
-		- android （可扩展）
-		- linux （可扩展）
-	- conf
-	  - auxiliary 辅助模块配置文件
-	  - cuckoo.conf 沙箱主机配置文件
-		- processing 结果处理模块的配置文件
-		- models 机器学习模块的配置文件
-		- reporting 报告生成模块的配置文件
-		- virualbox 虚拟机管理软件的配置模块
-	- log 日志
-	- monitor 进程注入的DLL
-	- signatures 签名
-	- models 模型
-		- 静态特征
-			- ember.model
-			- malconv.model
-		- 动态特征
-			- api_gram.model
-	- storage
-		- analyses
-			- task_id 结果目录
-				- 结果容器
-				- report
-	- web 前端配置文件
-	- whitelist 白名单
-	- yara yara规则
-	- cuckoo.db 数据库
-
-
-### 2.5 功能列表
-
-#### **2.5.1  文件对象**
-![image](https://user-images.githubusercontent.com/16918550/123396584-0c3c6600-d5d4-11eb-8c8f-f4a323599b02.png)
-
-#### **2.5.2  数据集描述**
-
-**1）[Microsoft Malware - Kaggle](https://www.kaggle.com/c/malware-classification/data)**
-
-- **数据说明**：本数据集提供了一组已知的恶意代码文件，它们代表9个不同的家族。每个恶意代码文件都有一个 Id（唯一标识文件的散列值）和一个类别标记（恶意代码可能属于的9个家族之一）。
-- **数据类型**：对于每个恶意代码文件，分别存在两种格式
-  - 原始数据文件（.bytes），包含文件二进制内容的十六进制表示，没有PE头（以确保不可执行）
-  - 元数据清单日志（.asm），包含从二进制文件中提取的各种元数据信息，如函数调用、字符串等
-- **数据分布**
-
-```mermaid
-pie
-
-title Microsoft Malware - 10868 entries
-  
-"Ramnit": 1541
-"Lollipop": 2478
-"Kelihos_ver3": 2942
-"Vundo": 475
-"Simda": 42
-"Tracur": 751
-"Kelihos_ver1": 398
-"Obfuscator.ACY": 1228
-"Gatak": 1013
-```
-
-**2）[Mining Malware - Datacon](https://datacon.qianxin.com/opendata/maliciouscode)**
-
-- **数据说明**：本数据集来自每天从现网捕获的大量挖矿型恶意代码和非挖矿型恶意代码，经过数据清洗、代码相似性分析等方法对样本进行处理，并已抹去样本PE结构中的MZ头、PE头、导入导出表等区域。
-
-- **数据类型**：对于每个恶意代码，提供包含文件二进制内容的原始数据文件
-
-- **数据分布**
-
-  ```mermaid
-  pie
-  
-  title Mining Malware - 6000 entries
-    
-  "Mining": 2000
-  "Non-mining": 4000
-  ```
-
-
-
-#### **2.5.3  检测信息**
-
-**1）辅助信息**
-
-| 辅助模块名称 | 辅助模块功能                                          |
-| ------------ | :---------------------------------------------------- |
-| **sniffer**  | 负责执行tcpdump以转储沙箱样本分析过程中生成的网络流量 |
-
-**2）结果信息**
-
-| 处理模块名称         | 处理木模块功能                                               |
-| -------------------- | ------------------------------------------------------------ |
-| **Analysisinfo**     | 生成当前分析的一些基本信息，例如时间戳、沙箱的版本等         |
-| **BehaviorAnalysis** | 解析原始行为日志并执行一些初始转换和解释，包括完整的流程跟踪、行为摘要和流程树 |
-| **Buffer**           | 丢弃缓冲区分析                                               |
-| **Debug**            | 包括错误和analysis.log由文本分析模块生成                     |
-| **Dropped**          | 恶意软件丢弃文件的信息                                       |
-| **FeatureAnalysis**  | 包括机器学习模块中恶意软件检测器需要的特征信息（字符串、字节熵直方图、PE静态特征、字符序列、灰度图、API调用序列等） |
-| **Memory**           | 在内存上执行 Volatility 工具                                 |
-| **NetworkAnalysis**  | 解析PCAP文件并提取一些网络信息，例如DNS流量、域、ip、HTTP请求、IRC和SMTP流量 |
-| **Screenshots**      | 屏幕截图                                                     |
-| **StaticAnalysis**   | 对文件执行一些静态分析                                       |
-| **String**           | 从分析的二进制文件中提取字符串                               |
-| **TargetInfo**       | 包括有关分析文件的信息，如哈希，ssdeep等                     |
-| **VirusTotal**       | 搜索VirusTotal.com分析文件的防病毒签名                       |
-
-#### **2.5.3  核心检测方法**
-
-**1）签名检测（500+开源签名）**
-
-| 签名名称               | 签名描述                                   |
-| ---------------------- | ------------------------------------------ |
-| **antidbg_windows**    | 检查是否存在来自调试器和取证工具的已知窗口 |
-| **generic_metrics**    | 使用GetSystem                              |
-| **modifies_wallpaper** | 尝试修改桌面墙纸                           |
-| **...**                | ...                                        |
-
-**2）Yara匹配**
-
-| 类型          | 内容                 |
-| ------------- | -------------------- |
-| **braries**   | 恶意软件类yara规则   |
-| **office**    | office文档类yara规则 |
-| **scripts**   | scripts类yara规则    |
-| **shellcode** | shellcode类yara规则  |
-| **urls**      | url类yara规则        |
-| **Packers**   | 加壳类yara规则       |
-| **...**       | ...                  |
-
-**3）基于机器学习的恶意软件模型**
-
-| 名称         | 类型     | 特征                               | 算法模型             |
-| ------------ | -------- | ---------------------------------- | -------------------- |
-| **Malconv**  | 静态分析 | 字节序列                           | Malconv卷积神经网络  |
-| **Ember**    | 静态分析 | 字节熵直方图、PE静态特征、字符序列 | LightGBM集成学习模型 |
-| **API_gram** | 动态分析 | API调用序列                        | XGBoost集成学习模型  |
-
-### 2.6 功能模块组成
-
-| 模块名称     | 模块功能                                                     |
-| ------------ | ------------------------------------------------------------ |
-| **辅助功能** | 定义了一些需要与每个分析过程并行执行的功能                   |
-| **机器交互** | 定义了与虚拟化软件的交互过程                                 |
-| **文件分析** | 定义了在客户机环境中执行并分析给定的文件的过程               |
-| **结果处理** | 定义了处理生成的原始分析结果的方法，并将一些信息附加到一个全局结果容器中 |
-| **家族签名** | 定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标 |
-| **机器学习** | 定义了一些基于机器学习的恶意软件检测模型,生成检测结果        |
-| **报告生成** | 定义了将全局结果容器保存格式，并存储到数据库中               |
-| **用户交互** | 定义了用户的提交样本和样本报告显示形式                       |
-
-### 2.7 沙箱运行流程
-
-![image-20210421180414604](/Users/apple/Library/Application Support/typora-user-images/image-20210421180414604.png)
-
-## 三、功能模块设计
-
-### 3.1 辅助功能模块
-
-#### 3.1.1 设计说明
-
-​		辅助模块定义了一些需要与每个**样本分析过程中进行并行执行的辅助功能**。为用户提供记录分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 **../cuckoo/auxiliary/** 目录下，全部辅助模块配置选项在 ***.CWD/conf/auxiliary.conf*** 文件下。
+# 开发
+
+## 4.1 开发环境配置
+### 4.1.1 开发用到的Python库
+初始化一个新的  ``virtualenv``。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
+
+	$ virtualenv /tmp/cuckoo-development
+激活``virtualenv``。这必须在每次启动新的shell会话时完成(除非将命令放入~/.bashrc或者类似的，当然)。
+
+	$ . /tmp/cuckoo-development/bin/activate
+为了创建一个Cuckoo分发包，需要从我们的社区储存库这个版本的布谷鸟。幸运的是，我们提供了一个简单易用的脚本来半自动地为您获取它们。在存储库根目录中，可以按以下方式运行以自动获取二进制文件。
+
+	(cuckoo-development)$ python stuff/monitor.py
+您现在可以修改和测试文件了。注意，代码文件位于布谷鸟/目录Git存储库和事实，即使您将测试一个development存储库的版本，所有规则从布谷鸟工作目录和布谷鸟工作目录的使用还在原地。
+### 4.1.2 使用Pycharm开发
+#### 位置和概念
+- CuckoWeb提供了Web接口和RESTAPI
+- Django项目根目录位于``cuckoo/web``
+- 配置位于``cuckoo/web/web/settings.py``
+- URL调度程序在``cuckoo/web/web/urls.py``，以及其他地点，如(但不限于)``cuckoo/web/analysis/urls.py``
+- HTML模板使用Django模板语言。
+- 前端使用``cuckoo/web/static/js/cuckoo/``对于与Cuckoo相关的JavaScript包含，而它们的源代码位于`` cuckoo/web/static/js/cuckoo/src/(ECMAScript 5/6)-见‘JavaScript Transspling’``一段。
+- 所谓的“控制器”用于代替基于类的视图，其中控制器负责(通常是后端)不属于视图函数的操作。例子：``cuckoo/web/controllers/analysis/analysis.py``
+- 视图函数是视图使用的函数，位于``routes.py``。例子：``cuckoo/web/controllers/analysis/routes.py``
+- API函数是api使用的函数，位于``api.py``。例子：``cuckoo/web/controllers/analysis/api.py``
+#### 运行调试
+直接从PyCharm运行和调试cuckoo web可以直接绕过cuckoo启动和使用PyCharm的内置Django服务器。谢天谢地，为了做到这一点，没有对Cuckoo代码进行任何修改。
+首先，建议您在virtualenv为了保持Cuckoo所需的依赖关系与您的系统范围内安装的Python分开。其次，应在开发模式下安装布谷鸟；python setup.py develop.
+假设Cuckoo安装正确(并且有一个活动的工作目录；请参见布谷市工作目录安装)；启动PyCharm并打开Cuckoo目录。去Run->Edit Configurations并单击+纽扣。选择‘Django服务器’。使用下列值：
+- **Name** - web
+- **Host** - 127.0.0.1
+- **Port** - 8080
+- **Environment variables** -点击 ``...`` 并增加2个新值: ``CUCKOO_APP``: ``web`` and ``CUCKOO_CWD``: ``/home/test/.cuckoo/``, 其中路径是您的 `CWD <https://cuckoo.sh/docs/installation/host/cwd.html#cwd-path>`_ (Cuckoo 工作目录).
+- **Python interpreter** - 如果选定的virtualenv不存在，请使用 ``File->Settings->Project: Cuckoo->Project Interpreter``
+- **Working directory** -Django项目根的绝对路径. 对于我来说是 ``/home/test/PycharmProjects/virtualenv/cuckoo/cuckoo/web/``
+Cuckoweb现在可以从PyCharm运行(并调试)。去Run->Run->web从菜单和网络服务器开始。
+
+#### JavaScript transpiling
+Cuckoweb中的Javascript代码是在ECMAScript 6中开发的。为了兼容浏览器，需要将它转回ECMAScript 5。
+首先，使PyCharm对ECMAScript 6语法进行正则化和理解。去File->Settings->Languages & Frameworks->Javascript并从“Javascript语言版本”下拉菜单中选择“ECMAScript 6”。命中Apply.
+然后，使用Babel传输Javascript代码。在Cuckoo项目根中安装Babel(需要npm):
+
+	(cuckoo)    test:$ pwd
+	/home/test/PycharmProjects/virtualenv/cuckoo
+	(cuckoo)    test:$ npm install --save-dev babel-cl
+它将创建一个名为node_modules在布谷鸟项目的根中。切换回PyCharm并打开任意.js文件在cuckoo/web/static/js/cuckoo/src/。PyCharm将询问您是否要为该文件配置一个文件监视程序。点击Add watcher(如果此选项对您不可用，请在File->Settings->Tools->File watchers).
+在下面的弹出屏幕‘Edit Watcher’中，输入这些值。
+
+- **Name** -  Babel ES6->ES5
+- **Description** - Transpiles ECMAScript 6 code to ECMAScript 5
+- **Output filters** - None
+- **Show console** - Error
+- **Immediate file synchronisation** - yes
+- **Track only root files** - yes
+- **Trigger watcher regardless of syntax errors** - no
+- **File type** - Javascript
+- **Scope** - Click ``...`` -> Click ``+`` (add scope) -> Click ``local`` -> Press ``OK``. In the file browser, browse to ``cuckoo/web/static/js/cuckoo/src/`` and whilst selecting the ``src`` folder, click ``include``. The files containing in ``src`` should now turn green. Press ``OK``.
+- **Program** - Should be the absolute path to ``node_modules/.bin/babel``, for me this is ``/home/test/PycharmProjects/virtualenv/cuckoo/node_modules/.bin/babel``. Double check that the path you enter reflects the actual location of the ``node_modules/.bin/babel`` file.
+- **Arguments** - ``--source-maps --out-file $FileNameWithoutExtension$.js $FilePath$``
+- **Working directory** - Browse and select ``cuckoo/web/static/js/cuckoo``
+- **Output paths to refresh** ``$FileNameWithoutExtension$-compiled.js:$FileNameWithoutExtension$-compiled.js.map``
+最后manage.py需要创建文件，以便PyCharm将其视为Django项目。创建以下文件cuckoo/web/web/manage.py内容如下：
+	
+	#!/usr/bin/env python
+	import sys
+
+	if __name__ == "__main__":
+	   from django.core.management import execute_from_command_line
+	   execute_from_command_line(sys.argv)
+转到文件->设置->语言和框架->Django和；
+
+	- **Django Project root** - ``cuckoo/web``
+	- **Settings** - ``web/settings.py``
+	- **Manage script** - ``web/manage.py``
+#### 测试
+配置现在应该已经完成。尝试从PyCharm内部运行Cuckoo&愉快的编码！
+
+## 4.2 辅助功能模块
+### 4.2.1 设计说明
+
+辅助模块定义了一些需要与每个**样本分析过程中进行并行执行的辅助功能**。为用户提供记录分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 **../cuckoo/auxiliary/** 目录下，全部辅助模块配置选项在 ***.CWD/conf/auxiliary.conf*** 文件下。
 
 **1）辅助功能定义函数**
 
@@ -274,7 +130,7 @@ class RunAuxiliary(object):
 | **mitm**     | 负责执行mitmdump以提供中间人代理功能                  |
 | **reboot**   | 负责提供重启分析支持                                  |
 
-#### 3.1.2 设计流程
+### 4.2.2 设计流程
 
 **1) 辅助功能模块时序图**
 
@@ -318,9 +174,9 @@ class RunAuxiliary(object):
 9. 辅助功能模块存储
 10. 辅助功能模块关闭
 
-### 3.2 机器交互模块
+## 4.3 机器交互模块
 
-#### 3.2.1 设计说明
+### 4.3.1 设计说明
 
 ​		**定义了与虚拟化软件的交互过程**，**开启虚拟机、启动任务调度、上传样本、上传分析模块和分析配置文件、在数据库中记录虚拟机的状态等**。全部机器交互模块放在 **../cuckoo/mechinery/** 目录下，我们默认使用了VirtualBox虚拟机软件。全部辅助模块配置选项在 ***.CWD/conf/virualbox.conf*** 文件下。
 
@@ -511,7 +367,7 @@ class GuestManager(object):
 + start_analysis(): 客户端开启分析,client 端也开启了http server, 获取agent(配置的时候,需要在虚拟机中放置agent.py)的信息
 + wait_for_completion(): 不断获取客户端分析状态
 
-#### 3.2.2 设计流程
+### 4.3.2 设计流程
 
 **1) 机器交互模块时序图**
 
@@ -586,9 +442,9 @@ class GuestManager(object):
 25. 关闭客户端
 26. 关闭虚拟机管理软件
 
-### 3.3 文件分析模块
+## 4.4 文件分析模块
 
-#### 3.3.1 设计说明
+### 4.4.1 设计说明
 
 ​		文件分析模块定义了分析组件在客户机环境中**执行并分析给定的文件**的过程。可以通过设置一个包含对所有类型的文件的通用处理方法的基类Package，然后使用多态的形式为不同类型的文件实现不同的启动分析方式。可供样本运行的客户机环境包括Windows、Linux、Android系统等，模块代码存放在***../cuckoo/data/analyzer/***目录下，包含所有用户指定选项的配置存储在***self.options***文件中。
 
@@ -803,7 +659,7 @@ class Analyzer(object):
 	</tr>
 </table>
 
-#### 	3.3.2 设计流程
+### 	4.4.2 设计流程
 
 **1）文件分析模块时序图**
 
@@ -869,9 +725,9 @@ end
 14. 通过Socket通信发送代码执行日志和函数调用记录日志到中心服务器
 15. 中心服务器对文件分析结果进行各种形式的存储（分析日志、数据库、结果文件夹等），分析结果放置在***../cuckoo/storage/analyse/{task_id}***目录下，供后续结果处理模块使用
 
-### 3.4 结果处理模块
+## 4.5 结果处理模块
 
-#### 3.4.1 设计说明
+### 4.5.1 设计说明
 
 ​		**结果处理模块**允许自定义的方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。**../cuckoo/processing/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/processing.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
@@ -993,7 +849,7 @@ class RunProcessing(object):
 - strings：文件中的可打印字符串列表
 ```
 
-#### 3.4.2 设计流程
+### 4.5.2 设计流程
 
 **1）结果处理模块时序图**
 
@@ -1036,9 +892,9 @@ class RunProcessing(object):
 8. 返回关键字，对应处理功能结果
 9. 执行所有结果处理模块，返回全局结果容器
 
-### 3.5 家族签名模块
+## 4.6 家族签名模块
 
-#### 3.5.1 设计说明
+### 4.6.1 设计说明
 
 ​		**定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标**，一定程度上实现特定的恶意软件家族的类别划分，并将一些信息附加到一个全局容器中。
 
@@ -1166,7 +1022,7 @@ rule Test : Trojan
 10.  capabilities：通用类yara规则 
 11.  Webshells：Webshell类yara规则
 
-#### 3.5.2 设计流程
+### 4.6.2 设计流程
 
 **1)  家族签名模块时序图**
 
@@ -1204,9 +1060,9 @@ rule Test : Trojan
 8. 按严重性级别对匹配的签名进行排序
 9. 将签名结果放入结果字典
 
-### 3.6 机器学习模块
+## 4.7 机器学习模块
 
-#### 3.6.1 设计说明
+### 4.7.1 设计说明
 
 **定义一些基于机器学习的Windows恶意软件检测模型（其他文件检测模型后续添加），得到检测恶意软件，并将一些信息附加到一个全局容器中**
 
@@ -1280,7 +1136,7 @@ class RunDetection(object):
 | **Ember**    | 静态分析 | 字节熵直方图、PE静态特征、字符序列 | LightGBM集成学习模型 |
 | **API_gram** | 动态分析 | API调用序列                        | XGBoost集成学习模型  |
 
-#### 3.6.2 设计流程
+### 4.7.2 设计流程
 
 **1）模型检测模块时序图**
 
@@ -1327,9 +1183,9 @@ class RunDetection(object):
 12. 保存到全局结果容器
 13. 机器学习模块结束
 
-### 3.7 报告生成模块
+## 4.8 报告生成模块
 
-#### 3.7.1 设计说明
+### 4.8.1 设计说明
 
 ​		在结果处理模块、家族签名模块、机器学习模块处理之后，**定义了恶意软件分析报告生成的不同格式**，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。**../cuckoo/reporting/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/reporting.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
@@ -1397,7 +1253,7 @@ class RunReporting(object):
             self.process(module)
 ```
 
-#### 3.7.2 设计流程
+### 4.8.2 设计流程
 
 **1）报告生成模块时序图**
 
@@ -1448,9 +1304,9 @@ class RunReporting(object):
 12. 保存到数据库
 13. 报告生成模块结束
 
-### 3.8 用户交互模块
+## 4.9 用户交互模块
 
-#### 3.8.1 设计说明
+### 4.9.1 设计说明
 
 **1）前端框架Django**
 
@@ -1590,7 +1446,7 @@ class AnalysisApi(object):
     ...
 ```
 
-#### 3.8.2 设计流程
+### 4.9.2 设计流程
 
 **1) 前端样式设计**
 
@@ -1606,69 +1462,5 @@ class AnalysisApi(object):
 
 ![报告详情](/Users/apple/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/076b7987d1501ed1ebeee6aecab0dccc/Message/MessageTemp/209186dee58a2f4b843a841addd1a580/File/图-交互设计/报告详情.png)
 
-### 3.9 功能全景图
-
-![合并图](/Users/apple/Desktop/网络空间安全综合实验/图片/合并图.png)
-
-## 四、 后续拓展工作
-
-### 4.1  Linux、Android 恶意软件检测
-
-### 4.2  恶意软件家族聚类\相似度分析
-
-+ 聚类恶意软件样本之间的相似性
-
-+ https://github.com/honeynet/cuckooml
-
-### 4.3  优化虚拟机架构
-
-+ Libvirt——管理多个虚拟化平台
-
-## 五、当前工作进度
-
-### 5.1 配置开发环境
-
-+ **Ubuntu + Pycharm + 同步 Github 仓库**
-
-![image-20210421182238755](/Users/apple/Library/Application Support/typora-user-images/image-20210421182238755.png)
-
-### 5.2 Github 仓库多人协作
-
-+ https://github.com/PowerLZY/cuckoo-ml
-
-![git](/Users/apple/Desktop/网络空间安全综合实验/图片/git.png)
-
-## 六、后续工作安排
-
-```mermaid
-%% 语法示例
-gantt
-dateFormat YYYY-MM-DD
-    title 云沙箱开发甘特图
-    section 设计
-    需求           :done,  des1, 2021-04-06,2021-04-22
-    原型           :active, des2, 2021-04-22, 3d
-    UI设计           :     des3, after des2, 50d
-    未来任务           :     des4, after des3, 15d
-    section 开发
-    学习准备理解需求           :crit, done, 2021-04-26,24h
-    设计框架               :crit, done, after des2, 20d
-    开发                 :crit, active, 30d
-    未来任务               :crit, 25
-    section 测试
-   	功能测试               :active, a1, after des3, 13d
-    压力测试                :after a1 , 2d
-    测试报告                : 4d
-```
-
-## 七、遇到问题
-
-+ 数据集良性样本？
-
-  + 爬取PE商店  http://www.portablefreeware.com/  没有找到好的网站
-  + 收集系统文件
-  + [label-virusshare打标签](https://github.com/seymour1/label-virusshare)
-
-+ 学习方向？向其他领域扩展？
 
   

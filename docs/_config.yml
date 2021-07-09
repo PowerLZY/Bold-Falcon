@@ -1,5 +1,5 @@
   
-title: 毕方云沙箱
+title: Bold-Falcon
 lang: zh
 description: 恶意软件检测平台
 
@@ -14,4 +14,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
 
-theme: jekyll-theme-cayman
+theme: jekyll-theme-slate
