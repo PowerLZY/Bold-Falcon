@@ -28,18 +28,14 @@ malconv = PreMalConv()
 malconv.load_state_dict(torch.load(madel_path, map_location='cpu'))
 malconv.eval()
 
+"""
+sample = load_binaries(train_data_path+"Backdoor.Win32.Agent.bflv_ce22.exe", first_n_byte)
+exe_input = torch.from_numpy(sample).unsqueeze(0)
 
+exe_input = exe_input.cuda() if use_gpu else exe_input
+exe_input = Variable(exe_input.long(), requires_grad=False)
 
+pred = model(exe_input)
 
-# 文件名列表、数据文件夹、文件列表标签、前n位字节
-validloader = DataLoader(ExeDataset(filename, train_data_path, labels, first_n_byte),
-                        batch_size=batch_size, shuffle=False, num_workers=use_cpu)
+"""
 
-for _, val_batch_data in enumerate(validloader):
-    cur_batch_size = val_batch_data[0].size(0)
-
-    exe_input = val_batch_data[0].cuda() if use_gpu else val_batch_data[0]
-    exe_input = Variable(exe_input.long(), requires_grad=False)
-
-
-    pred = malconv(exe_input)
