@@ -14,6 +14,7 @@ import sys
 import time
 import pandas as pd
 import xml.etree.ElementTree as ET
+import numpy as np
 
 from lib.cuckoo.common.config import Config
 from lib.cuckoo.common.constants import CUCKOO_ROOT
@@ -86,13 +87,13 @@ class Machinery(object):
 
     def set_options(self, options):
         """Set machine manager options.
-        @param options: machine manager options dict.
+        :param options: machine manager options dict.
         """
         self.options = options
 
     def initialize(self, module_name):
         """Read, load, and verify machines configuration.
-        @param module_name: module name.
+        :param module_name: module name.
         """
         # Load.
         self._initialize(module_name)
@@ -108,7 +109,7 @@ class Machinery(object):
 
     def _initialize(self, module_name):
         """Read configuration.
-        @param module_name: module name.
+        :param module_name: module name.
         """
         self.module_name = module_name
         mmanager_opts = self.options.get(module_name)
@@ -172,9 +173,9 @@ class Machinery(object):
     def _initialize_check(self):
         """Runs checks against virtualization software when a machine manager
         is initialized.
-        @note: in machine manager modules you may override or superclass
+        :note: in machine manager modules you may override or superclass
                his method.
-        @raise CuckooMachineError: if a misconfiguration or a unkown vm state
+        :raise CuckooMachineError: if a misconfiguration or a unkown vm state
                                    is found.
         """
         try:
@@ -206,22 +207,22 @@ class Machinery(object):
 
     def machines(self):
         """List virtual machines.
-        @return: virtual machines list
+        :return: virtual machines list
         """
         return self.db.list_machines()
 
     def availables(self):
         """How many machines are free.
-        @return: free machines count.
+        :return: free machines count.
         """
         return self.db.count_machines_available()
 
     def acquire(self, machine_id=None, platform=None, tags=None):
         """Acquire a machine to start analysis.
-        @param machine_id: machine ID.
-        @param platform: machine platform.
-        @param tags: machine tags
-        @return: machine or None.
+        :param machine_id: machine ID.
+        :param platform: machine platform.
+        :param tags: machine tags
+        :return: machine or None.
         """
         if machine_id:
             return self.db.lock_machine(label=machine_id)
@@ -232,19 +233,19 @@ class Machinery(object):
 
     def release(self, label=None):
         """Release a machine.
-        @param label: machine name.
+        :param label: machine name.
         """
         self.db.unlock_machine(label)
 
     def running(self):
         """Returns running virtual machines.
-        @return: running virtual machines list.
+        :return: running virtual machines list.
         """
         return self.db.list_machines(locked=True)
 
     def shutdown(self):
         """Shutdown the machine manager. Kills all alive machines.
-        @raise CuckooMachineError: if unable to stop machine.
+        :raise CuckooMachineError: if unable to stop machine.
         """
         if len(self.running()) > 0:
             log.info("Still %s guests alive. Shutting down...",
@@ -258,43 +259,43 @@ class Machinery(object):
 
     def set_status(self, label, status):
         """Set status for a virtual machine.
-        @param label: virtual machine label
-        @param status: new virtual machine status
+        :param label: virtual machine label
+        :param status: new virtual machine status
         """
         self.db.set_machine_status(label, status)
 
     def start(self, label, task):
         """Start a machine.
-        @param label: machine name.
-        @param task: task object.
-        @raise NotImplementedError: this method is abstract.
+        :param label: machine name.
+        :param task: task object.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
     def stop(self, label=None):
         """Stop a machine.
-        @param label: machine name.
-        @raise NotImplementedError: this method is abstract.
+        :param label: machine name.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
     def _list(self):
         """Lists virtual machines configured.
-        @raise NotImplementedError: this method is abstract.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
     def dump_memory(self, label, path):
         """Takes a memory dump of a machine.
-        @param path: path to where to store the memory dump.
+        :param path: path to where to store the memory dump.
         """
         raise NotImplementedError
 
     def _wait_status(self, label, state):
         """Waits for a vm status.
-        @param label: virtual machine name.
-        @param state: virtual machine status, accepts multiple states as list.
-        @raise CuckooMachineError: if default waiting timeout expire.
+        :param label: virtual machine name.
+        :param state: virtual machine status, accepts multiple states as list.
+        :raise CuckooMachineError: if default waiting timeout expire.
         """
         # This block was originally suggested by Loic Jaquemet.
         waitme = 0
@@ -340,13 +341,13 @@ class LibVirtMachinery(Machinery):
     def initialize(self, module):
         """Initialize machine manager module. Override default to set proper
         connection string.
-        @param module:  machine manager module
+        :param module:  machine manager module
         """
         super(LibVirtMachinery, self).initialize(module)
 
     def _initialize_check(self):
         """Runs all checks when a machine manager is initialized.
-        @raise CuckooMachineError: if libvirt version is not supported.
+        :raise CuckooMachineError: if libvirt version is not supported.
         """
         # Version checks.
         if not self._version_check():
@@ -362,9 +363,9 @@ class LibVirtMachinery(Machinery):
 
     def start(self, label, task):
         """Starts a virtual machine.
-        @param label: virtual machine name.
-        @param task: task object.
-        @raise CuckooMachineError: if unable to start virtual machine.
+        :param label: virtual machine name.
+        :param task: task object.
+        :raise CuckooMachineError: if unable to start virtual machine.
         """
         log.debug("Starting machine %s", label)
 
@@ -415,8 +416,8 @@ class LibVirtMachinery(Machinery):
 
     def stop(self, label):
         """Stops a virtual machine. Kill them all.
-        @param label: virtual machine name.
-        @raise CuckooMachineError: if unable to stop virtual machine.
+        :param label: virtual machine name.
+        :raise CuckooMachineError: if unable to stop virtual machine.
         """
         log.debug("Stopping machine %s", label)
 
@@ -449,7 +450,7 @@ class LibVirtMachinery(Machinery):
 
     def dump_memory(self, label, path):
         """Takes a memory dump.
-        @param path: path to where to store the memory dump.
+        :param path: path to where to store the memory dump.
         """
         log.debug("Dumping memory for machine %s", label)
 
@@ -468,8 +469,8 @@ class LibVirtMachinery(Machinery):
 
     def _status(self, label):
         """Gets current status of a vm.
-        @param label: virtual machine name.
-        @return: status string.
+        :param label: virtual machine name.
+        :return: status string.
         """
         log.debug("Getting status for %s", label)
 
@@ -513,7 +514,7 @@ class LibVirtMachinery(Machinery):
 
     def _connect(self):
         """Connects to libvirt subsystem.
-        @raise CuckooMachineError: when unable to connect to libvirt.
+        :raise CuckooMachineError: when unable to connect to libvirt.
         """
         # Check if a connection string is available.
         if not self.dsn:
@@ -527,7 +528,7 @@ class LibVirtMachinery(Machinery):
 
     def _disconnect(self, conn):
         """Disconnects to libvirt subsystem.
-        @raise CuckooMachineError: if cannot disconnect from libvirt.
+        :raise CuckooMachineError: if cannot disconnect from libvirt.
         """
         try:
             conn.close()
@@ -536,7 +537,7 @@ class LibVirtMachinery(Machinery):
 
     def _fetch_machines(self):
         """Fetch machines handlers.
-        @return: dict with machine label as key and handle as value.
+        :return: dict with machine label as key and handle as value.
         """
         vms = {}
         for vm in self.machines():
@@ -545,9 +546,9 @@ class LibVirtMachinery(Machinery):
 
     def _lookup(self, label):
         """Search for a virtual machine.
-        @param conn: libvirt connection handle.
-        @param label: virtual machine name.
-        @raise CuckooMachineError: if virtual machine is not found.
+        :param conn: libvirt connection handle.
+        :param label: virtual machine name.
+        :raise CuckooMachineError: if virtual machine is not found.
         """
         conn = self._connect()
         try:
@@ -561,7 +562,7 @@ class LibVirtMachinery(Machinery):
 
     def _list(self):
         """List available virtual machines.
-        @raise CuckooMachineError: if unable to list virtual machines.
+        :raise CuckooMachineError: if unable to list virtual machines.
         """
         conn = self._connect()
         try:
@@ -574,7 +575,7 @@ class LibVirtMachinery(Machinery):
 
     def _version_check(self):
         """Check if libvirt release supports snapshots.
-        @return: True or false.
+        :return: True or false.
         """
         if libvirt.getVersion() >= 8000:
             return True
@@ -583,15 +584,15 @@ class LibVirtMachinery(Machinery):
 
     def _get_snapshot(self, label):
         """Get current snapshot for virtual machine
-        @param label: virtual machine name
-        @return None or current snapshot
-        @raise CuckooMachineError: if cannot find current snapshot or
+        :param label: virtual machine name
+        :return None or current snapshot
+        :raise CuckooMachineError: if cannot find current snapshot or
                                    when there are too many snapshots available
         """
         def _extract_creation_time(node):
             """Extracts creation time from a KVM vm config file.
-            @param node: config file node
-            @return: extracted creation time
+            :param node: config file node
+            :return: extracted creation time
             """
             xml = ET.fromstring(node.getXMLDesc(flags=0))
             return xml.findtext("./creationTime")
@@ -635,13 +636,13 @@ class Processing(object):
 
     def set_options(self, options):
         """Set report options.
-        @param options: report options dict.
+        :param options: report options dict.
         """
         self.options = options
 
     def set_task(self, task):
         """Add task information.
-        @param task: task dictionary.
+        :param task: task dictionary.
         """
         self.task = task
 
@@ -651,7 +652,7 @@ class Processing(object):
 
     def set_path(self, analysis_path):
         """Set paths.
-        @param analysis_path: analysis folder path.
+        :param analysis_path: analysis folder path.
         """
         self.analysis_path = analysis_path
         self.log_path = os.path.join(self.analysis_path, "analysis.log")
@@ -679,7 +680,7 @@ class Processing(object):
 
     def run(self):
         """Start processing.
-        @raise NotImplementedError: this method is abstract.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
@@ -701,7 +702,11 @@ class Instance(object):
         self.basic_features = {}
 
     def load_json(self, json_file, name="unknown"):
-        """Load JSON formatted malware report. It can handle both a path to JSON file and a dictionary object."""
+        """
+        Load JSON formatted malware report. It can handle both a path to JSON file and a dictionary object.
+        :param json_file: json path
+        :param name: default "unknown"
+        """
         if isinstance(json_file, str):
             self.json_path = json_file
             with open(json_file, "r") as malware_report:
@@ -725,6 +730,23 @@ class Instance(object):
         # Pull all VT normalised results
         self.scans = self.report.get("virustotal").get("scans")
 
+    def load_binaries(self, data_path, first_n_byte = 2 ** 20):
+        '''
+        Import the sample and convert it into a fixed length byte sequence for MalConv
+        :param data_path: Analysis sample path
+        :param first_n_byte: fixed length
+        :return numpy: byte sequence
+        '''
+        try:
+            with open(data_path, 'rb') as f:
+                tmp = [i + 1 for i in f.read()[:first_n_byte]]  # index 0 will be special padding index 每个值加一
+                tmp = tmp + [0] * (first_n_byte - len(tmp))
+        except:
+            with open(data_path, 'rb') as f:
+                tmp = [i + 1 for i in f.read()[:first_n_byte]]
+                tmp = tmp + [0] * (first_n_byte - len(tmp))
+
+        return np.array(tmp)
 
     def label_sample(self, external_labels=None, label_type="family"):
         """
@@ -1103,20 +1125,19 @@ class Detection(object):
         self.results = {}  # 保持模型预测结果
 
     def set_path(self, analysis_path):
-        """Set paths.
-        @param analysis_path: analysis folder path.
+        """
+        Set paths.
+        :param analysis_path: analysis folder path.
         """
         self.analysis_path = analysis_path
         self.file_path = os.path.realpath(os.path.join(self.analysis_path, "binary"))
 
     def set_task(self, task):
         """Add task information.
-        @param task: task dictionary.
+        :param task: task dictionary.
         """
         self.task = task
-    # 特征提取
-    # 特征工程
-    # 特征保存pandas
+
     def load_features(self, features_dict):
         pass
 
@@ -1126,13 +1147,15 @@ class Detection(object):
     def predict(self):
         pass
 
-    def load_binaries(self, results):
-        """Set the results - the fat dictionary."""
-        # 特征提取
+    def load_instance(self, results):
+        """
+        Set the results - the fat dictionary.
+        :param results:  Global results dictionary
+        """
         self.binaries = Instance()
-        self.binaries.load_json(results)
-        self.binaries.extract_features()
-        #self.binaries.extract_basic_features()
+        self.binaries.load_json(results) #导入json
+        # self.binaries.extract_features() #导入全体特征
+        # self.binaries.extract_basic_features()
 
     def get_features(self):
         """Return complex binary features as a labelled dictionary."""
@@ -1208,7 +1231,7 @@ class Detection(object):
     # ------------------- only dir --------------------------
     def run(self):
         """Start detection.
-        @raise NotImplementedError: this method is abstract.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
@@ -1242,7 +1265,7 @@ class Signature(object):
 
     def __init__(self, caller):
         """
-        @param caller: calling object. Stores results in caller.results
+        :param caller: calling object. Stores results in caller.results
         """
         self.marks = []
         self.matched = False
@@ -1256,11 +1279,11 @@ class Signature(object):
 
     def _check_value(self, pattern, subject, regex=False, all=False):
         """Checks a pattern against a given subject.
-        @param pattern: string or expression to check for.
-        @param subject: target of the check.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param subject: target of the check.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         ret = set()
         if regex:
@@ -1297,8 +1320,8 @@ class Signature(object):
     def get_processes(self, name=None):
         """Get a list of processes.
 
-        @param name: If set only return processes with that name.
-        @return: List of processes or empty list
+        :param name: If set only return processes with that name.
+        :return: List of processes or empty list
         """
         for item in self.get_results("behavior", {}).get("processes", []):
             if name is None or item["process_name"] == name:
@@ -1307,8 +1330,8 @@ class Signature(object):
     def get_process_by_pid(self, pid=None):
         """Get a process by its process identifier.
 
-        @param pid: pid to search for.
-        @return: process.
+        :param pid: pid to search for.
+        :return: process.
         """
         for item in self.get_results("behavior", {}).get("processes", []):
             if item["pid"] == pid:
@@ -1322,8 +1345,8 @@ class Signature(object):
     def get_summary_generic(self, pid, actions):
         """Get generic info from summary.
 
-        @param pid: pid of the process. None for all
-        @param actions: A list of actions to get
+        :param pid: pid of the process. None for all
+        :param actions: A list of actions to get
         """
         ret = []
         for process in self.get_results("behavior", {}).get("generic", []):
@@ -1339,9 +1362,9 @@ class Signature(object):
         """Get files read, queried, or written to optionally by a
         specific process.
 
-        @param pid: the process or None for all
-        @param actions: actions to search for. None is all
-        @return: yields files
+        :param pid: the process or None for all
+        :param actions: actions to search for. None is all
+        :return: yields files
 
         """
         if actions is None:
@@ -1356,8 +1379,8 @@ class Signature(object):
     def get_dll_loaded(self, pid=None):
         """Get DLLs loaded by a specific process.
 
-        @param pid: the process or None for all
-        @return: yields DLLs loaded
+        :param pid: the process or None for all
+        :return: yields DLLs loaded
 
         """
         return self.get_summary_generic(pid, ["dll_loaded"])
@@ -1365,9 +1388,9 @@ class Signature(object):
     def get_keys(self, pid=None, actions=None):
         """Get registry keys.
 
-        @param pid: The pid to look in or None for all.
-        @param actions: the actions as a list.
-        @return: yields registry keys
+        :param pid: The pid to look in or None for all.
+        :param actions: the actions as a list.
+        :return: yields registry keys
 
         """
         if actions is None:
@@ -1381,13 +1404,13 @@ class Signature(object):
     def check_file(self, pattern, regex=False, actions=None, pid=None,
                    all=False):
         """Checks for a file being opened.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @param actions: a list of key actions to use.
-        @param pid: The process id to check. If it is set to None, all
+        :param actions: a list of key actions to use.
+        :param pid: The process id to check. If it is set to None, all
                     processes will be checked.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         if actions is None:
             actions = [
@@ -1404,12 +1427,12 @@ class Signature(object):
     def check_dll_loaded(self, pattern, regex=False, actions=None, pid=None,
                          all=False):
         """Checks for DLLs being loaded.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @param pid: The process id to check. If it is set to None, all
+        :param pid: The process id to check. If it is set to None, all
                     processes will be checked.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         return self._check_value(pattern=pattern,
                                  subject=self.get_dll_loaded(pid),
@@ -1419,13 +1442,13 @@ class Signature(object):
     def check_key(self, pattern, regex=False, actions=None, pid=None,
                   all=False):
         """Checks for a registry key being accessed.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @param actions: a list of key actions to use.
-        @param pid: The process id to check. If it is set to None, all
+        :param actions: a list of key actions to use.
+        :param pid: The process id to check. If it is set to None, all
                     processes will be checked.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         if actions is None:
             actions = [
@@ -1440,17 +1463,17 @@ class Signature(object):
 
     def get_mutexes(self, pid=None):
         """
-        @param pid: Pid to filter for
-        @return:List of mutexes
+        :param pid: Pid to filter for
+        :return:List of mutexes
         """
         return self.get_summary_generic(pid, ["mutex"])
 
     def check_mutex(self, pattern, regex=False, all=False):
         """Checks for a mutex being opened.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         return self._check_value(pattern=pattern,
                                  subject=self.get_mutexes(),
@@ -1468,7 +1491,7 @@ class Signature(object):
     def get_net_generic(self, subtype):
         """Generic getting network data.
 
-        @param subtype: subtype string to search for.
+        :param subtype: subtype string to search for.
         """
         return self.get_results("network", {}).get(subtype, [])
 
@@ -1531,10 +1554,10 @@ class Signature(object):
 
     def check_ip(self, pattern, regex=False, all=False):
         """Checks for an IP address being contacted.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         return self._check_value(pattern=pattern,
                                  subject=self.get_net_hosts(),
@@ -1543,10 +1566,10 @@ class Signature(object):
 
     def check_domain(self, pattern, regex=False, all=False):
         """Checks for a domain being contacted.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         domains = set()
         for item in self.get_net_domains():
@@ -1559,10 +1582,10 @@ class Signature(object):
 
     def check_url(self, pattern, regex=False, all=False):
         """Checks for a URL being contacted.
-        @param pattern: string or expression to check for.
-        @param regex: boolean representing if the pattern is a regular
+        :param pattern: string or expression to check for.
+        :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
-        @return: boolean with the result of the check.
+        :return: boolean with the result of the check.
         """
         urls = set()
         for item in self.get_net_http():
@@ -1639,8 +1662,8 @@ class Signature(object):
 
         Only called if signature is "active".
 
-        @param call: logged API call.
-        @param process: proc object.
+        :param call: logged API call.
+        :param process: proc object.
         """
         # Dispatch this call to a per-API specific handler.
         if self.on_call_dispatch:
@@ -1653,7 +1676,7 @@ class Signature(object):
         only take effect when one or more other signatures have matched as
         well.
 
-        @param signature: The signature that just matched
+        :param signature: The signature that just matched
         """
 
     def on_process(self, process):
@@ -1661,7 +1684,7 @@ class Signature(object):
 
         Can be used for cleanup of flags, re-activation of the signature, etc.
 
-        @param process: dictionary describing this process
+        :param process: dictionary describing this process
         """
 
     def on_complete(self):
@@ -1692,7 +1715,7 @@ class Report(object):
 
     def set_path(self, analysis_path):
         """Set analysis folder path.
-        @param analysis_path: analysis folder path.
+        :param analysis_path: analysis folder path.
         """
         self.analysis_path = analysis_path
         self.conf_path = self._get_analysis_path("analysis.conf")
@@ -1708,19 +1731,19 @@ class Report(object):
 
     def set_options(self, options):
         """Set report options.
-        @param options: report options dict.
+        :param options: report options dict.
         """
         self.options = options
 
     def set_task(self, task):
         """Add task information.
-        @param task: task dictionary.
+        :param task: task dictionary.
         """
         self.task = task
 
     def run(self):
         """Start report processing.
-        @raise NotImplementedError: this method is abstract.
+        :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
