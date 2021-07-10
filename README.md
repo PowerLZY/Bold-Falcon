@@ -37,6 +37,7 @@
   - [ ] Frog:create an image and add an image and a host to the Fog server
   - [ ] 解析plugins.py, class RunSignatures()原理
   - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
+  - [ ] gist mal_sample
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
@@ -64,7 +65,7 @@
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
   + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
-  
+   
 #### 常见问题
 + Machine * status gurumeditation
   -  找到虚拟机安装目录下VBox.log日志文件
