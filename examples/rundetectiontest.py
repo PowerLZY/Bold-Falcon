@@ -153,7 +153,7 @@ class RunDetection(object):
         self.results = results
         self.predict = {}
 
-    def process(self, module, results):
+    def process(self, module):
         """Run a detection module.
         @param module: detection module to run.
         @param results: results dict.
@@ -184,15 +184,15 @@ class RunDetection(object):
 
         # ---- Detection module 需要的配置 ----
         # Give it the path to the baseline directory.
-        #current.set_baseline(self.baseline_path)
+        # rrent.set_baseline(self.baseline_path)
         # Give it the path to the analysis results.
-        #current.set_path(self.analysis_path)
+        # current.set_path(self.analysis_path)
         # Give it the analysis task object.
-        #current.set_task(self.task)
+        # current.set_task(self.task)
         # Give it the options from the relevant Detection.conf section.
-        current.set_options(options)
+        #current.set_options(options)
         # Give the results that we have obtained so far.
-        current.set_results(results)
+        current.load_instance(self.results)
         # ---- Detection module 需要的配置 ----
 
         try:
@@ -240,11 +240,11 @@ class RunDetection(object):
 
             # Run every loaded detection module.
             for module in detection_list:
-                key, predict = self.process(module, self.results)
+                key, predict = self.process(module)
 
                 # If the module provided results, append it to the ’info‘ dict.
                 if key and result:
-                    self.results['info']['detection'] = predict
+                    self.results['info']['detection'] = {key:predict}
         else:
             log.info("No detection modules loaded")
 

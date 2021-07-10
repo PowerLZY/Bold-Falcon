@@ -15,11 +15,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 class Strings_ngram(Detection):
     """描述"""
 
-    def load_features(self):
+    def load_features(self, key):
         # 特征工程 -> 保存pandas
         # The first stage is to load the data from the directory holding all the JSONs
         # Then we extract all the relevant information from the loaded samples.
-        strings =' '.join(self.binaries.features.strings)
+        strings =' '.join(self.binaries.features[key])
         try:
             self.tfidf_features = self.vectorizer.fit_transform(strings)
         except:
@@ -48,15 +48,14 @@ class Strings_ngram(Detection):
     def run(self):
         """
         Run extract of printable strings with Ngram into XGBoost model.
-        @return: predict 结果.
+        :return: predict.
         """
         self.key = "strings_ngram"
         self.features_type = "static"
         result = None
 
-
-        #if self.task["category"] == "file":
         """
+        if self.task["category"] == "file":
             features not in json 
             if not os.path.exists(self.file_path):
                 raise CuckooDetectionError("Sample file doesn't exist: \"%s\"" % self.file_path)
@@ -66,11 +65,13 @@ class Strings_ngram(Detection):
             except (IOError, OSError) as e:
                 raise CuckooDetectionError("Error opening file %s" % e)
         """
-            # 导入模型
+        # 特征提取
+        self.binaries.feature_static_string()
+        # 导入模型（特征工程+预测模型）
         self.load_model()
-            # 特征工程
-        self.load_features()
-            # 模型预测
+        # 特征工程
+        self.load_features("strings")
+        # 模型预测
         result = self.predict()
 
         return result

@@ -2,7 +2,7 @@
 import os
 import sys
 import torch
-from model import *
+from modules.detection.model import *
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
