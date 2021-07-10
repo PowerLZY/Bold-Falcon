@@ -6,14 +6,13 @@ sort: 4
 ## 4.1 开发环境配置
 ### 4.1.1 开发用到的Python库
 初始化一个新的`virtualenv`。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
-
-	$ virtualenv /tmp/cuckoo-development
+```shell
+ $ virtualenv /tmp/cuckoo-development
+```
 激活``virtualenv``。这必须在每次启动新的shell会话时完成(除非将命令放入~/.bashrc或者类似的，当然)。
-
-	$ . /tmp/cuckoo-development/bin/activate
+$ . /tmp/cuckoo-development/bin/activate
 为了创建一个Cuckoo分发包，需要从我们的社区储存库这个版本的布谷鸟。幸运的是，我们提供了一个简单易用的脚本来半自动地为您获取它们。在存储库根目录中，可以按以下方式运行以自动获取二进制文件。
-
-	(cuckoo-development)$ python stuff/monitor.py
+(cuckoo-development)$ python stuff/monitor.py
 您现在可以修改和测试文件了。注意，代码文件位于布谷鸟/目录Git存储库和事实，即使您将测试一个development存储库的版本，所有规则从布谷鸟工作目录和布谷鸟工作目录的使用还在原地。
 ### 4.1.2 使用Pycharm开发
 #### 位置和概念
@@ -75,6 +74,11 @@ Cuckoweb中的Javascript代码是在ECMAScript 6中开发的。为了兼容浏�
 	- **Django Project root** - ``cuckoo/web``
 	- **Settings** - ``web/settings.py``
 	- **Manage script** - ``web/manage.py``
+
+
+
+
+
 #### 测试
 配置现在应该已经完成。尝试从PyCharm内部运行Cuckoo&愉快的编码！
 
