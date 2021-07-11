@@ -3,9 +3,10 @@ import sys
 import os
 sys.path.append("..")
 from lib.cuckoo.common.constants import CUCKOO_ROOT
-from modules.detection.instance import Instance
-from modules.detection.loader import Loader
-from modules.detection.strings_ngram import Strings_ngram
+
+from instance import Instance
+from loader import Loader
+from modules.detection.strings import Strings_ngram
 from modules.processing.cuckooml import ML
 
 import joblib
