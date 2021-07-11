@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
 apistats_dir = './data'
-select_number = 80
+select_number = 120
 
 apis = []
 fs = glob.glob(os.path.join(apistats_dir, '*.json'))
@@ -45,7 +45,7 @@ for f in range(x.shape[1]):
     print("%2d) %-*s %f" % (f + 1, 30, feat_labels[indices[f]], importances[indices[f]]))
     standard.append(feat_labels[indices[f]])
 import pandas as pd
-standard_pd = pd.DataFrame(standard[:80])
+standard_pd = pd.DataFrame(standard[:select_number])
 standard_pd.to_csv("standard.txt", index=None, header=None)
 # remain indices columns
 x = x[:, indices[:select_number]]
@@ -55,4 +55,4 @@ xben = x[np.where(y==0)]
 yben = y[np.where(y==0)]
 
 
-np.savez('data80.npz', xmal=xmal, ymal=ymal, xben=xben, yben=yben)
+np.savez('data120.npz', xmal=xmal, ymal=ymal, xben=xben, yben=yben)
