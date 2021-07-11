@@ -444,7 +444,7 @@ class AnalysisManager(threading.Thread):
         """Process the analysis results and generate the enabled reports."""
         results = RunProcessing(task=self.task).run()
         RunSignatures(results=results).run()
-        #RunDetection(results=results).run()
+        RunDetection(task=self.task, results=results).run()
         RunReporting(task=self.task, results=results).run()
 
         # If the target is a file and the user enabled the option,

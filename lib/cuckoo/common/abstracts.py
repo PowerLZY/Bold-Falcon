@@ -733,19 +733,17 @@ class Instance(object):
     def load_binaries(self, data_path, first_n_byte = 2 ** 20):
         '''
         Import the sample and convert it into a fixed length byte sequence for MalConv
+
         :param data_path: Analysis sample path
         :param first_n_byte: fixed length
         :return numpy: byte sequence
         '''
         try:
             with open(data_path, 'rb') as f:
-                tmp = [i + 1 for i in f.read()[:first_n_byte]]  # index 0 will be special padding index 每个值加一
+                tmp = [int(ord(i)) + 1 for i in f.read()[:first_n_byte]]  # index 0 will be special padding index 每个值加一
                 tmp = tmp + [0] * (first_n_byte - len(tmp))
         except:
-            with open(data_path, 'rb') as f:
-                tmp = [i + 1 for i in f.read()[:first_n_byte]]
-                tmp = tmp + [0] * (first_n_byte - len(tmp))
-
+            raise CuckooOperationalError("Error convert it into a fixed length byte sequence")
         return np.array(tmp)
 
     def label_sample(self, external_labels=None, label_type="family"):
@@ -1116,7 +1114,7 @@ class Detection(object):
         self.task = None
         self.options = None  # conf options
         # self.json_path = None  # 原文件结果路径
-        self.bin_path = None  # 原文件路径
+        # self.bin_path = None  # 原文件路径
         self.labels = None
         self.features = None
         self.binaries = {}
@@ -1124,10 +1122,20 @@ class Detection(object):
         self.binaries_updated = False
         self.results = {}  # 保持模型预测结果
 
+    def set_options(self, options):
+        """
+        Set report options.
+
+        :param options: report options dict.
+        """
+        self.options = options
+
     def set_path(self, analysis_path):
         """
         Set paths.
+
         :param analysis_path: analysis folder path.
+        :param file_path: binaries file path
         """
         self.analysis_path = analysis_path
         self.file_path = os.path.realpath(os.path.join(self.analysis_path, "binary"))
@@ -1142,7 +1150,7 @@ class Detection(object):
         pass
 
     def load_model(self):
-        pass
+        pass# 原文件路径
 
     def predict(self):
         pass
@@ -1150,7 +1158,7 @@ class Detection(object):
     def load_instance(self, results):
         """
         Set the results - the fat dictionary.
-        :param results:  Global results dictionary
+        :param results:  results dict
         """
         self.binaries = Instance()
         self.binaries.load_json(results) #导入json
@@ -1230,7 +1238,8 @@ class Detection(object):
         return simple_features
     # ------------------- only dir --------------------------
     def run(self):
-        """Start detection.
+        """
+        Start detection.
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
