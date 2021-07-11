@@ -59,12 +59,13 @@ def check_working_directory():
 
 
 def check_configs():
-    """Checks if config files exist.
-    @raise CuckooStartupError: if config files do not exist.
+    """
+    Checks if config files exist.
+    :raise CuckooStartupError: if config files do not exist.
     """
     configs = (
         "auxiliary.conf", "avd.conf", "cuckoo.conf", "cuckooml.conf",
-        "esx.conf", "kvm.conf", "memory.conf", "physical.conf",
+        "esx.conf", "kvm.conf", "memory.conf", "physical.conf","detection.conf",
         "processing.conf", "qemu.conf", "reporting.conf", "virtualbox.conf",
         "vmware.conf", "vpn.conf", "vsphere.conf", "xenserver.conf",
     )
