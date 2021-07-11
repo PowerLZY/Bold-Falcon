@@ -59,7 +59,10 @@ class Instance(object):
 
 
     def label_sample(self, external_labels=None, label_type="family"):
-        """Generate label for the loaded sample. You can use platform, cve, metatype, type, and family (default)."""
+        """
+        为加载的样本生成标签。您可以使用platform、cve、metatype、type和family（默认）
+        Generate label for the loaded sample. You can use platform, cve, metatype, type, and family (default).
+        """
         merged_labels = []
 
         if external_labels is None and self.scans is not None:
