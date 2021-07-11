@@ -733,6 +733,7 @@ class Instance(object):
     def load_binaries(self, data_path, first_n_byte = 2 ** 20):
         '''
         Import the sample and convert it into a fixed length byte sequence for MalConv
+
         :param data_path: Analysis sample path
         :param first_n_byte: fixed length
         :return numpy: byte sequence
