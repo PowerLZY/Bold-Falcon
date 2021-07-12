@@ -19,7 +19,7 @@
 
 **`说明文档`** https://powerlzy.github.io/Bold-Falcon/
 
-**`开发文档`** https://boldfalcon.readthedocs.io/en/latest/reporting.html
+**`开发文档`** https://boldfalcon.readthedocs.io/en/latest/index.html
 
 #### 开源资料
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
