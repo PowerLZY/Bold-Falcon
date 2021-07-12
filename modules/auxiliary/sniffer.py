@@ -14,11 +14,17 @@ from lib.cuckoo.common.constants import CUCKOO_ROOT, CUCKOO_GUEST_PORT
 log = logging.getLogger(__name__)
 
 class Sniffer(Auxiliary):
+    """
+    Sniffer use tcpdump tools
+    """
     def __init__(self):
         Auxiliary.__init__(self)
         self.proc = None
 
     def start(self):
+        '''
+        Start tcpdump tools
+        '''
         if not self.machine.interface:
             log.error("Network interface not defined, network capture aborted")
             return
@@ -100,8 +106,10 @@ class Sniffer(Auxiliary):
         )
 
     def stop(self):
-        """Stop sniffing.
-        @return: operation status.
+        """
+        Stop sniffing.
+
+        :return: operation status.
         """
         if self.proc and not self.proc.poll():
             try:

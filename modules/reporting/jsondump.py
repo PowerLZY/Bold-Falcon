@@ -45,8 +45,9 @@ class JsonDump(Report):
 
     def run(self, results):
         """Writes report.
-        @param results: Cuckoo results dict.
-        @raise CuckooReportError: if fails to write report.
+
+        :param results: Cuckoo results dict.
+        :raise CuckooReportError: if fails to write report.
         """
         indent = self.options.get("indent", 4)
         encoding = self.options.get("encoding", "utf-8")

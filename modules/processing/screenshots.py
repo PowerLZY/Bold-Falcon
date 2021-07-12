@@ -16,7 +16,8 @@ class Screenshots(Processing):
 
     def run(self):
         """Run analysis.
-        @return: list of screenshots with OCR content.
+
+        :return: list of screenshots with OCR content.
         """
 
         self.key = "screenshots"

@@ -11,12 +11,16 @@ from lib.cuckoo.common.exceptions import CuckooOperationalError
 from lib.cuckoo.common.objects import Dictionary
 
 class Config:
-    """Configuration file parser."""
+    """Configuration file parser.
+
+    :param file_name: file name without extension.
+    :param cfg: configuration file path.
+    """
 
     def __init__(self, file_name="cuckoo", cfg=None):
         """
-        @param file_name: file name without extension.
-        @param cfg: configuration file path.
+        :param file_name: file name without extension.
+        :param cfg: configuration file path.
         """
         config = ConfigParser.ConfigParser()
 
@@ -47,9 +51,10 @@ class Config:
 
     def get(self, section):
         """Get option.
-        @param section: section to fetch.
-        @raise CuckooOperationalError: if section not found.
-        @return: option value.
+
+        :param section: section to fetch.
+        :raise CuckooOperationalError: if section not found.
+        :return: option value.
         """
         try:
             return getattr(self, section)

@@ -19,8 +19,10 @@ class AnalysisInfo(Processing):
     """General information about analysis session."""
 
     def run(self):
-        """Run information gathering.
-        @return: information dict.
+        """
+        Run information gathering.
+
+        :return: information dict.
         """
         self.key = "info"
 
@@ -61,7 +63,8 @@ class MetaInfo(Processing):
 
     def run(self):
         """Run information gathering.
-        @return: information dict.
+
+        :return: information dict.
         """
         self.key = "metadata"
 

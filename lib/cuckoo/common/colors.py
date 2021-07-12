@@ -8,9 +8,10 @@ import sys
 
 def color(text, color_code):
     """Colorize text.
-    @param text: text.
-    @param color_code: color.
-    @return: colorized text.
+    
+    :param text: text.
+    :param color_code: color.
+    :return: colorized text.
     """
     # $TERM under Windows:
     # cmd.exe -> "" (what would you expect..?)

@@ -15,7 +15,8 @@ class Debug(Processing):
 
     def run(self):
         """Run debug analysis.
-        @return: debug information dict.
+
+        :return: debug information dict.
         """
         self.key = "debug"
         debug = {"log": "", "errors": []}

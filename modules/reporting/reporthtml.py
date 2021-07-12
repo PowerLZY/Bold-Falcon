@@ -24,8 +24,9 @@ class ReportHTML(Report):
 
     def run(self, results):
         """Writes report.
-        @param results: Cuckoo results dict.
-        @raise CuckooReportError: if fails to write report.
+
+        :param results: Cuckoo results dict.
+        :raise CuckooReportError: if fails to write report.
         """
         if not HAVE_JINJA2:
             raise CuckooReportError(

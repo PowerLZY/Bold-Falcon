@@ -14,7 +14,8 @@ class Dropped(Processing):
 
     def run(self):
         """Run analysis.
-        @return: list of dropped files with related information.
+        
+        :return: list of dropped files with related information.
         """
         self.key = "dropped"
         dropped_files, meta = [], {}

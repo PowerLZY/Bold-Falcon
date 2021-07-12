@@ -1,21 +1,20 @@
 # coding=utf-8
 import os.path
 import pickle
-from modules.detection.loader import Loader
+from sklearn.externals import joblib
+
 from lib.cuckoo.common.abstracts import Detection
 from lib.cuckoo.common.exceptions import CuckooDetectionError
 from lib.cuckoo.common.constants import CUCKOO_ROOT
 
-import numpy as np
-import pandas as pd
-from xgboost import XGBClassifier
-from sklearn.externals import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-class Strings_ngram(Detection):
-    """描述"""
+class Apistats(Detection):
+    """Use Apistats features and XGBoots model"""
 
     def load_features(self, key):
+        """
+        Feature Engineering:apistats to vector by standard.txt
+        """
+
         # 特征工程 -> 保存pandas
         # The first stage is to load the data from the directory holding all the JSONs
         # Then we extract all the relevant information from the loaded samples.
@@ -27,7 +26,9 @@ class Strings_ngram(Detection):
 
 
     def load_model(self):
-
+        """
+        load XGBoots Pre training model
+        """
         try:
             vectorizer_pth = os.path.join(CUCKOO_ROOT, "data", "models", "strings_ngram", "tfidf_model")
             self.vectorizer = pickle.load(open(vectorizer_pth, "rb"))
@@ -47,11 +48,12 @@ class Strings_ngram(Detection):
 
     def run(self):
         """
-        Run extract of printable strings with Ngram into XGBoost model.
+        Run model with apistats
+
         :return: predict.
         """
-        self.key = "strings_ngram"
-        self.features_type = "static"
+        self.key = "apistats"
+        self.features_type = "behavior"
         result = None
 
         """
@@ -65,12 +67,12 @@ class Strings_ngram(Detection):
             except (IOError, OSError) as e:
                 raise CuckooDetectionError("Error opening file %s" % e)
         """
-        # 特征提取
-        self.binaries.feature_static_string()
+        # 特征提取 apistats dict
+        self.binaries.feature_dynamic_windowsapi()
         # 导入模型（特征工程+预测模型）
         self.load_model()
         # 特征工程
-        self.load_features("strings")
+        self.load_features("api_stats")
         # 模型预测
         result = self.predict()
 

@@ -12,8 +12,9 @@ class DroppedBuffer(Processing):
     """Dropped buffer analysis."""
 
     def run(self):
-        """Run analysis.
-        @return: list of dropped files with related information.
+        """
+        Run analysis.
+        :return: list of dropped files with related information.
         """
         self.key = "buffer"
         dropped_files = []

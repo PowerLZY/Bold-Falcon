@@ -72,8 +72,10 @@ class Pcap(object):
     notified_dpkt = False
 
     def __init__(self, filepath):
-        """Creates a new instance.
-        @param filepath: path to PCAP file
+        """
+        Creates a new instance.
+
+        :param filepath: path to PCAP file
         """
         self.filepath = filepath
 
@@ -113,8 +115,9 @@ class Pcap(object):
 
     def _dns_gethostbyname(self, name):
         """Get host by name wrapper.
-        @param name: hostname.
-        @return: IP address or blank
+
+        :param name: hostname.
+        :return: IP address or blank
         """
         if cfg.processing.resolve_dns:
             ip = resolve(name)
@@ -124,8 +127,9 @@ class Pcap(object):
 
     def _is_private_ip(self, ip):
         """Check if the IP belongs to private network blocks.
-        @param ip: IP address to verify.
-        @return: boolean representing whether the IP belongs or not to
+
+        :param ip: IP address to verify.
+        :return: boolean representing whether the IP belongs or not to
                  a private network block.
         """
         networks = [
@@ -165,7 +169,8 @@ class Pcap(object):
 
     def _add_hosts(self, connection):
         """Add IPs to unique list.
-        @param connection: connection data
+
+        :param connection: connection data
         """
         try:
             # TODO: Perhaps this block should be removed.
@@ -198,8 +203,9 @@ class Pcap(object):
 
     def _tcp_dissect(self, conn, data):
         """Runs all TCP dissectors.
-        @param conn: connection.
-        @param data: payload data.
+
+        :param conn: connection.
+        :param data: payload data.
         """
         if self._check_http(data):
             self._add_http(data, conn["dport"])
@@ -218,8 +224,9 @@ class Pcap(object):
 
     def _udp_dissect(self, conn, data):
         """Runs all UDP dissectors.
-        @param conn: connection.
-        @param data: payload data.
+
+        :param conn: connection.
+        :param data: payload data.
         """
         # Select DNS and MDNS traffic.
         if conn["dport"] == 53 or conn["sport"] == 53 or conn["dport"] == 5353 or conn["sport"] == 5353:
@@ -228,7 +235,8 @@ class Pcap(object):
 
     def _check_icmp(self, icmp_data):
         """Checks for ICMP traffic.
-        @param icmp_data: ICMP data flow.
+
+        :param icmp_data: ICMP data flow.
         """
         try:
             return isinstance(icmp_data, dpkt.icmp.ICMP) and \
@@ -238,8 +246,9 @@ class Pcap(object):
 
     def _icmp_dissect(self, conn, data):
         """Runs all ICMP dissectors.
-        @param conn: connection.
-        @param data: payload data.
+
+        :param conn: connection.
+        :param data: payload data.
         """
 
         if self._check_icmp(data):
@@ -263,7 +272,8 @@ class Pcap(object):
 
     def _check_dns(self, udpdata):
         """Checks for DNS traffic.
-        @param udpdata: UDP data flow.
+
+        :param udpdata: UDP data flow.
         """
         try:
             dpkt.dns.DNS(udpdata)
@@ -274,7 +284,8 @@ class Pcap(object):
 
     def _add_dns(self, udpdata):
         """Adds a DNS data flow.
-        @param udpdata: UDP data flow.
+
+        :param udpdata: UDP data flow.
         """
         dns = dpkt.dns.DNS(udpdata)
 
@@ -383,7 +394,8 @@ class Pcap(object):
 
     def _add_domain(self, domain):
         """Add a domain to unique list.
-        @param domain: domain name.
+
+        :param domain: domain name.
         """
         filters = [
             ".*\\.windows\\.com$",
@@ -404,7 +416,8 @@ class Pcap(object):
 
     def _check_http(self, tcpdata):
         """Checks for HTTP traffic.
-        @param tcpdata: TCP data flow.
+
+        :param tcpdata: TCP data flow.
         """
         try:
             r = dpkt.http.Request()
@@ -420,8 +433,9 @@ class Pcap(object):
 
     def _add_http(self, tcpdata, dport):
         """Adds an HTTP flow.
-        @param tcpdata: TCP data flow.
-        @param dport: destination port.
+
+        :param tcpdata: TCP data flow.
+        :param dport: destination port.
         """
         if tcpdata in self.http_requests:
             self.http_requests[tcpdata]["count"] += 1
@@ -516,8 +530,9 @@ class Pcap(object):
 
     def _reassemble_smtp(self, conn, data):
         """Reassemble a SMTP flow.
-        @param conn: connection dict.
-        @param data: raw data.
+
+        :param conn: connection dict.
+        :param data: raw data.
         """
         if conn["dst"] in self.smtp_flow:
             self.smtp_flow[conn["dst"]] += data
@@ -534,7 +549,8 @@ class Pcap(object):
     def _check_irc(self, tcpdata):
         """
         Checks for IRC traffic.
-        @param tcpdata: tcp data flow
+
+        :param tcpdata: tcp data flow
         """
         try:
             req = ircMessage()
@@ -546,8 +562,9 @@ class Pcap(object):
     def _add_irc(self, tcpdata):
         """
         Adds an IRC communication.
-        @param tcpdata: TCP data in flow
-        @param dport: destination port
+
+        :param tcpdata: TCP data in flow
+        :param dport: destination port
         """
 
         try:
@@ -564,7 +581,8 @@ class Pcap(object):
 
     def run(self):
         """Process PCAP.
-        @return: dict with network analysis data.
+
+        :return: dict with network analysis data.
         """
 
         try:
@@ -827,8 +845,8 @@ class NetworkAnalysis(Processing):
 
 def iplayer_from_raw(raw, linktype=1):
     """Converts a raw packet to a dpkt packet regarding of link type.
-    @param raw: raw packet
-    @param linktype: integer describing link type as expected by dpkt
+    :param raw: raw packet
+    :param linktype: integer describing link type as expected by dpkt
     """
     if linktype == 1:  # ethernet
         try:

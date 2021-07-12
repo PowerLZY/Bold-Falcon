@@ -13,7 +13,8 @@ class TargetInfo(Processing):
 
     def run(self):
         """Run file information gathering.
-        @return: information dict.
+        
+        :return: information dict.
         """
         self.key = "target"
         if not self.task:

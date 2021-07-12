@@ -282,9 +282,10 @@ class VirusTotalAPI(object):
 
     def __init__(self, apikey, timeout, scan=0):
         """Initialize VirusTotal API with the API key and timeout.
-        @param api_key: virustotal api key
-        @param timeout: request and response timeout
-        @param scan: send file to scan or just get report
+
+        :param api_key: virustotal api key
+        :param timeout: request and response timeout
+        :param scan: send file to scan or just get report
         """
         self.apikey = apikey
         self.timeout = timeout
@@ -370,20 +371,23 @@ class VirusTotalAPI(object):
 
     def url_report(self, url, summary=False):
         """Get the report of an existing URL scan.
-        @param url: URL
-        @param summary: if you want a summary report"""
+
+        :param url: URL
+        :param summary: if you want a summary report"""
         return self._get_report(self.URL_REPORT, url, summary)
 
     def file_report(self, filepath, summary=False):
         """Get the report of an existing file scan.
-        @param filepath: file path
-        @param summary: if you want a summary report"""
+
+        :param filepath: file path
+        :param summary: if you want a summary report"""
         resource = File(filepath).get_md5()
         return self._get_report(self.FILE_REPORT, resource, summary)
 
     def url_scan(self, url):
         """Submit a URL to be scanned.
-        @param url: URL
+
+        :param url: URL
         """
         data = dict(apikey=self.apikey, url=url)
         r = self._request_json(self.URL_SCAN, data=data)
@@ -391,7 +395,8 @@ class VirusTotalAPI(object):
 
     def file_scan(self, filepath):
         """Submit a file to be scanned.
-        @param filepath: file path
+
+        :param filepath: file path
         """
         data = dict(apikey=self.apikey)
         files = {"file": open(filepath, "rb")}

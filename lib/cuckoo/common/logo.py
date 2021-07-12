@@ -11,8 +11,9 @@ from lib.cuckoo.common.constants import CUCKOO_VERSION
 
 def logo():
     """
-    Cuckoo asciiarts.
-    @return: asciiarts array.
+    Bold-Falcon asciiarts.
+
+    :return: asciiarts array.
     """
     logos = []
 

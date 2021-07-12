@@ -17,12 +17,16 @@ from lib.cuckoo.common.exceptions import CuckooMachineError
 log = logging.getLogger(__name__)
 
 class VMware(Machinery):
-    """Virtualization layer for VMware Workstation using vmrun utility."""
+    """
+    Virtualization layer for VMware Workstation using vmrun utility.
+    """
     LABEL = "vmx_path"
 
     def _initialize_check(self):
-        """Check for configuration file and vmware setup.
-        @raise CuckooMachineError: if configuration is missing or wrong.
+        """
+        Check for configuration file and vmware setup.
+        
+        :raise CuckooMachineError: if configuration is missing or wrong.
         """
         if not self.options.vmware.path:
             raise CuckooMachineError("VMware vmrun path missing, "
@@ -45,8 +49,9 @@ class VMware(Machinery):
 
     def _check_vmx(self, vmx_path):
         """Checks whether a vmx file exists and is valid.
-        @param vmx_path: path to vmx file
-        @raise CuckooMachineError: if file not found or not ending with .vmx
+
+        :param vmx_path: path to vmx file
+        :raise CuckooMachineError: if file not found or not ending with .vmx
         """
         if not vmx_path.endswith(".vmx"):
             raise CuckooMachineError("Wrong configuration: vm path not "
@@ -57,9 +62,10 @@ class VMware(Machinery):
 
     def _check_snapshot(self, vmx_path, snapshot):
         """Checks snapshot existance.
-        @param vmx_path: path to vmx file
-        @param snapshot: snapshot name
-        @raise CuckooMachineError: if snapshot not found
+
+        :param vmx_path: path to vmx file
+        :param snapshot: snapshot name
+        :raise CuckooMachineError: if snapshot not found
         """
         try:
             p = subprocess.Popen([self.options.vmware.path,
@@ -81,9 +87,10 @@ class VMware(Machinery):
 
     def start(self, vmx_path, task):
         """Start a virtual machine.
-        @param vmx_path: path to vmx file.
-        @param task: task object.
-        @raise CuckooMachineError: if unable to start.
+
+        :param vmx_path: path to vmx file.
+        :param task: task object.
+        :raise CuckooMachineError: if unable to start.
         """
         snapshot = self._snapshot_from_vmx(vmx_path)
 
@@ -115,8 +122,9 @@ class VMware(Machinery):
 
     def stop(self, vmx_path):
         """Stops a virtual machine.
-        @param vmx_path: path to vmx file
-        @raise CuckooMachineError: if unable to stop.
+
+        :param vmx_path: path to vmx file
+        :raise CuckooMachineError: if unable to stop.
         """
         log.debug("Stopping vm %s" % vmx_path)
         if self._is_running(vmx_path):
@@ -136,9 +144,10 @@ class VMware(Machinery):
 
     def _revert(self, vmx_path, snapshot):
         """Revets machine to snapshot.
-        @param vmx_path: path to vmx file
-        @param snapshot: snapshot name
-        @raise CuckooMachineError: if unable to revert
+
+        :param vmx_path: path to vmx file
+        :param snapshot: snapshot name
+        :raise CuckooMachineError: if unable to revert
         """
         log.debug("Revert snapshot for vm %s" % vmx_path)
         try:
@@ -155,8 +164,9 @@ class VMware(Machinery):
 
     def _is_running(self, vmx_path):
         """Checks if virtual machine is running.
-        @param vmx_path: path to vmx file
-        @return: running status
+
+        :param vmx_path: path to vmx file
+        :return: running status
         """
         try:
             p = subprocess.Popen([self.options.vmware.path, "list"],
@@ -176,7 +186,8 @@ class VMware(Machinery):
 
     def _snapshot_from_vmx(self, vmx_path):
         """Get snapshot for a given vmx file.
-        @param vmx_path: configuration option from config file
+
+        :param vmx_path: configuration option from config file
         """
         vm_info = self.db.view_machine_by_label(vmx_path)
         return vm_info.snapshot

@@ -28,7 +28,8 @@ class ElasticSearch(Report):
 
     def connect(self):
         """Connect to Elasticsearch.
-        @raise CuckooReportError: if unable to connect.
+
+        :raise CuckooReportError: if unable to connect.
         """
         hosts = []
         for host in self.options.get("hosts", "127.0.0.1:9200").split(","):
@@ -48,6 +49,9 @@ class ElasticSearch(Report):
             raise CuckooReportError("Cannot connect to Elasticsearch: %s" % e)
 
     def do_index(self, obj):
+        '''
+        Create results in ElasticSearch
+        '''
         index = "%s-%d" % (self.index, self.task["id"])
 
         try:
@@ -90,8 +94,9 @@ class ElasticSearch(Report):
 
     def run(self, results):
         """Index the Cuckoo report into ElasticSearch.
-        @param results: analysis results dictionary.
-        @raise CuckooReportError: if the connection or reporting failed.
+
+        :param results: analysis results dictionary.
+        :raise CuckooReportError: if the connection or reporting failed.
         """
         if not HAVE_ELASTIC:
             raise CuckooDependencyError(

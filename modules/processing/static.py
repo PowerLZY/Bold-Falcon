@@ -55,14 +55,15 @@ class PortableExecutable(object):
     """PE analysis."""
 
     def __init__(self, file_path):
-        """@param file_path: file path."""
+        """:param file_path: file path."""
         self.file_path = file_path
         self.pe = None
 
     def _get_filetype(self, data):
         """Gets filetype, uses libmagic if available.
-        @param data: data to be analyzed.
-        @return: file type or None.
+
+        :param data: data to be analyzed.
+        :return: file type or None.
         """
         if not HAVE_MAGIC:
             return None
@@ -86,7 +87,8 @@ class PortableExecutable(object):
 
     def _get_peid_signatures(self):
         """Gets PEID signatures.
-        @return: matched signatures or None.
+
+        :return: matched signatures or None.
         """
         try:
             sig_path = os.path.join(CUCKOO_ROOT, "data",
@@ -98,7 +100,8 @@ class PortableExecutable(object):
 
     def _get_imported_symbols(self):
         """Gets imported symbols.
-        @return: imported symbols dict or None.
+
+        :return: imported symbols dict or None.
         """
         imports = []
 
@@ -122,7 +125,8 @@ class PortableExecutable(object):
 
     def _get_exported_symbols(self):
         """Gets exported symbols.
-        @return: exported symbols dict or None.
+
+        :return: exported symbols dict or None.
         """
         exports = []
 
@@ -139,7 +143,8 @@ class PortableExecutable(object):
 
     def _get_sections(self):
         """Gets sections.
-        @return: sections dict or None.
+
+        :return: sections dict or None.
         """
         sections = []
 
@@ -159,7 +164,8 @@ class PortableExecutable(object):
 
     def _get_resources(self):
         """Get resources.
-        @return: resources dict or None.
+
+        :return: resources dict or None.
         """
         resources = []
 
@@ -196,7 +202,8 @@ class PortableExecutable(object):
 
     def _get_versioninfo(self):
         """Get version info.
-        @return: info dict or None.
+
+        :return: info dict or None.
         """
         infos = []
         if hasattr(self.pe, "VS_VERSIONINFO"):
@@ -224,7 +231,8 @@ class PortableExecutable(object):
 
     def _get_imphash(self):
         """Gets imphash.
-        @return: imphash string or None.
+
+        :return: imphash string or None.
         """
         try:
             return self.pe.get_imphash()
@@ -233,7 +241,8 @@ class PortableExecutable(object):
 
     def _get_timestamp(self):
         """Get compilation timestamp.
-        @return: timestamp or None.
+
+        :return: timestamp or None.
         """
         try:
             pe_timestamp = self.pe.FILE_HEADER.TimeDateStamp
@@ -307,7 +316,8 @@ class PortableExecutable(object):
 
     def run(self):
         """Run analysis.
-        @return: analysis results dict or None.
+
+        :return: analysis results dict or None.
         """
         if not os.path.exists(self.file_path):
             return {}
@@ -392,7 +402,7 @@ class WindowsScriptFile(object):
     ]
 
     unescape = {
-        "#": "\r", "&": "\n", "!": "<", "*": ">", "$": "@",
+        "#": "\r", "&": "\n", "!": "<", "*": ">", "$": ":",
     }
 
     script_re = "<\\s*script\\s*.*>.*?<\\s*/\\s*script\\s*>"
@@ -400,7 +410,7 @@ class WindowsScriptFile(object):
     def __init__(self, filepath):
         self.filepath = filepath
 
-    def decode(self, source, start="#@~^", end="^#~@"):
+    def decode(self, source, start="#:~^", end="^#~:"):
         if start not in source or end not in source:
             return
 
@@ -411,7 +421,7 @@ class WindowsScriptFile(object):
 
         while o < end:
             ch = ord(source[o])
-            if source[o] == "@":
+            if source[o] == ":":
                 r.append(ord(self.unescape.get(source[o+1], "?")))
                 c += r[-1]
                 o, m = o + 1, m + 1
@@ -540,7 +550,8 @@ class Static(Processing):
 
     def run(self):
         """Run analysis.
-        @return: results dict.
+
+        :return: results dict.
         """
         self.key = "static"
         static = {}

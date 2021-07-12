@@ -183,7 +183,8 @@ class ProcessMemory(Processing):
 
     def run(self):
         """Run analysis.
-        @return: structured results.
+
+        :return: structured results.
         """
         self.key = "procmemory"
         results = []
