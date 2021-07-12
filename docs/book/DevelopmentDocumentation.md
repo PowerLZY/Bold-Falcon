@@ -154,15 +154,15 @@ class RunAuxiliary(object):
     """辅助模块管理"""
     
 	def __init__(self, task, machine, guest_manager)：
-   		# 辅助功能模块初始化
+    	# 辅助功能模块初始化
     
   	def start(self):
     	# 辅助功能模块配置
-  		options = config2("auxiliary", module_name)
+        options = config2("auxiliary", module_name)
        	
     def callback(self, name, *args, **kwargs):
     	# 辅助功能模块加载
- 		MyAuxiliary.start()
+        MyAuxiliary.start()
         
   	def stop(self):
     	# 辅助功能模块关闭
@@ -397,13 +397,13 @@ class GuestManager(object):
       	# 初始化信息
 
     def stop(self):
-		# 关闭客户端分析
+        # 关闭客户端分析
     
     def upload_analyzer(self, monitor):
         # 上传分析模块
      
     def add_config(self, options):
-		# 上传分析脚本
+        # 上传分析脚本
 
     def start_analysis(self, options, monitor):
         # 客户端开启分析
@@ -1073,10 +1073,10 @@ class RunSignatures(object):
     def run(self):
       
         self.process_yara_matches()
-		# 遍历所有Yara匹配项
+        # 遍历所有Yara匹配项
         self.process_extracted()
         for sig in self.signatures:
-        	self.call_signature(sig, sig.on_extract, ExtractedMatch(item))
+            self.call_signature(sig, sig.on_extract, ExtractedMatch(item))
         # 遍历所有提取的匹配项    
         self.matched.append(signature.results())
         # 分数计算
@@ -1557,13 +1557,13 @@ mongo.connect()
 ```python
 class Mongo(object):
     def init(self):
-		#初始化
+        #初始化
     def drop(self):
-		#删除数据库表
+        #删除数据库表
     def close(self):
-		#关闭数据库链接
+        #关闭数据库链接
     def connect(self):
-    #连接数据库
+        #连接数据库
 ```
 
 **API接口：**获取数据库Analysis表的数据的API接口定义在cuckoo/web/controllers/analysis/api.py
