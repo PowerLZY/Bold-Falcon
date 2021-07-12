@@ -1,4 +1,8 @@
 # coding=utf-8
+# Copyright (C) 2020-2021 PowerLZY.
+# This file is part of Bold-Falcon - https://github.com/PowerLZY/Bold-Falcon
+# See the file 'docs/LICENSE' for copying permission.
+
 import os.path
 import numpy as np
 
