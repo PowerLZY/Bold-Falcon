@@ -1,5 +1,6 @@
 # Copyright (C) 2011-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2018 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -47,7 +48,9 @@ class Files(object):
         self.dumped = []
 
     def is_protected_filename(self, file_name):
-        """Return whether or not to inject into a process with this name."""
+        """
+        Return whether or not to inject into a process with this name.
+        """
         return file_name.lower() in self.PROTECTED_NAMES
 
     def add_pid(self, filepath, pid, verbose=True):
@@ -131,8 +134,8 @@ class ProcessList(object):
         self.pids_notrack = []
 
     def add_pid(self, pid, track=True):
-        """Add a process identifier to the process list.
-
+        """
+        Add a process identifier to the process list.
         Track determines whether the analyzer should be monitoring this
         process, i.e., whether Cuckoo should wait for this process to finish.
         """
@@ -216,12 +219,12 @@ class CommandPipeHandler(object):
         log.debug("Loaded monitor into process with pid %s", pid)
 
     def _handle_getpids(self, data):
-        """Return the process identifiers of the agent and its parent
-        process."""
+        """Return the process identifiers of the agent and its parent process."""
         return struct.pack("II", self.analyzer.pid, self.analyzer.ppid)
 
     def _inject_process(self, process_id, thread_id, mode):
         """Helper function for injecting the monitor into a process."""
+
         # We acquire the process lock in order to prevent the analyzer to
         # terminate the analysis while we are operating on the new process.
         self.analyzer.process_lock.acquire()
@@ -412,9 +415,10 @@ class CommandPipeHandler(object):
         return response
 
 class Analyzer(object):
-    """Cuckoo Windows Analyzer.
+    """
+    Cuckoo Windows Analyzer.
 
-    This class handles the initialization and execution of the analysis
+    :Note: This class handles the initialization and execution of the analysis
     procedure, including handling of the pipe server, the auxiliary modules and
     the analysis packages.
     """
@@ -436,14 +440,21 @@ class Analyzer(object):
         self.reboot = []
 
     def get_pipe_path(self, name):
-        """Return \\\\.\\PIPE on Windows XP and \\??\\PIPE elsewhere."""
+        """
+        get the pipe path
+
+        :return: \\\\.\\PIPE on Windows XP and \\??\\PIPE elsewhere.
+        """
         version = sys.getwindowsversion()
         if version.major == 5 and version.minor == 1:
             return "\\\\.\\PIPE\\%s" % name
         return "\\??\\PIPE\\%s" % name
 
     def prepare(self):
-        """Prepare env for analysis."""
+        """
+        Prepare env for analysis.
+        """
+
         # Get SeDebugPrivilege for the Python process. It will be needed in
         # order to perform the injections.
         grant_privilege("SeDebugPrivilege")
@@ -510,11 +521,15 @@ class Analyzer(object):
             self.target = self.config.target
 
     def stop(self):
-        """Allow an auxiliary module to stop the analysis."""
+        """
+        Allow an auxiliary module to stop the analysis.
+        """
         self.do_run = False
 
     def complete(self):
-        """End analysis."""
+        """
+        End analysis.
+        """
         # Stop the Pipe Servers.
         self.command_pipe.stop()
         self.log_pipe_server.stop()
@@ -524,8 +539,10 @@ class Analyzer(object):
         disconnect_logger()
 
     def run(self):
-        """Run analysis.
-        @return: operation status.
+        """
+        Run analysis.
+
+        :return: operation status.
         """
         self.prepare()
         self.path = os.getcwd()

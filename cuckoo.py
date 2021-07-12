@@ -37,11 +37,12 @@ log = logging.getLogger()
 
 def cuckoo_init(quiet=False, debug=False, artwork=False, test=False, ml=False):
     """Cuckoo initialization workflow.
-    @param quiet: if set enable silent mode, it doesn't print anything except warnings
-    @param debug: if set enable debug mode, it print all debug messages
-    @param artwork: if set it will print only artworks, forever
-    @param test: enable integration test mode, used only for testing
-    @param ml: do CuckooML analysis of locally stored samples
+
+    :param quiet: if set enable silent mode, it doesn't print anything except warnings
+    :param debug: if set enable debug mode, it print all debug messages
+    :param artwork: if set it will print only artworks, forever
+    :param test: enable integration test mode, used only for testing
+    :param ml: do CuckooML analysis of locally stored samples
     """
     cur_path = os.getcwd()
     os.chdir(CUCKOO_ROOT)
@@ -71,7 +72,7 @@ def cuckoo_init(quiet=False, debug=False, artwork=False, test=False, ml=False):
     if ml:
         init_cuckooml()
         return
-
+    # Todo: init_detection()
     init_modules()
     init_tasks()
     init_yara()
@@ -90,7 +91,8 @@ def cuckoo_init(quiet=False, debug=False, artwork=False, test=False, ml=False):
 
 def cuckoo_main(max_analysis_count=0):
     """Cuckoo main loop.
-    @param max_analysis_count: kill cuckoo after this number of analyses
+
+    :param max_analysis_count: kill cuckoo after this number of analyses
     """
     cur_path = os.getcwd()
     os.chdir(CUCKOO_ROOT)

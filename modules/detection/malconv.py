@@ -1,4 +1,8 @@
 # coding=utf-8
+# Copyright (C) 2020-2021 PowerLZY.
+# This file is part of Bold-Falcon - https://github.com/PowerLZY/Bold-Falcon
+# See the file 'docs/LICENSE' for copying permission.
+
 import os.path
 import numpy as np
 
@@ -23,7 +27,8 @@ class MalConv(Detection):
     def load_model(self):
         '''
         load model with pretrained_malconv.pth
-        :return: model
+
+        :return: MalConv model
         '''
         try:
             madel_path = os.path.join(CUCKOO_ROOT, "data", "models", "MalConv", "pretrained_malconv.pth")
@@ -37,6 +42,7 @@ class MalConv(Detection):
     def run(self):
         """
         Run extract of printable strings with Ngram into XGBoost model.
+
         :return: predict 结果.
         """
         self.key = "MalConv"
@@ -89,6 +95,7 @@ class PreMalConv(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
+
         x = self.embedding_1(x)
         # Channel first
         x = torch.transpose(x, -1, -2)

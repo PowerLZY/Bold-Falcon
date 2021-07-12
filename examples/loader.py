@@ -1,7 +1,6 @@
 # coding=utf-8
-# Copyright (C) 2010-2013 Claudio Guarnieri.
-# Copyright (C) 2014-2016 Cuckoo Foundation.
-# This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
+# Copyright (C) 2020-2021 PowerLZY.
+# This file is part of Bold-Falcon - https://github.com/PowerLZY/Bold-Falcon
 # See the file 'docs/LICENSE' for copying permission.
 
 

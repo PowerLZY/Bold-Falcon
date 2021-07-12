@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -13,7 +14,8 @@ class TargetInfo(Processing):
 
     def run(self):
         """Run file information gathering.
-        @return: information dict.
+        
+        :return: information dict.
         """
         self.key = "target"
         if not self.task:

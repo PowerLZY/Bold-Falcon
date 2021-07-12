@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -17,14 +18,15 @@ log = logging.getLogger(__name__)
 class VirusTotal(Processing):
     """Gets antivirus signatures from VirusTotal.com for various results.
 
-    Currently obtains VirusTotal results for the target sample or URL and the
+    :note: Currently obtains VirusTotal results for the target sample or URL and the
     dropped files.
     """
     order = 2
 
     def run(self):
         """Runs VirusTotal processing
-        @return: full VirusTotal report.
+
+        :return: full VirusTotal report.
         """
         self.key = "virustotal"
 
@@ -63,8 +65,9 @@ class VirusTotal(Processing):
 
     def scan_file(self, filepath, summary=False):
         """Retrieve VirusTotal results for a file.
-        @param filepath: file path
-        @param summary: if you want a summary report
+
+        :param filepath: file path
+        :param summary: if you want a summary report
         """
         if not os.path.exists(filepath):
             log.warning("Path \"%s\" could not be found for VirusTotal "
@@ -81,8 +84,9 @@ class VirusTotal(Processing):
 
     def scan_url(self, url, summary=False):
         """Retrieve VirusTotal results for a URL.
-        @param url: URL
-        @param summary: if you want a summary report
+
+        :param url: URL
+        :param summary: if you want a summary report
         """
         try:
             return self.vt.url_report(url, summary=summary)
@@ -96,6 +100,7 @@ class VirusTotal(Processing):
         """Determines whether a certain filetype should be scanned on
         VirusTotal. For example, we're not interested in scanning text
         files.
-        @param filetype: file type
+
+        :param filetype: file type
         """
         return "PE32" in filetype or "MS-DOS" in filetype

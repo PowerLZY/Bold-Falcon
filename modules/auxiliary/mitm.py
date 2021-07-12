@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -16,11 +17,17 @@ PORTS = []
 PORT_LOCK = threading.Lock()
 
 class MITM(Auxiliary):
+    """Use mitmproxy Tools"""
+
     def __init__(self):
         Auxiliary.__init__(self)
         self.proc = None
 
     def start(self):
+        '''
+        Start mitmdump tools
+
+        '''
         mitmdump = self.options.get("mitmdump", "/usr/local/bin/mitmdump")
         port_base = int(self.options.get("port_base", 50000))
         script = self.options.get("script", "data/mitm.py")
@@ -94,6 +101,9 @@ class MITM(Auxiliary):
                  self.proc.pid, self.machine.resultserver_ip, self.port)
 
     def stop(self):
+        '''
+        stop mitmdump tools
+        '''
         if self.proc and not self.proc.poll():
             try:
                 self.proc.terminate()

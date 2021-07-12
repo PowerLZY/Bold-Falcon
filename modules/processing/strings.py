@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -13,8 +14,10 @@ class Strings(Processing):
     """Extract strings from analyzed file."""
 
     def run(self):
-        """Run extract of printable strings.
-        @return: list of printable strings.
+        """
+        Run extract of printable strings.
+
+        :return: list of printable strings.
         """
         self.key = "strings"
         strings = []
@@ -22,7 +25,6 @@ class Strings(Processing):
         if self.task["category"] == "file":
             if not os.path.exists(self.file_path):
                 raise CuckooProcessingError("Sample file doesn't exist: \"%s\"" % self.file_path)
-
             try:
                 data = open(self.file_path, "r").read()
             except (IOError, OSError) as e:

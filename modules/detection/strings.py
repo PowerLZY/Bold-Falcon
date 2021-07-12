@@ -1,7 +1,11 @@
 # coding=utf-8
+# Copyright (C) 2020-2021 PowerLZY.
+# This file is part of Bold-Falcon - https://github.com/PowerLZY/Bold-Falcon
+# See the file 'docs/LICENSE' for copying permission.
+
 import os.path
 import pickle
-from modules.detection.loader import Loader
+
 from lib.cuckoo.common.abstracts import Detection
 from lib.cuckoo.common.exceptions import CuckooDetectionError
 from lib.cuckoo.common.constants import CUCKOO_ROOT
@@ -13,21 +17,28 @@ from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 class Strings_ngram(Detection):
-    """描述"""
+    """Use String features with TFIDF with XGBoost """
 
     def load_features(self, key):
-        # 特征工程 -> 保存pandas
+        """
+        Input string into TFIDF model for processing
+
+        :return tfidf_features: processing results
+        """
         # The first stage is to load the data from the directory holding all the JSONs
         # Then we extract all the relevant information from the loaded samples.
         strings =' '.join(self.binaries.features[key])
         try:
-            self.tfidf_features = self.vectorizer.fit_transform(strings)
+            tfidf_features = self.vectorizer.fit_transform(strings)
         except:
             raise CuckooDetectionError("The Detection module strings_ngarm has missing load_features!")
 
+        return tfidf_features
 
     def load_model(self):
-
+        """
+        load TFIDF and XBG model
+        """
         try:
             vectorizer_pth = os.path.join(CUCKOO_ROOT, "data", "models", "strings_ngram", "tfidf_model")
             self.vectorizer = pickle.load(open(vectorizer_pth, "rb"))
@@ -38,6 +49,9 @@ class Strings_ngram(Detection):
             raise CuckooDetectionError("The Detection module strings_ngarm has missing load_model!")
 
     def predict(self):
+        '''
+        predict results
+        '''
         try:
             y_pred = self.XGBoost.predict(self.tfidf_features)
         except:
@@ -48,6 +62,7 @@ class Strings_ngram(Detection):
     def run(self):
         """
         Run extract of printable strings with Ngram into XGBoost model.
+
         :return: predict.
         """
         self.key = "strings_ngram"
@@ -70,9 +85,9 @@ class Strings_ngram(Detection):
         # 导入模型（特征工程+预测模型）
         self.load_model()
         # 特征工程
-        self.load_features("strings")
+        tfidf_features = self.load_features("strings")
         # 模型预测
-        result = self.predict()
+        result = self.predict(tfidf_features)
 
         return result
 

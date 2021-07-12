@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -35,7 +36,8 @@ class Summary(BehaviorHandler):
 
 class Anomaly(BehaviorHandler):
     """Anomaly detected during analysis.
-    For example: a malware tried to remove Cuckoo's hooks.
+
+    :note: For example: a malware tried to remove Cuckoo's hooks.
     """
 
     key = "anomaly"
@@ -47,8 +49,9 @@ class Anomaly(BehaviorHandler):
 
     def handle_event(self, call):
         """Process API calls.
-        @param call: API call object
-        @param process: process object
+
+        :param call: API call object
+        :param process: process object
         """
         category, funcname, message = None, None, None
         for row in call["arguments"]:
@@ -163,7 +166,7 @@ class ApiStats(BehaviorHandler):
 class PlatformInfo(BehaviorHandler):
     """Provides information about the platform for the collected behavior.
 
-    Not sure if this is really needed, as probably all the info is in the results["info"] area.
+    :Note: Not sure if this is really needed, as probably all the info is in the results["info"] area.
     """
     key = "platform"
 
@@ -175,7 +178,9 @@ class PlatformInfo(BehaviorHandler):
 
 class BehaviorAnalysis(Processing):
     """Behavior Analyzer.
+    """
 
+    """
     The behavior key in the results dict will contain both default content keys
     that contain generic / abstracted analysis info, available on any platform,
     as well as platform / analyzer specific output.
@@ -214,19 +219,6 @@ class BehaviorAnalysis(Processing):
             ...
         }
     }
-
-    There are several handlers that produce the respective keys / subkeys. Overall
-    the platform / analyzer specific ones parse / process the captured data and yield
-    both their own output, but also a standard structure that is then captured by the
-    "generic" handlers so they can generate the standard result structures.
-
-    The resulting structure contains some iterator onions for the monitored function calls
-    that stream the content when some sink (reporting, signatures) needs it, thereby
-    reducing memory footprint.
-
-    So hopefully in the end each analysis should be fine with 2 passes over the results,
-    once during processing (creating the generic output, summaries, etc) and once
-    during reporting (well once for each report type if multiple are enabled).
     """
 
     key = "behavior"
@@ -258,8 +250,10 @@ class BehaviorAnalysis(Processing):
             yield path
 
     def run(self):
-        """Run analysis.
-        @return: results dict.
+        """
+        Run analysis.
+
+        :return: results dict.
         """
         self.cfg = Config()
         self.state = {}

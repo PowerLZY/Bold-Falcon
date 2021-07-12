@@ -1,6 +1,7 @@
 # coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
-# Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2014-2018 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -39,7 +40,13 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 class Auxiliary(object):
-    """Base abstract class for auxiliary modules."""
+    """
+    Base abstract class for auxiliary modules.
+    
+    :param task: Current analysis task
+    :param machine: machine info
+    :param options: options conf 
+    """
 
     def __init__(self):
         self.task = None
@@ -47,28 +54,42 @@ class Auxiliary(object):
         self.options = None
 
     def set_task(self, task):
+        '''
+        set Current analysis task info
+        '''
         self.task = task
 
     def set_machine(self, machine):
+        '''
+        set machine info
+        '''
         self.machine = machine
 
     def set_options(self, options):
+        '''
+        set options
+        '''
         self.options = options
 
     def start(self):
+        '''
+        start machine
+        '''
         raise NotImplementedError
 
     def stop(self):
+        '''
+        stop machine
+        '''
         raise NotImplementedError
 
 class Machinery(object):
-    """Base abstract class for machinery modules."""
+    """
+    Base abstract class for machinery modules.
 
-    # Default label used in machinery configuration file to supply virtual
-    # machine name/label/vmx path. Override it if you dubbed it in another
-    # way.
+    :note: Default label used in machinery configuration file to supply virtual machine name/label/vmx path. Override it if you dubbed it in another way.
+    """
     LABEL = "label"
-
     def __init__(self):
         self.module_name = ""
         self.options = None
@@ -86,13 +107,17 @@ class Machinery(object):
                             "%s" % task_id, "dump.pcap")
 
     def set_options(self, options):
-        """Set machine manager options.
+        """
+        Set machine manager options.
+        
         :param options: machine manager options dict.
         """
         self.options = options
 
     def initialize(self, module_name):
-        """Read, load, and verify machines configuration.
+        """
+        Read, load, and verify machines configuration.
+        
         :param module_name: module name.
         """
         # Load.
@@ -102,13 +127,18 @@ class Machinery(object):
         self._initialize_check()
 
     def _get_resultserver_port(self):
-        """Returns the ResultServer port."""
-        # Avoid import recursion issues by importing ResultServer here.
+        """
+        Returns the ResultServer port.
+        
+        :note: Avoid import recursion issues by importing ResultServer here.
+        """
         from lib.cuckoo.core.resultserver import ResultServer
         return ResultServer().port
 
     def _initialize(self, module_name):
-        """Read configuration.
+        """
+        Read configuration.
+        
         :param module_name: module name.
         """
         self.module_name = module_name
@@ -171,12 +201,11 @@ class Machinery(object):
                 continue
 
     def _initialize_check(self):
-        """Runs checks against virtualization software when a machine manager
-        is initialized.
-        :note: in machine manager modules you may override or superclass
-               his method.
-        :raise CuckooMachineError: if a misconfiguration or a unkown vm state
-                                   is found.
+        """
+        Runs checks against virtualization software when a machine manageris initialized.
+        
+        :note: in machine manager modules you may override or superclass his method.
+        :raise CuckooMachineError: if a misconfiguration or a unkown vm state is found.
         """
         try:
             configured_vms = self._list()
@@ -206,19 +235,25 @@ class Machinery(object):
                                       "the config file.")
 
     def machines(self):
-        """List virtual machines.
+        """
+        List virtual machines.
+        
         :return: virtual machines list
         """
         return self.db.list_machines()
 
     def availables(self):
-        """How many machines are free.
+        """
+        How many machines are free.
+        
         :return: free machines count.
         """
         return self.db.count_machines_available()
 
     def acquire(self, machine_id=None, platform=None, tags=None):
-        """Acquire a machine to start analysis.
+        """
+        Acquire a machine to start analysis.
+        
         :param machine_id: machine ID.
         :param platform: machine platform.
         :param tags: machine tags
@@ -232,19 +267,25 @@ class Machinery(object):
             return self.db.lock_machine(tags=tags)
 
     def release(self, label=None):
-        """Release a machine.
+        """
+        Release a machine.
+        
         :param label: machine name.
         """
         self.db.unlock_machine(label)
 
     def running(self):
-        """Returns running virtual machines.
+        """
+        Returns running virtual machines.
+        
         :return: running virtual machines list.
         """
         return self.db.list_machines(locked=True)
 
     def shutdown(self):
-        """Shutdown the machine manager. Kills all alive machines.
+        """
+        Shutdown the machine manager. Kills all alive machines.
+        
         :raise CuckooMachineError: if unable to stop machine.
         """
         if len(self.running()) > 0:
@@ -258,14 +299,18 @@ class Machinery(object):
                                 "manually. Error: %s", machine.label, e)
 
     def set_status(self, label, status):
-        """Set status for a virtual machine.
+        """
+        Set status for a virtual machine.
+        
         :param label: virtual machine label
         :param status: new virtual machine status
         """
         self.db.set_machine_status(label, status)
 
     def start(self, label, task):
-        """Start a machine.
+        """
+        Start a machine.
+        
         :param label: machine name.
         :param task: task object.
         :raise NotImplementedError: this method is abstract.
@@ -273,26 +318,34 @@ class Machinery(object):
         raise NotImplementedError
 
     def stop(self, label=None):
-        """Stop a machine.
+        """
+        Stop a machine.
+        
         :param label: machine name.
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
     def _list(self):
-        """Lists virtual machines configured.
+        """
+        Lists virtual machines configured.
+        
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
     def dump_memory(self, label, path):
-        """Takes a memory dump of a machine.
+        """
+        Takes a memory dump of a machine.
+        
         :param path: path to where to store the memory dump.
         """
         raise NotImplementedError
 
     def _wait_status(self, label, state):
-        """Waits for a vm status.
+        """
+        Waits for a vm status.
+        
         :param label: virtual machine name.
         :param state: virtual machine status, accepts multiple states as list.
         :raise CuckooMachineError: if default waiting timeout expire.
@@ -318,9 +371,10 @@ class Machinery(object):
             current = self._status(label)
 
 class LibVirtMachinery(Machinery):
-    """Libvirt based machine manager.
+    """
+    Libvirt based machine manager.
 
-    If you want to write a custom module for a virtualization software
+    :note: If you want to write a custom module for a virtualization software
     supported by libvirt you have just to inherit this machine manager and
     change the connection string.
     """
@@ -339,14 +393,18 @@ class LibVirtMachinery(Machinery):
         super(LibVirtMachinery, self).__init__()
 
     def initialize(self, module):
-        """Initialize machine manager module. Override default to set proper
+        """
+        Initialize machine manager module. Override default to set proper
         connection string.
+        
         :param module:  machine manager module
         """
         super(LibVirtMachinery, self).initialize(module)
 
     def _initialize_check(self):
-        """Runs all checks when a machine manager is initialized.
+        """
+        Runs all checks when a machine manager is initialized.
+        
         :raise CuckooMachineError: if libvirt version is not supported.
         """
         # Version checks.
@@ -362,7 +420,9 @@ class LibVirtMachinery(Machinery):
         super(LibVirtMachinery, self)._initialize_check()
 
     def start(self, label, task):
-        """Starts a virtual machine.
+        """
+        Starts a virtual machine.
+        
         :param label: virtual machine name.
         :param task: task object.
         :raise CuckooMachineError: if unable to start virtual machine.
@@ -415,7 +475,9 @@ class LibVirtMachinery(Machinery):
         self._wait_status(label, self.RUNNING)
 
     def stop(self, label):
-        """Stops a virtual machine. Kill them all.
+        """
+        Stops a virtual machine. Kill them all.
+        
         :param label: virtual machine name.
         :raise CuckooMachineError: if unable to stop virtual machine.
         """
@@ -449,7 +511,9 @@ class LibVirtMachinery(Machinery):
         self.vms = None
 
     def dump_memory(self, label, path):
-        """Takes a memory dump.
+        """
+        Takes a memory dump.
+        
         :param path: path to where to store the memory dump.
         """
         log.debug("Dumping memory for machine %s", label)
@@ -468,7 +532,9 @@ class LibVirtMachinery(Machinery):
             self._disconnect(conn)
 
     def _status(self, label):
-        """Gets current status of a vm.
+        """
+        Gets current status of a vm.
+        
         :param label: virtual machine name.
         :return: status string.
         """
@@ -513,7 +579,9 @@ class LibVirtMachinery(Machinery):
                                      "{0}".format(label))
 
     def _connect(self):
-        """Connects to libvirt subsystem.
+        """
+        Connects to libvirt subsystem.
+        
         :raise CuckooMachineError: when unable to connect to libvirt.
         """
         # Check if a connection string is available.
@@ -527,7 +595,9 @@ class LibVirtMachinery(Machinery):
             raise CuckooMachineError("Cannot connect to libvirt")
 
     def _disconnect(self, conn):
-        """Disconnects to libvirt subsystem.
+        """
+        Disconnects to libvirt subsystem.
+        
         :raise CuckooMachineError: if cannot disconnect from libvirt.
         """
         try:
@@ -536,7 +606,9 @@ class LibVirtMachinery(Machinery):
             raise CuckooMachineError("Cannot disconnect from libvirt")
 
     def _fetch_machines(self):
-        """Fetch machines handlers.
+        """
+        Fetch machines handlers.
+        
         :return: dict with machine label as key and handle as value.
         """
         vms = {}
@@ -545,7 +617,9 @@ class LibVirtMachinery(Machinery):
         return vms
 
     def _lookup(self, label):
-        """Search for a virtual machine.
+        """
+        Search for a virtual machine.
+        
         :param conn: libvirt connection handle.
         :param label: virtual machine name.
         :raise CuckooMachineError: if virtual machine is not found.
@@ -561,7 +635,9 @@ class LibVirtMachinery(Machinery):
         return vm
 
     def _list(self):
-        """List available virtual machines.
+        """
+        List available virtual machines.
+        
         :raise CuckooMachineError: if unable to list virtual machines.
         """
         conn = self._connect()
@@ -574,7 +650,9 @@ class LibVirtMachinery(Machinery):
         return names
 
     def _version_check(self):
-        """Check if libvirt release supports snapshots.
+        """
+        Check if libvirt release supports snapshots.
+        
         :return: True or false.
         """
         if libvirt.getVersion() >= 8000:
@@ -583,7 +661,9 @@ class LibVirtMachinery(Machinery):
             return False
 
     def _get_snapshot(self, label):
-        """Get current snapshot for virtual machine
+        """
+        Get current snapshot for virtual machine
+        
         :param label: virtual machine name
         :return None or current snapshot
         :raise CuckooMachineError: if cannot find current snapshot or
@@ -635,24 +715,32 @@ class Processing(object):
         self.results = {}
 
     def set_options(self, options):
-        """Set report options.
+        """
+        Set report options.
+        
         :param options: report options dict.
         """
         self.options = options
 
     def set_task(self, task):
-        """Add task information.
+        """
+        Add task information.
+        
         :param task: task dictionary.
         """
         self.task = task
 
     def set_baseline(self, baseline_path):
-        """Set the path to the baseline directory."""
+        """
+        Set the path to the baseline directory.
+        """
         self.baseline_path = baseline_path
 
     def set_path(self, analysis_path):
-        """Set paths.
-        :param analysis_path: analysis folder path.
+        """
+        Set paths.
+        
+        :param analysis_path: analysis folder 
         """
         self.analysis_path = analysis_path
         self.log_path = os.path.join(self.analysis_path, "analysis.log")
@@ -675,17 +763,23 @@ class Processing(object):
         self.taskinfo_path = os.path.join(self.analysis_path, "task.json")
 
     def set_results(self, results):
-        """Set the results - the fat dictionary."""
+        """
+        Set the results - the fat dictionary.
+        """
         self.results = results
 
     def run(self):
-        """Start processing.
+        """
+        Start processing.
+        
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
 
 class Instance(object):
-    """Instance for binaries ."""
+    """
+    Instance for binaries .
+    """
     LABEL_SIGNIFICANCE_COUNT = 5
     POSITIVE_RATE = 2 * LABEL_SIGNIFICANCE_COUNT
 
@@ -704,6 +798,7 @@ class Instance(object):
     def load_json(self, json_file, name="unknown"):
         """
         Load JSON formatted malware report. It can handle both a path to JSON file and a dictionary object.
+        
         :param json_file: json path
         :param name: default "unknown"
         """
@@ -748,7 +843,6 @@ class Instance(object):
 
     def label_sample(self, external_labels=None, label_type="family"):
         """
-        为加载的样本生成标签。您可以使用platform、cve、metatype、type和family（默认）
         Generate label for the loaded sample. You can use platform, cve, metatype, type, and family (default).
         """
         merged_labels = []
@@ -773,7 +867,9 @@ class Instance(object):
             self.label = "none"
 
     def update(self, element, location):
-        """Insert `element` at given `location`."""
+        """
+        Insert `element` at given `location`.
+        """
         element_to_update = self.report
         for l in location[:-1]:
             etu = element_to_update.get(l)
@@ -785,7 +881,9 @@ class Instance(object):
         element_to_update[location[-1]] = element
 
     def save_json(self, root_dir):
-        """Save JSON stored in the class to a file."""
+        """
+        Save JSON stored in the class to a file.
+        """
         with open(root_dir+self.name, "w") as j_file:
             json.dump(self.report, j_file)
 
@@ -814,6 +912,7 @@ class Instance(object):
 
     def feature_static_metadata(self):
         """Create features form extracted binary metadata."""
+        
         # Get binary size
         self.features["size"] = self.report.get("target", {}).get("file", {}).get("size")
 
@@ -840,6 +939,7 @@ class Instance(object):
 
     def feature_static_signature(self):
         """Create features form binary signature check."""
+        
         # Check availability of digital signature
         self.features["signed"] = bool(self.report.get("static", {}).get("signature", []))
 
@@ -859,14 +959,16 @@ class Instance(object):
         pass
 
     def feature_static_packer(self):
-        """Create feature from information returned by packer/cryptor
-        detectors."""
+        """
+        Create feature from information returned by packer/cryptor detectors.
+        """
         self.features["packer"] = \
             self.report.get("static", {}).get("peid_signatures", None)
 
     def feature_static_pef(self):
-        """Create features from information derived form portable executable
-        format."""
+        """
+        Create features from information derived form portable executable format.
+        """
         # Get resource languages
         self.features["languages"] = []
         for d in self.report.get("static", {}).get("pe_resources", []):
@@ -1090,8 +1192,7 @@ class Instance(object):
                     self.features["api_stats"][e] = apistats[d][e]
 
     def extract_basic_features(self):
-        """Extract very basic set of features from *signatures* JSON field.
-        These are extracted characteristics of the binary by cuckoo sandbox."""
+        """Extract very basic set of features from *signatures* JSON field."""
         if self.basic_features:
             self.basic_features = {}
 
@@ -1105,7 +1206,9 @@ class Instance(object):
                 self.basic_features[hash(description)] = description
 
 class Detection(object):
-    """Base abstract class for detection module."""
+    """
+    Base abstract class for detection module.
+    """
     order = 1
     enabled = True
 
@@ -1142,22 +1245,15 @@ class Detection(object):
 
     def set_task(self, task):
         """Add task information.
+        
         :param task: task dictionary.
         """
         self.task = task
 
-    def load_features(self, features_dict):
-        pass
-
-    def load_model(self):
-        pass# 原文件路径
-
-    def predict(self):
-        pass
-
     def load_instance(self, results):
         """
-        Set the results - the fat dictionary.
+        Initialize the sample instance and load the dictionary
+        
         :param results:  results dict
         """
         self.binaries = Instance()
@@ -1193,7 +1289,7 @@ class Detection(object):
             self.binaries[f].extract_basic_features()
 
     def update_binaries(self, elements, root, locations):
-        """在给定的位置将“elements”附加到加载的json"""
+        """Attach "elements" to the loaded JSON at the given location"""
         if isinstance(elements, pd.DataFrame) and isinstance(locations, dict):
             self.binaries_updated = True
             for i in elements.index:
@@ -1240,6 +1336,7 @@ class Detection(object):
     def run(self):
         """
         Start detection.
+        
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError
@@ -1287,7 +1384,9 @@ class Signature(object):
         self.call = None
 
     def _check_value(self, pattern, subject, regex=False, all=False):
-        """Checks a pattern against a given subject.
+        """
+        Checks a pattern against a given subject.
+        
         :param pattern: string or expression to check for.
         :param subject: target of the check.
         :param regex: boolean representing if the pattern is a regular
@@ -1321,6 +1420,9 @@ class Signature(object):
             return ret.pop()
 
     def get_results(self, key=None, default=None):
+        '''
+        Get Signature results
+        '''
         if key:
             return self._caller.results.get(key, default)
 
@@ -1413,6 +1515,7 @@ class Signature(object):
     def check_file(self, pattern, regex=False, actions=None, pid=None,
                    all=False):
         """Checks for a file being opened.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1436,6 +1539,7 @@ class Signature(object):
     def check_dll_loaded(self, pattern, regex=False, actions=None, pid=None,
                          all=False):
         """Checks for DLLs being loaded.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1451,6 +1555,7 @@ class Signature(object):
     def check_key(self, pattern, regex=False, actions=None, pid=None,
                   all=False):
         """Checks for a registry key being accessed.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1472,6 +1577,8 @@ class Signature(object):
 
     def get_mutexes(self, pid=None):
         """
+        Get the summary genertic
+
         :param pid: Pid to filter for
         :return:List of mutexes
         """
@@ -1479,6 +1586,7 @@ class Signature(object):
 
     def check_mutex(self, pattern, regex=False, all=False):
         """Checks for a mutex being opened.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1563,6 +1671,7 @@ class Signature(object):
 
     def check_ip(self, pattern, regex=False, all=False):
         """Checks for an IP address being contacted.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1575,6 +1684,7 @@ class Signature(object):
 
     def check_domain(self, pattern, regex=False, all=False):
         """Checks for a domain being contacted.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1591,6 +1701,7 @@ class Signature(object):
 
     def check_url(self, pattern, regex=False, all=False):
         """Checks for a URL being contacted.
+
         :param pattern: string or expression to check for.
         :param regex: boolean representing if the pattern is a regular
                       expression or not and therefore should be compiled.
@@ -1691,13 +1802,13 @@ class Signature(object):
     def on_process(self, process):
         """Called on process change.
 
-        Can be used for cleanup of flags, re-activation of the signature, etc.
-
+        :note: Can be used for cleanup of flags, re-activation of the signature, etc.
         :param process: dictionary describing this process
         """
 
     def on_complete(self):
-        """Signature is notified when all API calls have been processed."""
+        """
+        Signature is notified when all API calls have been processed."""
 
     def results(self):
         """Turn this signature into actionable results."""
@@ -1724,6 +1835,7 @@ class Report(object):
 
     def set_path(self, analysis_path):
         """Set analysis folder path.
+
         :param analysis_path: analysis folder path.
         """
         self.analysis_path = analysis_path
@@ -1740,18 +1852,21 @@ class Report(object):
 
     def set_options(self, options):
         """Set report options.
+
         :param options: report options dict.
         """
         self.options = options
 
     def set_task(self, task):
         """Add task information.
+
         :param task: task dictionary.
         """
         self.task = task
 
     def run(self):
         """Start report processing.
+
         :raise NotImplementedError: this method is abstract.
         """
         raise NotImplementedError

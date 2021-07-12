@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -50,18 +51,20 @@ log = logging.getLogger(__name__)
 
 def create_folders(root=".", folders=[]):
     """Create directories.
-    @param root: root path.
-    @param folders: folders list to be created.
-    @raise CuckooOperationalError: if fails to create folder.
+
+    :param root: root path.
+    :param folders: folders list to be created.
+    :raise CuckooOperationalError: if fails to create folder.
     """
     for folder in folders:
         create_folder(root, folder)
 
 def create_folder(root=".", folder=None):
     """Create directory.
-    @param root: root path.
-    @param folder: folder name to be created.
-    @raise CuckooOperationalError: if fails to create folder.
+
+    :param root: root path.
+    :param folder: folder name to be created.
+    :raise CuckooOperationalError: if fails to create folder.
     """
     folder_path = os.path.join(root, folder)
     if folder and not os.path.isdir(folder_path):
@@ -73,8 +76,9 @@ def create_folder(root=".", folder=None):
 
 def delete_folder(folder):
     """Delete a folder and all its subdirectories.
-    @param folder: path to delete.
-    @raise CuckooOperationalError: if fails to delete folder.
+
+    :param folder: path to delete.
+    :raise CuckooOperationalError: if fails to delete folder.
     """
     if os.path.exists(folder):
         try:
@@ -90,8 +94,9 @@ PRINTABLE_CHARACTERS = \
 
 def convert_char(c):
     """Escapes characters.
-    @param c: dirty char.
-    @return: sanitized char.
+
+    :param c: dirty char.
+    :return: sanitized char.
     """
     if c in PRINTABLE_CHARACTERS:
         return c
@@ -107,8 +112,9 @@ def is_printable(s):
 
 def convert_to_printable(s):
     """Convert char to printable.
-    @param s: string.
-    @return: sanitized string.
+
+    :param s: string.
+    :return: sanitized string.
     """
     if is_printable(s):
         return s
@@ -116,25 +122,28 @@ def convert_to_printable(s):
 
 def datetime_to_iso(timestamp):
     """Parse a datatime string and returns a datetime in iso format.
-    @param timestamp: timestamp string
-    @return: ISO datetime
+
+    :param timestamp: timestamp string
+    :return: ISO datetime
     """
     return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").isoformat()
 
 def get_filename_from_path(path):
     """Cross-platform filename extraction from path.
-    @param path: file path.
-    @return: filename.
+
+    :param path: file path.
+    :return: filename.
     """
     dirpath, filename = ntpath.split(path)
     return filename if filename else ntpath.basename(dirpath)
 
 def store_temp_file(filedata, filename, path=None):
     """Store a temporary file.
-    @param filedata: content of the original file.
-    @param filename: name of the original file.
-    @param path: optional path for temp directory.
-    @return: path to the temporary file.
+
+    :param filedata: content of the original file.
+    :param filename: name of the original file.
+    :param path: optional path for temp directory.
+    :return: path to the temporary file.
     """
     filename = get_filename_from_path(filename)
 
@@ -167,10 +176,11 @@ def store_temp_file(filedata, filename, path=None):
 
 class TimeoutServer(xmlrpclib.ServerProxy):
     """Timeout server for XMLRPC.
+
     XMLRPC + timeout - still a bit ugly - but at least gets rid of setdefaulttimeout
     inspired by http://stackoverflow.com/questions/372365/set-timeout-for-xmlrpclib-serverproxy
     (although their stuff was messy, this is cleaner)
-    @see: http://stackoverflow.com/questions/372365/set-timeout-for-xmlrpclib-serverproxy
+    :see: http://stackoverflow.com/questions/372365/set-timeout-for-xmlrpclib-serverproxy
     """
     def __init__(self, *args, **kwargs):
         timeout = kwargs.pop("timeout", None)
@@ -197,7 +207,8 @@ class TimeoutTransport(xmlrpclib.Transport):
 
 class Singleton(type):
     """Singleton.
-    @see: http://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+
+    :see: http://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
     """
     _instances = {}
 
@@ -218,7 +229,8 @@ class ThreadSingleton(type):
 def to_unicode(s):
     """Attempt to fix non uft-8 string into utf-8. It tries to guess input encoding,
     if fail retry with a replace strategy (so undetectable chars will be escaped).
-    @see: fuller list of encodings at http://docs.python.org/library/codecs.html#standard-encodings
+
+    :see: fuller list of encodings at http://docs.python.org/library/codecs.html#standard-encodings
     """
 
     def brute_enc(s2):
@@ -297,9 +309,10 @@ class SuperLock(object):
 
 def hash_file(method, filepath):
     """Calculates an hash on a file by path.
-    @param method: callable hashing method
-    @param path: file path
-    @return: computed hash string
+
+    :param method: callable hashing method
+    :param path: file path
+    :return: computed hash string
     """
     f = open(filepath, "rb")
     h = method()

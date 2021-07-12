@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -8,9 +9,10 @@ import sys
 
 def color(text, color_code):
     """Colorize text.
-    @param text: text.
-    @param color_code: color.
-    @return: colorized text.
+    
+    :param text: text.
+    :param color_code: color.
+    :return: colorized text.
     """
     # $TERM under Windows:
     # cmd.exe -> "" (what would you expect..?)

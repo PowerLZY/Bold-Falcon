@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -78,7 +79,7 @@ class URL:
     """URL base object."""
 
     def __init__(self, url):
-        """@param url: URL"""
+        """:param url: URL"""
         self.url = url
 
 class File(object):
@@ -103,7 +104,7 @@ class File(object):
     yara_rules = {}
 
     def __init__(self, file_path):
-        """@param file_path: file path."""
+        """:param file_path: file path."""
         self.file_path = file_path
 
         # these will be populated when first accessed
@@ -116,7 +117,8 @@ class File(object):
 
     def get_name(self):
         """Get file name.
-        @return: file name.
+
+        :return: file name.
         """
         file_name = os.path.basename(self.file_path)
         return file_name
@@ -128,7 +130,8 @@ class File(object):
 
     def get_data(self):
         """Read file contents.
-        @return: data.
+
+        :return: data.
         """
         return self.file_data
 
@@ -172,13 +175,15 @@ class File(object):
 
     def get_size(self):
         """Get file size.
-        @return: file size.
+
+        :return: file size.
         """
         return os.path.getsize(self.file_path)
 
     def get_crc32(self):
         """Get CRC32.
-        @return: CRC32.
+
+        :return: CRC32.
         """
         if not self._crc32:
             self.calc_hashes()
@@ -186,7 +191,8 @@ class File(object):
 
     def get_md5(self):
         """Get MD5.
-        @return: MD5.
+
+        :return: MD5.
         """
         if not self._md5:
             self.calc_hashes()
@@ -194,7 +200,8 @@ class File(object):
 
     def get_sha1(self):
         """Get SHA1.
-        @return: SHA1.
+
+        :return: SHA1.
         """
         if not self._sha1:
             self.calc_hashes()
@@ -202,7 +209,8 @@ class File(object):
 
     def get_sha256(self):
         """Get SHA256.
-        @return: SHA256.
+
+        :return: SHA256.
         """
         if not self._sha256:
             self.calc_hashes()
@@ -211,15 +219,18 @@ class File(object):
     def get_sha512(self):
         """
         Get SHA512.
-        @return: SHA512.
+
+        :return: SHA512.
         """
         if not self._sha512:
             self.calc_hashes()
         return self._sha512
 
     def get_ssdeep(self):
-        """Get SSDEEP.
-        @return: SSDEEP.
+        """
+        Get SSDEEP.
+
+        :return: SSDEEP.
         """
         if not HAVE_PYDEEP:
             if not File.notified_pydeep:
@@ -234,7 +245,8 @@ class File(object):
 
     def get_type(self):
         """Get MIME file type.
-        @return: file type.
+
+        :return: file type.
         """
         file_type = None
         if HAVE_MAGIC:
@@ -267,7 +279,8 @@ class File(object):
 
     def get_content_type(self):
         """Get MIME content file type (example: image/jpeg).
-        @return: file content type.
+
+        :return: file content type.
         """
         file_type = None
         if HAVE_MAGIC:
@@ -422,7 +435,8 @@ class File(object):
 
     def get_yara(self, category="binaries"):
         """Get Yara signatures matches.
-        @return: matched Yara signatures.
+
+        :return: matched Yara signatures.
         """
         results = []
 
@@ -491,7 +505,8 @@ class File(object):
 
     def get_all(self):
         """Get all information available.
-        @return: information dict.
+
+        :return: information dict.
         """
         infos = {}
         infos["name"] = self.get_name()

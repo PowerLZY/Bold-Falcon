@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -27,8 +28,10 @@ class VirtualBox(Machinery):
     ERROR = "machete"
 
     def _initialize_check(self):
-        """Runs all checks when a machine manager is initialized.
-        @raise CuckooMachineError: if VBoxManage is not found.
+        """
+        Runs all checks when a machine manager is initialized.
+
+        :raise CuckooMachineError: if VBoxManage is not found.
         """
         # VirtualBox specific checks.
         if not self.options.virtualbox.path:
@@ -43,10 +46,12 @@ class VirtualBox(Machinery):
         super(VirtualBox, self)._initialize_check()
 
     def start(self, label, task):
-        """Start a virtual machine.
-        @param label: virtual machine name.
-        @param task: task object.
-        @raise CuckooMachineError: if unable to start.
+        """
+        Start a virtual machine.
+
+        :param label: virtual machine name.
+        :param task: task object.
+        :raise CuckooMachineError: if unable to start.
         """
         log.debug("Starting vm %s" % label)
 
@@ -130,8 +135,9 @@ class VirtualBox(Machinery):
 
     def stop(self, label):
         """Stops a virtual machine.
-        @param label: virtual machine name.
-        @raise CuckooMachineError: if unable to stop.
+
+        :param label: virtual machine name.
+        :raise CuckooMachineError: if unable to stop.
         """
         log.debug("Stopping vm %s" % label)
 
@@ -167,7 +173,8 @@ class VirtualBox(Machinery):
 
     def _list(self):
         """Lists virtual machines installed.
-        @return: virtual machine names list.
+
+        :return: virtual machine names list.
         """
         try:
             proc = subprocess.Popen([self.options.virtualbox.path,
@@ -196,8 +203,9 @@ class VirtualBox(Machinery):
 
     def _status(self, label):
         """Gets current status of a vm.
-        @param label: virtual machine name.
-        @return: status string.
+
+        :param label: virtual machine name.
+        :return: status string.
         """
         log.debug("Getting status for %s" % label)
         status = None
@@ -238,7 +246,8 @@ class VirtualBox(Machinery):
 
     def dump_memory(self, label, path):
         """Takes a memory dump.
-        @param path: path to where to store the memory dump.
+
+        :param path: path to where to store the memory dump.
         """
 
         try:
