@@ -1,10 +1,10 @@
-# Ignore Cuckoo Database
+# Ignore Database
 db/cuckoo.db
 
-# Ignore Cuckoo logs
+# Ignore logs
 log/*.log
 
-# Ignore Cuckoo analyses
+# Ignore analyses
 storage/*
 
 # Ignore Python byte code
@@ -36,11 +36,10 @@ data/yara/index_*.yar
 # Ignore venv
 venv
 
-# Ignore CuckooML sample data
+# Ignore sample data
 sample_data/
 
 # Ignore Jupyter Notebook examples' checkpoints
 examples/.ipynb_checkpoints
-/agent/
 /data/monitor/
 /modules/signatures/
