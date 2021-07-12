@@ -11,7 +11,7 @@ from lib.cuckoo.common.constants import CUCKOO_ROOT
 from lib.cuckoo.common.exceptions import CuckooOperationalError
 from lib.cuckoo.common.objects import Dictionary
 
-class Config:
+class Config():
     """Configuration file parser.
 
     :param file_name: file name without extension.

@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 from __future__ import print_function
@@ -396,6 +397,10 @@ class FileUpload(ProtocolHandler):
             self.fd.close()
 
 class LogHandler(ProtocolHandler):
+    """
+
+
+    """
     def init(self):
         self.logpath = os.path.join(self.handler.storagepath, "analysis.log")
         self.fd = self._open()

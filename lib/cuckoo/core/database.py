@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -82,7 +83,8 @@ class Machine(Base):
 
     def to_dict(self):
         """Converts object to dict.
-        @return: dict
+
+        :return: dict
         """
         d = {}
         for column in self.__table__.columns:
@@ -98,7 +100,8 @@ class Machine(Base):
 
     def to_json(self):
         """Converts object to JSON.
-        @return: JSON data
+
+        :return: JSON data
         """
         return json.dumps(self.to_dict())
 
@@ -160,7 +163,8 @@ class Guest(Base):
 
     def to_dict(self):
         """Converts object to dict.
-        @return: dict
+
+        :return: dict
         """
         d = {}
         for column in self.__table__.columns:
@@ -173,7 +177,8 @@ class Guest(Base):
 
     def to_json(self):
         """Converts object to JSON.
-        @return: JSON data
+
+        :return: JSON data
         """
         return json.dumps(self.to_dict())
 
@@ -203,7 +208,8 @@ class Sample(Base):
 
     def to_dict(self):
         """Converts object to dict.
-        @return: dict
+
+        :return: dict
         """
         d = {}
         for column in self.__table__.columns:
@@ -212,7 +218,8 @@ class Sample(Base):
 
     def to_json(self):
         """Converts object to JSON.
-        @return: JSON data
+
+        :return: JSON data
         """
         return json.dumps(self.to_dict())
 
@@ -239,7 +246,8 @@ class Error(Base):
 
     def to_dict(self):
         """Converts object to dict.
-        @return: dict
+
+        :return: dict
         """
         d = {}
         for column in self.__table__.columns:
@@ -248,7 +256,8 @@ class Error(Base):
 
     def to_json(self):
         """Converts object to JSON.
-        @return: JSON data
+
+        :return: JSON data
         """
         return json.dumps(self.to_dict())
 
@@ -315,7 +324,8 @@ class Task(Base):
 
     def to_dict(self):
         """Converts object to dict.
-        @return: dict
+
+        :return: dict
         """
         d = Dictionary()
         for column in self.__table__.columns:
@@ -338,7 +348,8 @@ class Task(Base):
 
     def to_json(self):
         """Converts object to JSON.
-        @return: JSON data
+
+        :return: JSON data
         """
         return json_encode(self.to_dict())
 
@@ -357,16 +368,16 @@ class AlembicVersion(Base):
 class Database(object):
     """Analysis queue database.
 
-    This class handles the creation of the database user for internal queue
+    :note: This class handles the creation of the database user for internal queue
     management. It also provides some functions for interacting with it.
     """
     __metaclass__ = Singleton
 
     def __init__(self, dsn=None, schema_check=True, echo=False):
         """
-        @param dsn: database connection string.
-        @param schema_check: disable or enable the db schema version check.
-        @param echo: echo sql queries.
+        :param dsn: database connection string.
+        :param schema_check: disable or enable the db schema version check.
+        :param echo: echo sql queries.
         """
         self._lock = SuperLock()
         cfg = Config()
@@ -441,7 +452,8 @@ class Database(object):
 
     def _connect_database(self, connection_string):
         """Connect to a Database.
-        @param connection_string: Connection string specifying the database
+
+        :param connection_string: Connection string specifying the database
         """
         try:
             # TODO: this is quite ugly, should improve.
@@ -463,9 +475,10 @@ class Database(object):
 
     def _get_or_create(self, session, model, **kwargs):
         """Get an ORM instance or create it if not exist.
-        @param session: SQLAlchemy session object
-        @param model: model to query
-        @return: row instance
+
+        :param session: SQLAlchemy session object
+        :param model: model to query
+        :return: row instance
         """
         instance = session.query(model).filter_by(**kwargs).first()
         return instance or model(**kwargs)
@@ -499,15 +512,16 @@ class Database(object):
     def add_machine(self, name, label, ip, platform, options, tags, interface,
                     snapshot, resultserver_ip, resultserver_port):
         """Add a guest machine.
-        @param name: machine id
-        @param label: machine label
-        @param ip: machine IP address
-        @param platform: machine supported platform
-        @param tags: list of comma separated tags
-        @param interface: sniffing interface for this machine
-        @param snapshot: snapshot name to use instead of the current one, if configured
-        @param resultserver_ip: IP address of the Result Server
-        @param resultserver_port: port of the Result Server
+
+        :param name: machine id
+        :param label: machine label
+        :param ip: machine IP address
+        :param platform: machine supported platform
+        :param tags: list of comma separated tags
+        :param interface: sniffing interface for this machine
+        :param snapshot: snapshot name to use instead of the current one, if configured
+        :param resultserver_ip: IP address of the Result Server
+        :param resultserver_port: port of the Result Server
         """
         session = self.Session()
         machine = Machine(name=name,
@@ -539,9 +553,10 @@ class Database(object):
     @classlock
     def set_status(self, task_id, status):
         """Set task status.
-        @param task_id: task identifier
-        @param status: status string
-        @return: operation status
+
+        :param task_id: task identifier
+        :param status: status string
+        :return: operation status
         """
         session = self.Session()
         try:
@@ -566,9 +581,10 @@ class Database(object):
     @classlock
     def set_route(self, task_id, route):
         """Set the taken route of this task.
-        @param task_id: task identifier
-        @param route: route string
-        @return: operation status
+
+        :param task_id: task identifier
+        :param route: route string
+        :return: operation status
         """
         session = self.Session()
         try:
@@ -587,7 +603,8 @@ class Database(object):
     @classlock
     def fetch(self, machine=None, service=True):
         """Fetches a task waiting to be processed and locks it for running.
-        @return: None or task
+
+        :return: None or task
         """
         session = self.Session()
         try:
@@ -614,11 +631,12 @@ class Database(object):
     @classlock
     def guest_start(self, task_id, name, label, manager):
         """Logs guest start.
-        @param task_id: task identifier
-        @param name: vm name
-        @param label: vm label
-        @param manager: vm manager
-        @return: guest row id
+
+        :param task_id: task identifier
+        :param name: vm name
+        :param label: vm label
+        :param manager: vm manager
+        :return: guest row id
         """
         session = self.Session()
         guest = Guest(name, label, manager)
@@ -638,8 +656,9 @@ class Database(object):
     @classlock
     def guest_get_status(self, task_id):
         """Logs guest start.
-        @param task_id: task id
-        @return: guest status
+
+        :param task_id: task id
+        :return: guest status
         """
         session = self.Session()
         try:
@@ -655,8 +674,9 @@ class Database(object):
     @classlock
     def guest_set_status(self, task_id, status):
         """Logs guest start.
-        @param task_id: task identifier
-        @param status: status
+
+        :param task_id: task identifier
+        :param status: status
         """
         session = self.Session()
         try:
@@ -689,7 +709,8 @@ class Database(object):
     @classlock
     def guest_stop(self, guest_id):
         """Logs guest stop.
-        @param guest_id: guest log entry id
+
+        :param guest_id: guest log entry id
         """
         session = self.Session()
         try:
@@ -709,7 +730,8 @@ class Database(object):
     @classlock
     def list_machines(self, locked=False):
         """Lists virtual machines.
-        @return: list of virtual machines
+
+        :return: list of virtual machines
         """
         session = self.Session()
         try:
@@ -727,10 +749,11 @@ class Database(object):
     @classlock
     def lock_machine(self, label=None, platform=None, tags=None):
         """Places a lock on a free virtual machine.
-        @param label: optional virtual machine label
-        @param platform: optional virtual machine platform
-        @param tags: optional tags required (list)
-        @return: locked machine
+
+        :param label: optional virtual machine label
+        :param platform: optional virtual machine platform
+        :param tags: optional tags required (list)
+        :return: locked machine
         """
         session = self.Session()
 
@@ -784,8 +807,9 @@ class Database(object):
     @classlock
     def unlock_machine(self, label):
         """Remove lock form a virtual machine.
-        @param label: virtual machine label
-        @return: unlocked machine
+
+        :param label: virtual machine label
+        :return: unlocked machine
         """
         session = self.Session()
         try:
@@ -813,7 +837,8 @@ class Database(object):
     @classlock
     def count_machines_available(self):
         """How many virtual machines are ready for analysis.
-        @return: free virtual machines count
+
+        :return: free virtual machines count
         """
         session = self.Session()
         try:
@@ -828,7 +853,8 @@ class Database(object):
     @classlock
     def get_available_machines(self):
         """  Which machines are available
-        @return: free virtual machines
+
+        :return: free virtual machines
         """
         session = self.Session()
         try:
@@ -843,8 +869,9 @@ class Database(object):
     @classlock
     def set_machine_status(self, label, status):
         """Set status for a virtual machine.
-        @param label: virtual machine label
-        @param status: new virtual machine status
+
+        :param label: virtual machine label
+        :param status: new virtual machine status
         """
         session = self.Session()
         try:
@@ -871,8 +898,9 @@ class Database(object):
     @classlock
     def add_error(self, message, task_id):
         """Add an error related to a task.
-        @param message: error message
-        @param task_id: ID of the related task
+
+        :param message: error message
+        :param task_id: ID of the related task
         """
         session = self.Session()
         error = Error(message=message, task_id=task_id)
@@ -892,19 +920,20 @@ class Database(object):
             custom="", owner="", machine="", platform="", tags=None,
             memory=False, enforce_timeout=False, clock=None, category=None):
         """Add a task to database.
-        @param obj: object to add (File or URL).
-        @param timeout: selected timeout.
-        @param options: analysis options.
-        @param priority: analysis priority.
-        @param custom: custom options.
-        @param owner: task owner.
-        @param machine: selected machine.
-        @param platform: platform.
-        @param tags: optional tags that must be set for machine selection
-        @param memory: toggle full memory dump.
-        @param enforce_timeout: toggle full timeout execution.
-        @param clock: virtual machine clock time
-        @return: cursor or None.
+
+        :param obj: object to add (File or URL).
+        :param timeout: selected timeout.
+        :param options: analysis options.
+        :param priority: analysis priority.
+        :param custom: custom options.
+        :param owner: task owner.
+        :param machine: selected machine.
+        :param platform: platform.
+        :param tags: optional tags that must be set for machine selection
+        :param memory: toggle full memory dump.
+        :param enforce_timeout: toggle full timeout execution.
+        :param clock: virtual machine clock time
+        :return: cursor or None.
         """
         session = self.Session()
 
@@ -993,19 +1022,20 @@ class Database(object):
                  priority=1, custom="", owner="", machine="", platform="",
                  tags=None, memory=False, enforce_timeout=False, clock=None):
         """Add a task to database from file path.
-        @param file_path: sample path.
-        @param timeout: selected timeout.
-        @param options: analysis options.
-        @param priority: analysis priority.
-        @param custom: custom options.
-        @param owner: task owner.
-        @param machine: selected machine.
-        @param platform: platform.
-        @param tags: Tags required in machine selection
-        @param memory: toggle full memory dump.
-        @param enforce_timeout: toggle full timeout execution.
-        @param clock: virtual machine clock time
-        @return: cursor or None.
+
+        :param file_path: sample path.
+        :param timeout: selected timeout.
+        :param options: analysis options.
+        :param priority: analysis priority.
+        :param custom: custom options.
+        :param owner: task owner.
+        :param machine: selected machine.
+        :param platform: platform.
+        :param tags: Tags required in machine selection
+        :param memory: toggle full memory dump.
+        :param enforce_timeout: toggle full timeout execution.
+        :param clock: virtual machine clock time
+        :return: cursor or None.
         """
         if not file_path or not os.path.exists(file_path):
             log.warning("File does not exist: %s.", file_path)
@@ -1025,19 +1055,20 @@ class Database(object):
                 custom="", owner="", machine="", platform="", tags=None,
                 memory=False, enforce_timeout=False, clock=None):
         """Add a task to database from url.
-        @param url: url.
-        @param timeout: selected timeout.
-        @param options: analysis options.
-        @param priority: analysis priority.
-        @param custom: custom options.
-        @param owner: task owner.
-        @param machine: selected machine.
-        @param platform: platform.
-        @param tags: tags for machine selection
-        @param memory: toggle full memory dump.
-        @param enforce_timeout: toggle full timeout execution.
-        @param clock: virtual machine clock time
-        @return: cursor or None.
+
+        :param url: url.
+        :param timeout: selected timeout.
+        :param options: analysis options.
+        :param priority: analysis priority.
+        :param custom: custom options.
+        :param owner: task owner.
+        :param machine: selected machine.
+        :param platform: platform.
+        :param tags: tags for machine selection
+        :param memory: toggle full memory dump.
+        :param enforce_timeout: toggle full timeout execution.
+        :param clock: virtual machine clock time
+        :return: cursor or None.
         """
 
         # Convert empty strings and None values to a valid int
@@ -1052,21 +1083,23 @@ class Database(object):
 
     def add_baseline(self, timeout=0, owner="", machine="", memory=False):
         """Add a baseline task to database.
-        @param timeout: selected timeout.
-        @param owner: task owner.
-        @param machine: selected machine.
-        @param memory: toggle full memory dump.
-        @return: cursor or None.
+
+        :param timeout: selected timeout.
+        :param owner: task owner.
+        :param machine: selected machine.
+        :param memory: toggle full memory dump.
+        :return: cursor or None.
         """
         return self.add(None, timeout=timeout or 0, priority=999, owner=owner,
                         machine=machine, memory=memory, category="baseline")
 
     def add_service(self, timeout, owner, tags):
         """Add a service task to database.
-        @param timeout: selected timeout.
-        @param owner: task owner.
-        @param tags: task tags.
-        @return: cursor or None.
+
+        :param timeout: selected timeout.
+        :param owner: task owner.
+        :param tags: task tags.
+        :return: cursor or None.
         """
         return self.add(None, timeout=timeout, priority=999, owner=owner,
                         tags=tags, category="service")
@@ -1074,8 +1107,9 @@ class Database(object):
     @classlock
     def reschedule(self, task_id, priority=None):
         """Reschedule a task.
-        @param task_id: ID of the task to reschedule.
-        @return: ID of the newly created task.
+
+        :param task_id: ID of the task to reschedule.
+        :return: ID of the newly created task.
         """
         task = self.view_task(task_id)
         if not task:
@@ -1120,17 +1154,18 @@ class Database(object):
                    offset=None, status=None, sample_id=None, not_status=None,
                    completed_after=None, order_by=None):
         """Retrieve list of task.
-        @param limit: specify a limit of entries.
-        @param details: if details about must be included
-        @param category: filter by category
-        @param owner: task owner
-        @param offset: list offset
-        @param status: filter by task status
-        @param sample_id: filter tasks for a sample
-        @param not_status: exclude this task status from filter
-        @param completed_after: only list tasks completed after this timestamp
-        @param order_by: definition which field to sort by
-        @return: list of tasks.
+
+        :param limit: specify a limit of entries.
+        :param details: if details about must be included
+        :param category: filter by category
+        :param owner: task owner
+        :param offset: list offset
+        :param status: filter by task status
+        :param sample_id: filter tasks for a sample
+        :param not_status: exclude this task status from filter
+        :param completed_after: only list tasks completed after this timestamp
+        :param order_by: definition which field to sort by
+        :return: list of tasks.
         """
         session = self.Session()
         try:
@@ -1167,8 +1202,9 @@ class Database(object):
     @classlock
     def count_tasks(self, status=None):
         """Count tasks in the database
-        @param status: apply a filter according to the task status
-        @return: number of tasks found
+
+        :param status: apply a filter according to the task status
+        :return: number of tasks found
         """
         session = self.Session()
         try:
@@ -1186,8 +1222,9 @@ class Database(object):
     @classlock
     def view_task(self, task_id, details=True):
         """Retrieve information on a task.
-        @param task_id: ID of the task to query.
-        @return: details on the task.
+
+        :param task_id: ID of the task to query.
+        :return: details on the task.
         """
         session = self.Session()
         try:
@@ -1208,8 +1245,9 @@ class Database(object):
     @classlock
     def delete_task(self, task_id):
         """Delete information on a task.
-        @param task_id: ID of the task to query.
-        @return: operation status.
+
+        :param task_id: ID of the task to query.
+        :return: operation status.
         """
         session = self.Session()
         try:
@@ -1227,8 +1265,9 @@ class Database(object):
     @classlock
     def view_sample(self, sample_id):
         """Retrieve information on a sample given a sample id.
-        @param sample_id: ID of the sample to query.
-        @return: details on the sample used in sample: sample_id.
+
+        :param sample_id: ID of the sample to query.
+        :return: details on the sample used in sample: sample_id.
         """
         session = self.Session()
         try:
@@ -1249,8 +1288,9 @@ class Database(object):
     @classlock
     def find_sample(self, md5=None, sha256=None):
         """Search samples by MD5.
-        @param md5: md5 string
-        @return: matches list
+
+        :param md5: md5 string
+        :return: matches list
         """
         session = self.Session()
         try:
@@ -1284,8 +1324,9 @@ class Database(object):
     @classlock
     def view_machine(self, name):
         """Show virtual machine.
-        @params name: virtual machine name
-        @return: virtual machine's details
+
+        :params name: virtual machine name
+        :return: virtual machine's details
         """
         session = self.Session()
         try:
@@ -1303,8 +1344,9 @@ class Database(object):
     @classlock
     def view_machine_by_label(self, label):
         """Show virtual machine.
-        @params label: virtual machine label
-        @return: virtual machine's details
+
+        :params label: virtual machine label
+        :return: virtual machine's details
         """
         session = self.Session()
         try:
@@ -1322,8 +1364,9 @@ class Database(object):
     @classlock
     def view_errors(self, task_id):
         """Get all errors related to a task.
-        @param task_id: ID of task associated to the errors
-        @return: list of errors.
+
+        :param task_id: ID of task associated to the errors
+        :return: list of errors.
         """
         session = self.Session()
         try:
