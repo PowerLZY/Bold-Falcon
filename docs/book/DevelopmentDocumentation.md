@@ -1,53 +1,92 @@
 ---
 sort: 4
+
 ---
+
 # 开发
 
 ## 4.1 开发环境配置
-### 4.1.1 开发用到的Python库
-初始化一个新的`virtualenv`。请注意，任何虚拟主机都在``/tmp``不会在重新启动的情况下存活下来，因此这样一个更方便的位置可能是，例如，``~/venv/cuckoo-development``(即放置``cuckoo-development``泛型中的Virtualenv~/venv/目录中的所有虚拟目录)。
 
-	$ virtualenv /tmp/cuckoo-development
-激活``virtualenv``。这必须在每次启动新的shell会话时完成(除非将命令放入~/.bashrc或者类似的，当然)。
+### 4.1.1 Python环境配置
 
-	$ . /tmp/cuckoo-development/bin/activate
-为了创建一个Cuckoo分发包，需要从我们的社区储存库这个版本的布谷鸟。幸运的是，我们提供了一个简单易用的脚本来半自动地为您获取它们。在存储库根目录中，可以按以下方式运行以自动获取二进制文件。
+在使用到一些全新的Python库之后，代码的开发和测试流程与以前相比略有不同。由于在首次使用Bold-Falcon之前必须先进行安装，这使得常规的“修改——测试”的迭代开发过程无法像以前一样独立进行。
+下面我们将概述如何在使用Bold-Falcon的同时开发和测试新的特性。
 
-	(cuckoo-development)$ python stuff/monitor.py
-您现在可以修改和测试文件了。注意，代码文件位于布谷鸟/目录Git存储库和事实，即使您将测试一个development存储库的版本，所有规则从布谷鸟工作目录和布谷鸟工作目录的使用还在原地。
-### 4.1.2 使用Pycharm开发
-#### 位置和概念
-- CuckoWeb提供了Web接口和RESTAPI
-- Django项目根目录位于``cuckoo/web``
+- 初始化一个新的虚拟环境。考虑到放置在`/tmp`目录下的虚拟环境在重启后便不会继续保存，因此可以设置一个单独的存储目录路径，例如，`~/venv/bold-falcon-development`(即用于在通用的`~/venv`目录下为所有的虚拟环境设置一个名为`bold-falcon-development`的存储子目录)。
+
+  ```shell
+  $ virtualenv /tmp/bold-falcon-development
+  ```
+
+- 激活该虚拟环境。该操作必须在每次启动新的shell会话时完成（除非将该命令放入`~/.bashrc`或者类似的配置文件中）。
+
+  ```shell
+  $ . /tmp/bold-falcon-development/bin/activate
+  ```
+
+- 为了创建一个Bold-Falcon分发包，需要从[社区库](https://github.com/cuckoosandbox/community)中获取一些匹配监控二进制文件。这里我们提供了一个简单易用的脚本来半自动地执行这一操作。通过在当前库的根目录下按以下方式运行，即可自动获取上述二进制文件。
+
+  ```shell
+  (bold-falcon-development)$ python stuff/monitor.py
+  ```
+
+- 在开发者模式下安装Bold-Falcon，在执行期间将使用当前目录下的相关文件。
+
+  ```shell
+  (bold-falcon-development)$ python setup.py sdist develop
+  ```
+
+完成以上步骤后，现在可以修改和测试代码文件了，代码文件位于[Bold-Falcon](https://github.com/PowerLZY/Bold-Falcon)目录下。实际上，即使是对当前库的开发版本进行测试，[`Cuckoo Working Directory`]()和[`Cuckoo Working Directory Usage`]()中的所有规则仍然有效。
+
+### 4.1.2 Pycharm环境配置
+
+在这一节中，我们将在Bold-Falcon开发的背景下介绍大量的Pycharm配置选项，并尝试在Pycharm IDE下开展Bold-Falcon的运行和开发任务。
+
+#### 网页端界面
+
+本节会介绍基于Django框架运行的Bold-Falcon网页端界面。这一部分的代码修改以及自定义特性的新增工作比较容易。
+
+#### 路径和概念
+
+- Bold-Falcon网页端提供了Web接口和RESTAPI
+- Django项目根目录位于`cuckoo/web`
 - 配置位于``cuckoo/web/web/settings.py``
-- URL调度程序在``cuckoo/web/web/urls.py``，以及其他地点，如(但不限于)``cuckoo/web/analysis/urls.py``
+- URL调度程序位于`cuckoo/web/web/urls.py`，以及其他路径下，包括但不限于`cuckoo/web/analysis/urls.py`
 - HTML模板使用Django模板语言。
-- 前端使用``cuckoo/web/static/js/cuckoo/``对于与Cuckoo相关的JavaScript包含，而它们的源代码位于`` cuckoo/web/static/js/cuckoo/src/(ECMAScript 5/6)-见‘JavaScript Transspling’``一段。
-- 所谓的“控制器”用于代替基于类的视图，其中控制器负责(通常是后端)不属于视图函数的操作。例子：``cuckoo/web/controllers/analysis/analysis.py``
-- 视图函数是视图使用的函数，位于``routes.py``。例子：``cuckoo/web/controllers/analysis/routes.py``
-- API函数是api使用的函数，位于``api.py``。例子：``cuckoo/web/controllers/analysis/api.py``
-#### 运行调试
-直接从PyCharm运行和调试cuckoo web可以直接绕过cuckoo启动和使用PyCharm的内置Django服务器。谢天谢地，为了做到这一点，没有对Cuckoo代码进行任何修改。
-首先，建议您在virtualenv为了保持Cuckoo所需的依赖关系与您的系统范围内安装的Python分开。其次，应在开发模式下安装布谷鸟；python setup.py develop.
-假设Cuckoo安装正确(并且有一个活动的工作目录；请参见布谷市工作目录安装)；启动PyCharm并打开Cuckoo目录。去Run->Edit Configurations并单击+纽扣。选择‘Django服务器’。使用下列值：
+- 前端中与Bold-Falcon相关的JavaScript内容位于`cuckoo/web/static/js/cuckoo/`，其中源代码位于` cuckoo/web/static/js/cuckoo/src/`目录下。
+- 所谓的“控制器”用于代替基于类的视图，其中控制器负责不属于视图函数的操作（通常是后端）。例如：``cuckoo/web/controllers/analysis/analysis.py``
+- 视图函数是视图使用的函数，位于``routes.py``。例如：``cuckoo/web/controllers/analysis/routes.py``
+- API函数是API使用的函数，位于``api.py``。例如：``cuckoo/web/controllers/analysis/api.py``
+
+#### 运行和调试
+
+直接使用PyCharm运行和调试Bold-Falcon，可以直接绕过Bold-Falcon启动程序并使用PyCharm的内置Django服务器，而且无需对源代码进行任何修改即可做到这一点。
+首先，建议全程在虚拟环境中操作，从而将Bold-Falcon所需的依赖项与系统范围内安装的Python隔离开来。其次，建议在开发模式下安装Bold-Falcon.
+假设Bold-Falcon成功安装（并且有一个正在使用的工作目录，参见[`Cuckoo Working Directory Installation`]()）；启动PyCharm并打开Bold-Falcon目录。选择`Run->Edit Configurations`并单击`+`，选择“Django服务器”。服务器配置使用下列参数值：
+
 - **Name** - web
 - **Host** - 127.0.0.1
 - **Port** - 8080
-- **Environment variables** -点击 ``...`` 并增加2个新值: ``CUCKOO_APP``: ``web`` and ``CUCKOO_CWD``: ``/home/test/.cuckoo/``, 其中路径是您的 `CWD <https://cuckoo.sh/docs/installation/host/cwd.html#cwd-path>`_ (Cuckoo 工作目录).
-- **Python interpreter** - 如果选定的virtualenv不存在，请使用 ``File->Settings->Project: Cuckoo->Project Interpreter``
-- **Working directory** -Django项目根的绝对路径. 对于我来说是 ``/home/test/PycharmProjects/virtualenv/cuckoo/cuckoo/web/``
-Cuckoweb现在可以从PyCharm运行(并调试)。去Run->Run->web从菜单和网络服务器开始。
+- **Environment variables** -单击 `...` 并增加2个新值： `CUCKOO_APP:web` 和 `CUCKOO_CWD:/home/test/.cuckoo/`, 其中路径对应 `CWD `.
+- **Python interpreter** - 选择之前配置的虚拟环境。如果该虚拟环境不存在，请使用`File->Settings->Project: Cuckoo->Project Interpreter`将该虚拟环境添加到本项目中。
+- **Working directory** -Django项目根目录的绝对路径，例如：`/home/test/PycharmProjects/virtualenv/cuckoo/cuckoo/web/`
 
-#### JavaScript transpiling
-Cuckoweb中的Javascript代码是在ECMAScript 6中开发的。为了兼容浏览器，需要将它转回ECMAScript 5。
-首先，使PyCharm对ECMAScript 6语法进行正则化和理解。去File->Settings->Languages & Frameworks->Javascript并从“Javascript语言版本”下拉菜单中选择“ECMAScript 6”。命中Apply.
-然后，使用Babel传输Javascript代码。在Cuckoo项目根中安装Babel(需要npm):
+此时，可以使用PyCharm运行和调试Bold-Falcon了，通过选择`Run->Run->web`即可启动网页端服务器。
 
-	(cuckoo)    test:$ pwd
-	/home/test/PycharmProjects/virtualenv/cuckoo
-	(cuckoo)    test:$ npm install --save-dev babel-cl
-它将创建一个名为node_modules在布谷鸟项目的根中。切换回PyCharm并打开任意.js文件在cuckoo/web/static/js/cuckoo/src/。PyCharm将询问您是否要为该文件配置一个文件监视程序。点击Add watcher(如果此选项对您不可用，请在File->Settings->Tools->File watchers).
-在下面的弹出屏幕‘Edit Watcher’中，输入这些值。
+#### JavaScript传输
+
+Bold-Falcon前端中的Javascript代码是基于ECMAScript 6标准开发的。为了兼容浏览器，需要将它转回ECMAScript 5标准。
+首先，配置PyCharm使其能够识别并理解ECMAScript 6的语法。选择`File->Settings->Languages & Frameworks->Javascript`并从“Javascript语言版本”下拉列表中选择“ECMAScript 6”。然后选择`Apply`.
+然后，使用Babel传输Javascript代码。在Bold-Falcon项目根目录中安装Babel（需要npm）：
+
+```shell
+(bold-falcon)    test:$ pwd
+/home/test/PycharmProjects/virtualenv/bold-falcon
+(bold-falcon)    test:$ npm install --save-dev babel-cl
+```
+
+它将在Bold-Falcon项目根目录下创建一个名为`node_modules`的文件夹。切换回PyCharm并打开`cuckoo/web/static/js/cuckoo/src`路径下的任意js文件，PyCharm将询问是否要为该文件配置一个文件监视程序。点击`Add watcher`（如果此选项不可用，请在`File->Settings->Tools->File watchers`下找到“file watcher”位置）。
+在弹出屏幕“Edit Watcher”中，输入下列值：
 
 - **Name** -  Babel ES6->ES5
 - **Description** - Transpiles ECMAScript 6 code to ECMAScript 5
@@ -57,42 +96,52 @@ Cuckoweb中的Javascript代码是在ECMAScript 6中开发的。为了兼容浏�
 - **Track only root files** - yes
 - **Trigger watcher regardless of syntax errors** - no
 - **File type** - Javascript
-- **Scope** - Click ``...`` -> Click ``+`` (add scope) -> Click ``local`` -> Press ``OK``. In the file browser, browse to ``cuckoo/web/static/js/cuckoo/src/`` and whilst selecting the ``src`` folder, click ``include``. The files containing in ``src`` should now turn green. Press ``OK``.
-- **Program** - Should be the absolute path to ``node_modules/.bin/babel``, for me this is ``/home/test/PycharmProjects/virtualenv/cuckoo/node_modules/.bin/babel``. Double check that the path you enter reflects the actual location of the ``node_modules/.bin/babel`` file.
-- **Arguments** - ``--source-maps --out-file $FileNameWithoutExtension$.js $FilePath$``
-- **Working directory** - Browse and select ``cuckoo/web/static/js/cuckoo``
-- **Output paths to refresh** ``$FileNameWithoutExtension$-compiled.js:$FileNameWithoutExtension$-compiled.js.map``
-最后manage.py需要创建文件，以便PyCharm将其视为Django项目。创建以下文件cuckoo/web/web/manage.py内容如下：
-	
-	#!/usr/bin/env python
-	import sys
+- **Scope** - 单击 `...` ->  `+` (添加范围) ->  `local` -> `OK`. 在文件浏览器中，进入 `cuckoo/web/static/js/cuckoo/src/`目录下并选择`src`文件夹，单击`include`. `src`中的文件现在应该会变成绿色。选择 `OK`.
+- **Program** - 应该是 `node_modules/.bin/babel`的绝对路径，例如：`/home/test/PycharmProjects/virtualenv/cuckoo/node_modules/.bin/babel`. 再次检查输入的路径是否反映文件`node_modules/.bin/babel`的实际位置。
+- **Arguments** - `--source-maps --out-file $FileNameWithoutExtension$.js $FilePath$`
+- **Working directory** - 浏览并选择 `cuckoo/web/static/js/cuckoo`
+- **Output paths to refresh** `$FileNameWithoutExtension$-compiled.js:$FileNameWithoutExtension$-compiled.js.map`
 
-	if __name__ == "__main__":
-	   from django.core.management import execute_from_command_line
-	   execute_from_command_line(sys.argv)
-转到文件->设置->语言和框架->Django和；
+最后，需要创建一个`manage.py` mock文件，以便PyCharm将其视为Django项目。文件`cuckoo/web/web/manage.py`的内容如下：
 
-	- **Django Project root** - ``cuckoo/web``
-	- **Settings** - ``web/settings.py``
-	- **Manage script** - ``web/manage.py``
+```python
+#!/usr/bin/env python
+import sys
+
+if __name__ == "__main__":
+   from django.core.management import execute_from_command_line
+   execute_from_command_line(sys.argv)
+```
+
+转到`File->Settings->Languages & Frameworks->Django`，然后配置如下：
+
+- **Django Project root** - `cuckoo/web`
+- **Settings** - `web/settings.py`
+- **Manage script** - `web/manage.py`
+
 #### 测试
-配置现在应该已经完成。尝试从PyCharm内部运行Cuckoo&愉快的编码！
+
+到目前为止，项目配置已经完成，可以使用PyCharm运行和调试Bold-Falcon了！
 
 ## 4.2 辅助功能模块
+
 ### 4.2.1 设计说明
 
-辅助模块定义了一些需要与每个**样本分析过程中进行并行执行的辅助功能**。为用户提供记录分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 **../cuckoo/auxiliary/** 目录下，全部辅助模块配置选项在 ***.CWD/conf/auxiliary.conf*** 文件下。
+**辅助功能模块**定义了一些需要与每个**样本分析过程并行执行的辅助功能**，例如：记录并为用户提供分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 **../cuckoo/auxiliary/** 目录下，全部辅助模块配置选项在 ***.CWD/conf/auxiliary.conf*** 文件下。
 
 **1）辅助功能定义函数**
 
 ```python
-class MyAuxiliary(Auxiliary):
-		"""定义辅助模块"""
-		def start(self):
-		# 定义辅助功能
+from lib.cuckoo.common.abstracts import Auxiliary
 
-		def stop(self):
-		# 定义模块关闭
+class MyAuxiliary(Auxiliary):
+    """定义辅助模块"""
+    
+    def start(self):
+        # 定义辅助功能
+
+    def stop(self):
+        # 定义模块关闭
 ```
 
 - start()：将在主机启动客户机并有效执行提交的恶意文件之前执行
@@ -103,24 +152,27 @@ class MyAuxiliary(Auxiliary):
 ```python
 class RunAuxiliary(object):
     """辅助模块管理"""
-		def __init__(self, task, machine, guest_manager)：
-   	# 辅助功能模块初始化
+    
+	def __init__(self, task, machine, guest_manager)：
+    	# 辅助功能模块初始化
     
   	def start(self):
-    # 辅助功能模块配置
-  		 options = config2("auxiliary", module_name)
+    	# 辅助功能模块配置
+        options = config2("auxiliary", module_name)
+       	
     def callback(self, name, *args, **kwargs):
-    # 辅助功能模块加载
- 		 	MyAuxiliary.start()	
+    	# 辅助功能模块加载
+        MyAuxiliary.start()
+        
   	def stop(self):
-    # 辅助功能模块关闭
+    	# 辅助功能模块关闭
     	MyAuxiliary.stop()	
 ```
 
 +  \__init\_\_(): 辅助功能模块初始化（任务号、虚拟机软件、客户机IP映射等）
-+ start(): 根据 ***.CWD/conf/auxiliary.conf*** 下的配置选择辅助功能模块列表
-+ callback(): 开启辅助功能模块列表的辅助功能
-+ stop(): 关闭辅助功能模块列表的辅助功能
++  start(): 根据 ***.CWD/conf/auxiliary.conf*** 下的配置选择辅助功能模块列表
++  callback(): 开启辅助功能模块列表的辅助功能
++  stop(): 关闭辅助功能模块列表的辅助功能
 
 **3）辅助功能列表**
 
@@ -178,21 +230,35 @@ class RunAuxiliary(object):
 
 ### 4.3.1 设计说明
 
-​		**定义了与虚拟化软件的交互过程**，**开启虚拟机、启动任务调度、上传样本、上传分析模块和分析配置文件、在数据库中记录虚拟机的状态等**。全部机器交互模块放在 **../cuckoo/mechinery/** 目录下，我们默认使用了VirtualBox虚拟机软件。全部辅助模块配置选项在 ***.CWD/conf/virualbox.conf*** 文件下。
+**机器交互模块**定义了沙箱主机与虚拟化软件的交互过程，包括开启虚拟机、启动任务调度、上传样本、上传分析模块和分析配置文件、在数据库中记录虚拟机的状态等操作。全部机器交互模块放在 **../cuckoo/mechinery/** 目录下，我们默认使用了VirtualBox虚拟机软件。全部辅助模块配置选项在 ***.CWD/conf/virualbox.conf*** 文件下。
 
-​		**沙箱主机**与**客户机**网络配置中使用**Host-Only**连接方式，一个恶意软件被安装配置了cuckoo的host提交到各个guest进行运行分析时，host是想要知道guest的所有流量信息的，因为绝大部分的恶意软件搞破坏都依赖网络。此时只有设置Host-Only连接，host才能截获guest与互联网之间流经的所有流量，才能更好的分析恶意软件的行为方式。
+**沙箱主机**与**客户机**网络配置中使用**Host-Only**连接方式。对于一个恶意软件，当其被安装配置了Bold-Falcon的主机提交到各个客户机进行运行分析时，主机是想要知道客户机的所有流量信息的，因为绝大部分的恶意软件都需要依赖网络来执行恶意行为。此时只有设置Host-Only连接，主机才能截获客户机与互联网之间流经的所有流量，进而更好地分析恶意软件的行为方式。
 
 **1）机器交互定义函数**
 
 ```python
+from lib.cuckoo.common.abstracts import Machinery
+from lib.cuckoo.common.exceptions import CuckooMachineError
+
 class MyMachinery(Machinery):
     def start(self, label):
-    # 开启定义虚拟机管理软件
+    	# 开启定义虚拟机管理软件
+        try:
+            revert(label)
+            start(label)
+        except SomethingBadHappens:
+            raise CuckooMachineError("oops!")
+    
     def initialize(self, module_name):
-    self._initialize(module_name)
-    # 初始化配置信息
+        # 初始化配置信息
+    	self._initialize(module_name)
+    
     def stop(self, label):
-    # 关闭定义虚拟机管理软件
+    	# 关闭定义虚拟机管理软件
+        try:
+            stop(label)
+        except SomethingBadHappens:
+            raise CuckooMachineError("oops!")
 ```
 
 - start()：开启定义虚拟机管理软件
@@ -214,17 +280,16 @@ class AnalysisManager(threading.Thread):
         # 开启配置虚拟机
         
     def launch_analysis(self):
-  			# 开启分析任务
+  		# 开启分析任务
         self.init():
         self.acquire_machine()
         # 开启虚拟机如：machinery/virtualbox.py 中 VirtualBox.start
         machinery.start(self.machine.label, self.task)
-
         return succeeded
 ```
 
-+ \__init\_\_(): 读取任务的消息(指明分析时间、系统类型、开始时间、结束时间、指明分析状态）；配置文件中的服务端ip和端口（我这里设置的是192.168.56.1和2042）
-+ init()：创建文件夹, 用于存放分析结果和样本文件，将target指向的文件存放到storage/binaries下
++ \__init\_\_(): 读取任务的消息（指明分析时间、系统类型、开始时间、结束时间、指明分析状态）；配置文件中的服务端ip和端口（我这里设置的是192.168.56.1和2042）
++ init()：创建文件夹, 用于存放分析结果和样本文件，将target指向的文件存放到`storage/binaries`下
 + acquire_machine(): 开启配置虚拟机
 + launch_analysis(): 开启分析任务，各个模块的清理工作
 
@@ -238,18 +303,18 @@ class MiniHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     server_version = "Cuckoo Agent"
 
     def do_GET(self):
-       # 响应GET请求
+        # 响应GET请求
 
     def do_POST(self):
-       # 响应POST请求
-    	 # host与client之间的数据传输, 格式为multipart/form-data
+        # 响应POST请求
+    	# host与client之间的数据传输, 格式为multipart/form-data
 ```
 
 + do_GET(): 响应GET请求
 + do_POST():
   +  响应POST请求
-  + host与client之间的数据传输, 格式为multipart/form-data.可以理解key:value形式
-  + 如: analysis.conf, 分析模块, 样本等，这些数据在传输的时候, 都要带有filename字段
+  +  host与client之间的数据传输, 格式为multipart/form-data，可以理解为key:value形式
+  +  如: analysis.conf, 分析模块, 样本等，这些数据在传输的时候, 都要带有filename字段
 
 ```python
 AGENT_VERSION = "0.10"
@@ -294,11 +359,11 @@ def get_status():
 
 + do_mktemp() 和 do_mkdtemp()
 
-  + 两个创建临时文件夹的命令: mktemp和mkdtemp. 但二者创建的位置不一样
+  + 两个创建临时文件夹的命令: mktemp和mkdtemp，但二者创建的位置不一样
   + mkdtemp --> 在%SYSTEMDRIVE%(C:\)下创建一个随机文件夹
   + mktemp --> 在%TEMP%(C:\Users\bill\AppData\Local\Temp)下创建一个随机文件夹
 
-+ do_extract(): 将分析模块以zip格式压缩,发送给client端. 发送extrac命令, 将分析模块解压到上一步创建的文件夹中.
++ do_extract(): 将分析模块以zip格式压缩,发送给client端；发送extrac命令, 将分析模块解压到上一步创建的文件夹中。
 
 + do_store():
 
@@ -332,12 +397,13 @@ class GuestManager(object):
       	# 初始化信息
 
     def stop(self):
-  			# 关闭客户端分析
+        # 关闭客户端分析
+    
     def upload_analyzer(self, monitor):
         # 上传分析模块
      
     def add_config(self, options):
-				# 上传分析脚本
+        # 上传分析脚本
 
     def start_analysis(self, options, monitor):
         # 客户端开启分析
@@ -362,9 +428,9 @@ class GuestManager(object):
 + stop(): 关闭客户端分析
 + upload_analyzer(): 
   + 分析模块的文件位于cuckoo/cuckoo/data/analyzer/(android, darwin, linux, windows)
-  +  analyzer_zipfile 也会将 dumpmem.yarac 和Monitor 写入到压缩文件流中
+  + analyzer_zipfile 也会将 dumpmem.yarac 和Monitor 写入到压缩文件流中
 + add_config(): 上传分析脚本，将options中的内容传入client中, 写入到self.analyzer_path的analysis.conf中
-+ start_analysis(): 客户端开启分析,client 端也开启了http server, 获取agent(配置的时候,需要在虚拟机中放置agent.py)的信息
++ start_analysis(): 客户端开启分析,client 端也开启了http server, 获取agent（配置的时候,需要在虚拟机中放置agent.py）的信息
 + wait_for_completion(): 不断获取客户端分析状态
 
 ### 4.3.2 设计流程
@@ -446,13 +512,17 @@ class GuestManager(object):
 
 ### 4.4.1 设计说明
 
-​		文件分析模块定义了分析组件在客户机环境中**执行并分析给定的文件**的过程。可以通过设置一个包含对所有类型的文件的通用处理方法的基类Package，然后使用多态的形式为不同类型的文件实现不同的启动分析方式。可供样本运行的客户机环境包括Windows、Linux、Android系统等，模块代码存放在***../cuckoo/data/analyzer/***目录下，包含所有用户指定选项的配置存储在***self.options***文件中。
+**文件分析模块**定义了分析组件在客户机环境中**执行并分析给定的文件**的过程。可以通过设置一个包含对所有类型的文件的通用处理方法的基类Package，然后使用多态的形式为不同类型的文件实现不同的启动分析方式。可供样本运行的客户机环境包括Windows、Linux、Android系统等，模块代码存放在***../cuckoo/data/analyzer/***目录下，包含所有用户指定选项的配置存储在***self.options***文件中。
 
-**1）文件分析模块定义函数**
+**1）文件分析定义函数**
 
 ```python
+from lib.api.process import Process
+from lib.common.exceptions import CuckooPackageError
+
 class Package(object):
     """定义文件分析模块"""
+    
  	def start(self):
         # 定义文件分析初始化操作
  		raise NotImplementedError
@@ -484,8 +554,8 @@ class Package(object):
         # 转储进程内存
         if self.options.get("procmemdump"):
             for pid in self.pids:
-                    p = Process(pid=pid)
-                    p.dump_memory()
+                p = Process(pid=pid)
+                p.dump_memory()
         return True
 ```
 
@@ -556,6 +626,8 @@ Class PipeForwarder(threading.Thread):
 以分析通用Windows可执行文件的默认方法为例：
 
 ```python
+from lib.common.abstracts import Package
+
 class Exe(Package):
     """EXE分析包"""
 	
@@ -596,7 +668,7 @@ class Analyzer(object):
         # 配置分析环境
         
     def run(self):
-    		# 启动分析进程
+    	# 启动分析进程
         
         self.prepare()
         Package()
@@ -658,6 +730,7 @@ class Analyzer(object):
 	    <td>APK文件</td>
 	</tr>
 </table>
+
 
 ### 	4.4.2 设计流程
 
@@ -729,33 +802,44 @@ end
 
 ### 4.5.1 设计说明
 
-​		**结果处理模块**允许自定义的方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。**../cuckoo/processing/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/processing.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
+**结果处理模块**允许自定义方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。**../cuckoo/processing/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/processing.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
-​		**结果处理模块都将被初始化和执行**，返回的数据将被附加到一个为**全局结果容器**的数据结构中。这个容器仅仅是一个大的**Python字典**，它包含了由所有按标识键分类的模块生成的抽象结果。每次分析的全局结果容器被储存在 ***.CWD/storage/analysis/task_id*** 文件夹下
+**结果处理模块都将被初始化和执行**，返回的数据将被附加到一个名为**全局结果容器**的数据结构中。这个容器仅仅是一个大的**Python字典**，它包含了由所有按标识键分类的模块生成的抽象结果。每次分析的全局结果容器被储存在 ***.CWD/storage/analysis/task_id*** 文件夹下。
 
-**1）结果模块定义函数**
+**1）结果处理定义函数**
 
 ```python
+from lib.cuckoo.common.exceptions import CuckooProcessingError
+from lib.cuckoo.common.abstracts import Processing
+
 class MyModule(Processing):
 
- 		def run(self):
- 				self.key = "key"
- 				data = do_something()
- 				return data
+    def run(self):
+        self.key = "key"
+        
+        try:
+            data = do_something()
+        except SomethingFailed:
+            raise CuckooProcessingError("Failed")
+            
+        return data
 ```
 
 + run()：***self.key*** 该属性定义要用作返回 ***data*** 的子容器的名称。
 + 将 ***data*** 附加到全局容器中（列表、字典、字符串等）。
++ 可以指定一个***order***值，允许按顺序运行可用的处理模块。
 
-**2）结果模块运行函数**
+**2）结果处理运行函数**
 
 ```python
 class RunProcessing(object):
 
     def __init__(self, task):
         # 初始化信息
+        
     def process(self, module, results):
       	# 执行一个结果处理模块
+        
     def run(self):
         # 执行所有结果处理模块，返回全局结果容器
         # 获得 processing 功能列表
@@ -782,25 +866,36 @@ class RunProcessing(object):
 
 **3）结果处理功能列表**
 
-| 处理模块名称         | 处理木模块功能                                               |
+| 处理模块名称         | 处理模块功能                                                 |
 | -------------------- | ------------------------------------------------------------ |
-| **Analysisinfo**     | 生成当前分析的一些基本信息，例如时间戳、沙箱的版本等         |
-| **BehaviorAnalysis** | 解析原始行为日志并执行一些初始转换和解释，包括完整的流程跟踪、行为摘要和流程树 |
+| **Analysisinfo**     | 生成有关当前分析的一些基本信息，例如时间戳、沙箱版本等       |
+| **BehaviorAnalysis** | 解析原始行为日志，执行一些初始转换并提供解释，包括完整的进程跟踪、行为摘要和进程树 |
 | **Buffer**           | 丢弃缓冲区分析                                               |
-| **Debug**            | 包括错误和analysis.log由文本分析模块生成                     |
-| **Dropped**          | 恶意软件丢弃文件的信息                                       |
+| **Debug**            | 包括错误和分析程序生成的analysis.log                         |
+| **Dropped**          | 包括由恶意软件丢弃并由沙箱转储的文件的信息                   |
 | **FeatureAnalysis**  | 包括机器学习模块中恶意软件检测器需要的特征信息（字符串、字节熵直方图、PE静态特征、字符序列、灰度图、API调用序列等） |
-| **Memory**           | 在内存上执行 Volatility 工具                                 |
+| **Memory**           | 在完整的内存转储上执行 Volatility 内存取证分析工具           |
 | **NetworkAnalysis**  | 解析PCAP文件并提取一些网络信息，例如DNS流量、域、ip、HTTP请求、IRC和SMTP流量 |
-| **Screenshots**      | 屏幕截图                                                     |
+| **Screenshots**      | 屏幕截图和OCR分析                                            |
 | **StaticAnalysis**   | 对文件执行一些静态分析                                       |
-| **String**           | 从分析的二进制文件中提取字符串                               |
-| **TargetInfo**       | 包括有关分析文件的信息，如哈希，ssdeep等                     |
-| **VirusTotal**       | 搜索VirusTotal.com分析文件的防病毒签名                       |
+| **Strings**          | 从分析的二进制文件中提取字符串                               |
+| **TargetInfo**       | 包括当前所分析文件的信息，如哈希，ssdeep等                   |
+| **VirusTotal**       | 在VirusTotal.com上搜索所分析文件的反病毒签名                 |
+| **ApkInfo**          | 生成有关当前APK分析的一些基本信息（Android分析）             |
+| **Baseline**         | 从采集的信息中获取基线结果                                   |
+| **Drioidmon**        | 从Droidmon日志中提取动态API调用信息                          |
+| **DumpTls**          | 交叉引用从监控程序中提取的TLS主密钥和从PCAP提取的密钥信息以转储主密钥文件 |
+| **GooglePlay**       | 有关分析会话过程的Google Play信息                            |
+| **Irma**             | IRMA连接器                                                   |
+| **Misp**             | MISP连接器                                                   |
+| **ProcMemory**       | 执行进程内存转储的分析，并能够处理用户自定义的Yara规则       |
+| **ProcMon**          | 从procmon.exe的输出中提取事件                                |
+| **Snort**            | Snort处理                                                    |
+| **Suricata**         | Suricata处理                                                 |
 
 **4）全局结果容器内容**
 
-​		全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 ***.CWD/storage/analyses/{task_id}/reports/report.json*** 文件中。
+全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 ***.CWD/storage/analyses/{task_id}/reports/report.json*** 文件中。
 
 ```json
 - info
@@ -849,6 +944,21 @@ class RunProcessing(object):
 - strings：文件中的可打印字符串列表
 ```
 
+**5）结果处理模块属性**
+
+结果处理模块提供了一些属性，可用于访问当前分析任务的原始结果：
+
+- self.analysis_path：存储分析结果的目录路径，例如：`$CWD/storage/analysis/1`
+- self.log_path：analysis.log文件的路径
+- self.file_path：所分析文件的路径
+- self.dropped_path：存储丢弃文件的目录路径
+- self.logs_path：存储原始行为日志的目录路径
+- self.pcap_path：网络pcap转储的路径
+- self.memory_path：完整的内存转储的路径（如果已创建）
+- self.pmemory_path：进程内存转储的路径（如果已创建）
+
+使用这些属性，能够轻松地访问由Bold-Falcon存储的所有原始结果，并对它们执行分析操作。
+
 ### 4.5.2 设计流程
 
 **1）结果处理模块时序图**
@@ -896,51 +1006,65 @@ class RunProcessing(object):
 
 ### 4.6.1 设计说明
 
-​		**定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标**，一定程度上实现特定的恶意软件家族的类别划分，并将一些信息附加到一个全局容器中。
-
-​		可以创建一些定制的签名，可以针对分析结果运行这些签名，以便识别一些预定义的模式，这些模式可能表示特定的恶意行为或您感兴趣的指标。这些特征非常有用，可以为分析提供一个上下文：因为它们简化了结果的解释，也可以自动识别感兴趣的恶意软件样本。
+**家族签名模块**定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标，一定程度上实现特定的恶意软件家族的类别划分，并将一些信息附加到一个全局容器中。这类特征简化了结果的解释，也可以自动识别感兴趣的恶意软件样本。所有签名位于**../cuckoo/signatures/**目录或社区库的**modules/signatures/**目录下。
 
 + 通过隔离一些独特的行为（如文件名或互斥）来识别您感兴趣的特定恶意软件系列
 
-+ 找出恶意软件在系统上执行的有趣修改，例如安装设备驱动程序
++ 发现恶意软件在系统上执行的修改活动，例如安装设备驱动程序
 
 + 通过隔离通常由银行特洛伊木马或勒索软件执行的典型操作，识别特定的恶意软件类别
 
 + 将样本分类为恶意软件/未知类别，**无法识别未知的样本**
-
-  ​	所有签名位于**../cuckoo/signatures/目录**
 
 **1）家族签名定义函数**
 
 **例：**检查是否有以“.exe”结尾的文件：在这种情况下，它将返回True，表示签名匹配，否则返回False
 
 ```python
+from lib.cuckoo.common.abstracts import Signature
+
 class CreatesExe(Signature):
- 		name = "creates_exe"
-		description = "Creates a Windows executable on the filesystem"
- 		severity = 2
- 		categories = ["generic"]
- 		authors = ["Cuckoo Developers"]
- 		minimum = "2.0"
- 
-		def on_complete(self):
- 				return self.check_file(pattern=".*\\.exe$", regex=True)
+    name = "creates_exe"
+    description = "Creates a Windows executable on the filesystem"
+    severity = 2
+    categories = ["generic"]
+    authors = ["Cuckoo Developers"]
+    minimum = "2.0"
+
+    def on_complete(self):
+        return self.check_file(pattern=".*\\.exe$", regex=True)
+    
+    def on_call(self, call, pid, tid):
+        # 只用于事件签名
 ```
 
-- 初始签名属性，包括**签名标记、描述、关联事件类型、威胁等级、家族、引用（URL）**等
-- on_complete()：特征匹配签名函数
-- call()：签名匹配时执行的回调函数
+- 初始签名属性
+  - name：签名的标识符
+  - description：签名所代表内容的简要描述
+  - severity：标识匹配事件严重性的数字（通常在1到3之间）
+  - categories：描述匹配事件类型的类别列表，例如：banker, injection, anti-vm, ...
+  - families：恶意软件家族名称列表（如果签名与已知签名高度匹配）
+  - authors：签名作者的列表
+  - references：提供签名上下文的引用（URL）列表
+  - enable：如果设置为False，则跳过签名
+  - alert：如果设置为True，则可用于指定应报告的签名
+  - minimum：成功运行此签名所需的最低沙箱版本
+  - maximum：成功运行此签名所需的最高沙箱版本
+- on_complete()：特征匹配签名函数，在签名进程结束时被调用
+- on_call()：签名匹配时执行的回调函数
 
 **2）家族签名运行函数**
+
+所有签名都将并行执行，并通过API调用集合为一个单循环中的每个签名调用回调函数on_call().
 
 ```python
 class RunSignatures(object):
 
     def __init__(self, results):
-        # 初试化签名，记录标签API
+        # 初始化签名，记录标签API
 
     def call_signature(self, signature, handler, *args, **kwargs):   
-        # 签名的包装器。这个包装器将事件产生给签名，并递归地处理匹配的签名。
+        # 签名的包装器。这个包装器将事件产生给签名，并递归地处理匹配的签名
       
     def process_yara_matches(self):
        
@@ -949,10 +1073,10 @@ class RunSignatures(object):
     def run(self):
       
         self.process_yara_matches()
-				# 遍历所有Yara匹配项
+        # 遍历所有Yara匹配项
         self.process_extracted()
-        		for sig in self.signatures:
-                self.call_signature(sig, sig.on_extract, ExtractedMatch(item))
+        for sig in self.signatures:
+            self.call_signature(sig, sig.on_extract, ExtractedMatch(item))
         # 遍历所有提取的匹配项    
         self.matched.append(signature.results())
         # 分数计算
@@ -962,30 +1086,45 @@ class RunSignatures(object):
         self.results["signatures"] = self.matched
         if "info" in self.results:
             self.results["info"]["score"] = score / 5.0
+    
+    required = ["creates_exe", "badmalware"]
+    
+    def on_signature(self, matched_sig):
+        # 将识别异常的多个签名组合为一个签名分类实例（恶意软件警报）
+        
+        if matched_sig in self.required:
+            self.required.remove(matched_sig)
+            
+        if not self.required:
+            return True
+        
+        return False
 ```
 
-**3）生成的签名结果**
+**3）生成的签名结果**、
+
+如果签名匹配成功，生成的签名结果将被添加到全局容器中。
 
 ```css
 "signatures": [
-		{
-				"severity": 2,
-				"description": "Creates a Windows executable on the filesystem",
-				"alert": false,
-				"references": [],
-				"data": [
-						{
-								"file_name": "C:\\d.exe"
-						}
-				],
-				"name": "creates_exe"
-		}
+    {
+        "severity": 2,
+        "description": "Creates a Windows executable on the filesystem",
+        "alert": false,
+        "references": [],
+        "data": [
+            {
+                "file_name": "C:\\d.exe"
+            }
+        ],
+        "name": "creates_exe"
+    }
 ]
 ```
 
 **4）Yara规则**
 
-​		[Yara](https://yara.readthedocs.io/en/stable/)是一个能够帮助恶意软件研究人员识别和分类恶意软件样本的工具，使用Yara可以基于文本或二进制模式创建恶意软件家族描述信息。每一条YARA规则都由一系列字符串和一个布尔型表达式构成，并阐述其逻辑。Yara规则可以提交给正在运行的进程，**以帮助系统识别其样本是否属于某个已进行规则描述的恶意软件家族**。Yara规则语法类似于C语言，每个规则都以关键字“**rule**”开头，后面跟着一个规则标识符。规则示例如下：
+[Yara](https://yara.readthedocs.io/en/stable/)是一个能够帮助恶意软件研究人员识别和分类恶意软件样本的工具，使用Yara可以基于文本或二进制模式创建恶意软件家族描述信息。每一条YARA规则都由一系列字符串和一个布尔型表达式构成，并阐述其逻辑。Yara规则可以提交给正在运行的进程，**以帮助系统识别其样本是否属于某个已进行规则描述的恶意软件家族**。Yara规则语法类似于C语言，每个规则都以关键字“**rule**”开头，后面跟着一个规则标识符。规则示例如下：
 
 ```c
 rule Test : Trojan
@@ -1008,7 +1147,7 @@ rule Test : Trojan
 }
 ```
 
-根据已有恶意软件家族的专家知识，现在一般将[Yara规则](https://github.com/Yara-Rules/rules)分为11类：
+根据已有的恶意软件家族的专家知识，现在一般将[Yara规则](https://github.com/Yara-Rules/rules)分为11类：
 
 1.  Antidebug_AntiVM：反调试/反沙箱类yara规则 
 2.  Crypto：加密类yara规则 
@@ -1064,30 +1203,28 @@ rule Test : Trojan
 
 ### 4.7.1 设计说明
 
-**定义一些基于机器学习的Windows恶意软件检测模型（其他文件检测模型后续添加），得到检测恶意软件，并将一些信息附加到一个全局容器中**
+**机器学习模块**定义一些基于机器学习的Windows恶意软件检测模型（其他文件检测模型后续添加），用于检测恶意软件，并将一些信息附加到一个全局容器中。
 
 **1) 检测模型定义函数 **
 
-**补充：**
-
 ```python
+from lib.cuckoo.common.exceptions import CuckooDetectionError
+
 class Detection(object):
   #特征提取方法、模型、预测结果feature
-cuckoo.common.exceptions import CuckooDetectionError
-
 ```
-
-
 
 ```python
 class MyDetection(Detection):
  		
     def extract_features(self)
-    		# 数据预处理
+    	# 数据预处理
+        
     def fit(self, X, y):
       	# 模型训练
- 		def predict(self, Y)
-    		# 预测目标值
+        
+ 	def predict(self, Y)
+    	# 预测目标值
       	return predict
 ```
 
@@ -1099,11 +1236,14 @@ class MyDetection(Detection):
 
 ```python
 class RunDetection(object):
-		""" plugins.py """
+	""" plugins.py """
+       
     def __init__(self, task):
         # 初始化模型信息
+        
     def process(self, module, results):
       	# 执行一个检测模块
+        
     def run(self):
         # 执行所有结果检测模块，返回全局结果容器
         # 获得 detection 功能列表
@@ -1187,20 +1327,22 @@ class RunDetection(object):
 
 ### 4.8.1 设计说明
 
-​		在结果处理模块、家族签名模块、机器学习模块处理之后，**定义了恶意软件分析报告生成的不同格式**，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。**../cuckoo/reporting/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/reporting.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
+在结果处理模块、家族签名模块、机器学习模块处理之后，**报告生成模块**定义了恶意软件分析报告生成的不同格式，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。**../cuckoo/reporting/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/reporting.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
-**1）JsonDump函数**
+**1）Json报告模块**
 
-将全局结果容器转化为Json
+接收结果处理模块生成的全局容器，将其转换为Json并写入文件
 
 ```python
+from lib.cuckoo.common.abstracts import Report
+
 class JsonDump(Report):
 
     def erase_calls(self, results):
         # 通过将调用替换为空列表，暂时从报表中删除
         
     def run(self, results)
-        # 将report.json写入report文件夹  
+        # 将report.json写入report文件夹
 ```
 
 + erase_calls(): 通过将调用替换为空列表，暂时从报表中删除
@@ -1236,13 +1378,13 @@ class MongoDB(Report):
 class RunReporting(object):
 
     def __init__(self, task, results):
-      	# 初始化 任务、结果容器、任务目录
+      	# 初始化任务、结果容器、任务目录
         
     def process(self, module):
        	# 执行一个生成功能模块
         # 初始化生成功能模块
         # 获得分析任务目录
-    		# 执行对应处理功能
+    	# 执行对应处理功能
         current.run(self.results)
     
     def run(self):
@@ -1335,7 +1477,7 @@ class RunReporting(object):
 
 **4）项目配置说明**
 
-​		项目应用路径为***../cuckoo/web***,项目总体设置：cuckoo/web/web/setting.py文件中，包含了整个应用的配置信息，包括数据库连接、静态资源和url的路径定义、中间件和cookie的配置、模板文件的配置等
+项目应用路径为***../cuckoo/web***,项目总体设置：cuckoo/web/web/setting.py文件中，包含了整个应用的配置信息，包括数据库连接、静态资源和url的路径定义、中间件和cookie的配置、模板文件的配置等
 
 ```python
 mongo.connect()
@@ -1393,14 +1535,14 @@ handler500 = web.errors.handler500
 
 ```python
 "mongodb": {
-		"enabled": Boolean(False),
-		"host": String("127.0.0.1"),
-		"port": Int(27017),
-		"db": String("cuckoo"),
-		"store_memdump": Boolean(True),
-		"paginate": Int(100),
-		"username": String(),
-		"password": String(),
+    "enabled": Boolean(False),
+    "host": String("127.0.0.1"),
+    "port": Int(27017),
+    "db": String("cuckoo"),
+    "store_memdump": Boolean(True),
+    "paginate": Int(100),
+    "username": String(),
+    "password": String(),
 },
 ```
 
@@ -1415,13 +1557,13 @@ mongo.connect()
 ```python
 class Mongo(object):
     def init(self):
-		#初始化
+        #初始化
     def drop(self):
-		#删除数据库表
+        #删除数据库表
     def close(self):
-		#关闭数据库链接
+        #关闭数据库链接
     def connect(self):
-    #连接数据库
+        #连接数据库
 ```
 
 **API接口：**获取数据库Analysis表的数据的API接口定义在cuckoo/web/controllers/analysis/api.py
