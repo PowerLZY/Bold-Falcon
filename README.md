@@ -16,6 +16,10 @@
 使恶意软件分析系统可以**思考**。
 
 ![](https://img.shields.io/badge/GitHub-Bold--Falcon-000000)
+
+**`说明文档`** 
+**`开发文档`** https://boldfalcon.readthedocs.io/en/latest/reporting.html
+
 #### 开源资料
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
 + [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified) Modified edition of cuckoo
