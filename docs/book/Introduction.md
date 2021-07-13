@@ -17,7 +17,7 @@ sort: 1
 
 尽管勒索软件约占恶意软件总事件的3%,，但相比其他恶意软件破坏力更大，一旦遭遇勒索，企业将面临业务中断、高额赎金的风险、高额赎金的风险。根据 Coveware 的数据显示，与 2019 年相比，2020 年第二季度的赎金要求同比增加了4 倍。
 
-![财务损失](https://user-images.githubusercontent.com/16918550/125454060-f3c8f8fb-95e8-4f01-b0d3-37f7ebda0184.png){:align="center" width="400px" height="300px"}
+![财务损失](https://user-images.githubusercontent.com/16918550/125454060-f3c8f8fb-95e8-4f01-b0d3-37f7ebda0184.png){:align="center" width="70%" height="70%"}
 
 
 ### 1.1.3 沙箱
