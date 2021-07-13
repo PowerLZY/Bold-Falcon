@@ -1,742 +1,362 @@
 ---
 sort: 3
+
+
 ---
+
 # 使用
-## Starting Cuckoo
-## Submit an Analysis
-## Web interface
-## REST API
 
-### 启动API服务器
+这部分解释如何使用Bold-Falcon沙箱。
 
-为了启动API服务器，您只需:
+## 3.1 启动沙箱
 
-    $ cuckoo api
+使用如下命令启动 Bold-Falcon沙箱：
 
-默认情况下，它绑定的服务是**localhost:8090**,如果你想要的去改变这些值，可以使用如下语法：
+```shell
+$ cuckoo
+```
 
-    $ cuckoo api --host 0.0.0.0 --port 1337
-    $ cuckoo api -H 0.0.0.0 -p 1337
+你会得到如下类似的输出：
+
+```shell
+     ____        _     _       _____     _                 
+    | __ )  ___ | | __| |     |  ___|_ _| | ___ ___  _ __  
+    |  _ \ / _ \| |/ _` |_____| |_ / _` | |/ __/ _ \| '_ \ 
+    | |_) | (_) | | (_| |_____|  _| (_| | | (_| (_) | | | |
+    |____/ \___/|_|\__,_|     |_|  \__,_|_|\___\___/|_| |_|
+    
+
+ Bold-Falcon Sandbox 2.0-dev
+ https://github.com/PowerLZY/Bold-Falcon
+ Copyright (c) 2020-2021
+
+2021-07-12 21:58:45,841 [lib.cuckoo.core.resultserver] WARNING: Cannot bind ResultServer on port 2042, trying another port.
+2021-07-12 21:58:45,843 [lib.cuckoo.core.scheduler] INFO: Using "virtualbox" as machine manager
+2021-07-12 21:58:47,256 [lib.cuckoo.core.scheduler] INFO: Loaded 1 machine/s
+2021-07-12 21:58:47,270 [lib.cuckoo.core.scheduler] INFO: Waiting for analysis tasks.
+```
+
+你可以使用一些命令行选项，比如`cuckoo --help`
+
+```shell
+$ cuckoo --help
+usage: cuckoo.py [-h] [-q] [-d] [-v] [-a] [-t] [-m MAX_ANALYSIS_COUNT]
+                 [-u USER] [--ml] [--clean]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -q, --quiet           Display only error messages
+  -d, --debug           Display debug messages
+  -v, --version         show program's version number and exit
+  -a, --artwork         Show artwork
+  -t, --test            Test startup
+  -m MAX_ANALYSIS_COUNT, --max-analysis-count MAX_ANALYSIS_COUNT
+                        Maximum number of analyses
+  -u USER, --user USER  Drop user privileges to this user
+  --ml                  CuckooML: cluster reports and compare new samples
+  --clean               Remove all tasks and samples and their associated data
+
+```
+
+## 3.2 样本提交
+
+Bold-Falcon沙箱有`Django Web`、`Submit`and`API`三种分析样本的方法。
+
+### 3.2.1 Django Web
+
+Bold-Falcon以Django应用程序的形式提供了一个完整的web界面。此界面将允许您提交文件、浏览报告以及统计所有分析结果。
+
+#### 配置
+
+Web界面从`Mongo`数据库中提取数据，因此在`reporting`模块中启用了`Mongo` 模块。配置文件是Web界面运行所必需的。`Bold-Falcon/web/local_settings.py`配置文件中存在一些其他配置选项。
+
+#### 启动Web界面
+
+要启动web界面，只需从`Bold-Falcon/web`目录运行以下命令：
+
+```shell
+$  manage.py 
+```
+
+如果要将web界面配置为侦听指定端口上的任何IP，可以使用以下命令启动它（用所需的端口号替换端口）：
+
+```shell
+$  manage.py 0.0.0.0:PORT
+```
+
+### 3.2.2 Submit脚本
+
+提交分析的最简单方法是在`utils\submit.py` 使用`Bold-Falcon submit`实用程序。它目前有以下可用选项：
+
+```shell
+$  submit --help
+usage: submit.py [-h] [-d] [--remote REMOTE] [--url] [--package PACKAGE]
+                 [--custom CUSTOM] [--owner OWNER] [--timeout TIMEOUT]
+                 [-o OPTIONS] [--priority PRIORITY] [--machine MACHINE]
+                 [--platform PLATFORM] [--memory] [--enforce-timeout]
+                 [--clock CLOCK] [--tags TAGS] [--baseline] [--max MAX]
+                 [--pattern PATTERN] [--shuffle] [--unique] [--quiet]
+                 [target]
+
+positional arguments:
+  target                URL, path to the file or folder to analyze
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --debug           Enable debug logging
+  --remote REMOTE       Specify IP:port to a Cuckoo API server to submit
+                        remotely
+  --url                 Specify whether the target is an URL
+  --package PACKAGE     Specify an analysis package
+  --custom CUSTOM       Specify any custom value
+  --owner OWNER         Specify the task owner
+  --timeout TIMEOUT     Specify an analysis timeout
+  -o OPTIONS, --options OPTIONS
+                        Specify options for the analysis package (e.g.
+                        "name=value,name2=value2")
+  --priority PRIORITY   Specify a priority for the analysis represented by an
+                        integer
+  --machine MACHINE     Specify the identifier of a machine you want to use
+  --platform PLATFORM   Specify the operating system platform you want to use
+                        (windows/darwin/linux)
+  --memory              Enable to take a memory dump of the analysis machine
+  --enforce-timeout     Enable to force the analysis to run for the full
+                        timeout period
+  --clock CLOCK         Set virtual machine clock
+  --tags TAGS           Specify tags identifier of a machine you want to use
+  --baseline            Run a baseline analysis
+  --max MAX             Maximum samples to add in a row
+  --pattern PATTERN     Pattern of files to submit
+  --shuffle             Shuffle samples before submitting them
+  --unique              Only submit new samples, ignore duplicates
+  --quiet               Only print text on failure
+```
+
+##### 以下是一些用法示例：
+
+##### (1) 提交一个本地文件
+
+```shell
+$  submit /path/to/binary
+```
+
+##### (2) 提交一个本地文件并明确优先级
+
+```shell
+$  submit --priority 5 /path/to/binary
+```
+
+##### (3) 提交一个本地文件并明确分析60s
+
+```shell
+$  submit --timeout 60 /path/to/binary
+```
+
+### 3.2.2  API访问
+
+正如提交分析中所提到的，Bold-Falcon沙箱兼容cuckoo沙箱提供了一个简单而轻量级的restapi服务器，它是使用Flask实现的。
+
+#### 开启API服务器
+
+在`Bold-Falcon\utils`使用如下命令启动 API服务：
+
+```shell
+$  api
+$  * Running on http://localhost:8090/ (Press CTRL+C to quit)
+```
+
+默认情况下，它绑定的服务是`localhost:8090`, 如果你想要的去改变这些值，可以使用如下语法：
+
+```shell
+$  cuckoo api --host 0.0.0.0 --port 1337
+$  cuckoo api -H 0.0.0.0 -p 1337
+```
 
 使用API需要进行身份验证，必须将``cuckoo.conf``的``api_token``的值填充在``Authorization: Bearer <token>``中。
 
+#### 资源
 
-### 资源
-![image](https://user-images.githubusercontent.com/16918550/123376421-08511980-d5bd-11eb-847e-2adc918c83b1.png)
-#### /tasks/create/file
-**POST /tasks/create/file**
+以下是当前可用资源的列表以及每个资源的简要说明。有关详细信息，请单击资源名称。
 
-将文件添加到挂起任务的列表中。返回新创建任务的ID。
+| 访问方式                    | 描述                                          |
+| --------------------------- | --------------------------------------------- |
+| `POST /tasks/create/file`   | 将文件添加到待处理任务列表中并分析            |
+| `POST /tasks/create/url`    | 将URL添加到待处理任务列表中并分析             |
+| `POST /tasks/create/submit` | 将一个或多个文件添加到待分析的任务列表中      |
+| `GET /tasks/list`           | 返回一个存储在内部Bold-Falcon数据库的任务列表 |
+| `GET /tasks/sample`         | 返回一个存储在内部Bold-Falcon数据库的样本列表 |
+| `GET /tasks/view`           | 返回一个对应ID的任务信息                      |
+| `GET /tasks/delete`         | 删除一个数据库中的任务信息                    |
+| `GET /tasks/report`         | 返回一个对应ID任务生成的json报告              |
+| `GET /tasks/summary`        | 返回一个对应ID任务生成的摘要json报告          |
+| `GET /tasks/screenshots`    | 返回一个对应ID任务生成的所有截图文件          |
+| `GET /files/view`           | 返回一个对应ID的MD5、SHA256等标识             |
+| `GET /files/get`            | 返回二进制样本内容和对应SHA256                |
+| `GET /pcap/get`             | 返回相关任务的PCAP网络流量包                  |
+| `GET  /machines/list`       | 返回目前Bold-Falcon依赖的虚拟机列表           |
+| `GET /cuckoo/status`        | 返回目前Bold-Falcon的版本和状态               |
+| `GET /exit`                 | 关闭API服务器                                 |
+
+**以下是一些用法示例：**                                                       
+
+##### （1）POST /tasks/create/file
+
+将文件添加到待处理任务列表中并分析
 
 **请求示例**:
 
-    curl -H "Authorization: Bearer S4MPL3" -F file=@/path/to/file http://localhost:8090/tasks/create/file
+```shell
+curl -H "Authorization: Bearer S4MPL3" -F file=@/path/to/file http://localhost:8090/tasks/create/file
+```
 
-**使用Python的请求示例**..
+##### 使用Python的请求示例
 
 
-    import requests
+```python
+import requests
 
-    REST_URL = "http://localhost:8090/tasks/create/file"
-    SAMPLE_FILE = "/path/to/malwr.exe"
-    HEADERS = {"Authorization": "Bearer S4MPL3"}
+REST_URL = "http://localhost:8090/tasks/create/file"
+SAMPLE_FILE = "/path/to/malwr.exe"
+HEADERS = {"Authorization": "Bearer S4MPL3"}
 
-    with open(SAMPLE_FILE, "rb") as sample:
-        files = {"file": ("temp_file_name", sample)}
-        r = requests.post(REST_URL, headers=HEADERS, files=files)
+with open(SAMPLE_FILE, "rb") as sample:
+    files = {"file": ("temp_file_name", sample)}
+    r = requests.post(REST_URL, headers=HEADERS, files=files)
 
-    # Add your code to error checking for r.status_code.
+# Add your code to error checking for r.status_code.
 
-    task_id = r.json()["task_id"]
+task_id = r.json()["task_id"]
 
-    # Add your code for error checking if task_id is None.
+# Add your code for error checking if task_id is None.
+```
+
+**响应示例**
+
+```json
+{
+    "task_id" : 1
+}
+```
+
+##### **（2）POST /tasks/create/url**
+
+将URL添加到待处理任务列表中并分析
+
+**请求示例**
+
+
+```shell
+curl -H "Authorization: Bearer S4MPL3" -F url="http://www.malicious.site" http://localhost:8090/tasks/create/url
+```
+
+##### 使用Python的请求示例
+
+```python
+import requests
+
+REST_URL = "http://localhost:8090/tasks/create/url"
+SAMPLE_URL = "http://example.org/malwr.exe"
+HEADERS = {"Authorization": "Bearer S4MPL3"}
+
+data = {"url": SAMPLE_URL}
+r = requests.post(REST_URL, headers=HEADERS, data=data)
+
+# Add your code to error checking for r.status_code.
+
+task_id = r.json()["task_id"]
+
+# Add your code to error checking if task_id is None.
+```
+
+**（3）POST /tasks/create/submit**
+
+将一个或多个文件添加到待分析的任务列表中
+
+**请求示例**.
+
+
+```shell
+# Submit two executables.
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F files=@1.exe -F files=@2.exe
+
+# Submit http://google.com
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F strings=google.com
+
+# Submit http://google.com & http://facebook.com
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F strings=$'google.com\nfacebook.com'
+```
+
+##### 使用Python的请求示例
+
+
+```python
+import requests
+
+HEADERS = {"Authorization": "Bearer S4MPL3"}
+
+# Submit one or more files.
+r = requests.post("http://localhost:8090/tasks/create/submit", files=[
+    ("files", open("1.exe", "rb")),
+    ("files", open("2.exe", "rb")),
+], headers=HEADERS)
+
+# Add your code to error checking for r.status_code.
+
+submit_id = r.json()["submit_id"]
+task_ids = r.json()["task_ids"]
+errors = r.json()["errors"]
+
+# Add your code to error checking on "errors".
+
+# Submit one or more URLs or hashes.
+urls = [
+    "google.com", "facebook.com", "cuckoosandbox.org",
+]
+r = requests.post(
+    "http://localhost:8090/tasks/create/submit",
+    headers=HEADERS,
+    data={"strings": "\n".join(urls)}
+)
+```
+
+**响应事例** 
+
+
+```json
+{
+    "submit_id": 1,
+    "task_ids": [1, 2],
+    "errors": []
+}
+```
+
+##### （4） GET /files/get/ *(str: sha256)*
+
+返回二进制样本内容和对应SHA256
+
+**请求示例**.
+
+```shell
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/get/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 > sample.exe
+```
+
+##### （5）GET /machines/list
+
+
+返回目前Bold-Falcon依赖的虚拟机列表
+
+**请求示例**.
+
+```shell
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
+```
 
 **响应示例**.
 
-    {
-        "task_id" : 1
-    }
-
-**参数**:
-
-* ``file`` *(required)* - sample file (multipart encoded file content)
-* ``package`` *(optional)* - analysis package to be used for the analysis
-* ``timeout`` *(optional)* *(int)* - analysis timeout (in seconds)
-* ``priority`` *(optional)* *(int)* - priority to assign to the task (1-3)
-* ``options`` *(optional)* - options to pass to the analysis package
-* ``machine`` *(optional)* - label of the analysis machine to use for the analysis
-* ``platform`` *(optional)* - name of the platform to select the analysis machine from (e.g. "windows")
-* ``tags`` *(optional)* - define machine to start by tags. Platform must be set to use that. Tags are comma separated
-* ``custom`` *(optional)* - custom string to pass over the analysis and the processing/reporting modules
-* ``owner`` *(optional)* - task owner in case multiple users can submit files to the same cuckoo instance
-* ``clock`` *(optional)* - set virtual machine clock (format %m-%d-%Y %H:%M:%S)
-* ``memory`` *(optional)* - enable the creation of a full memory dump of the analysis machine
-* ``unique`` *(optional)* - only submit samples that have not been analyzed before
-* ``enforce_timeout`` *(optional)* - enable to enforce the execution for the full timeout value
-
-**状态码**:
-
-* ``200`` - no error
-* ``400`` - duplicated file detected (when using unique option)
-
-
-#### /tasks/create/url
-
-**POST /tasks/create/url**
-
-Adds a file to the list of pending tasks. Returns the ID of the newly created task.
-
-**请求示例**.
-
-
-    curl -H "Authorization: Bearer S4MPL3" -F url="http://www.malicious.site" http://localhost:8090/tasks/create/url
-
-**Example request using Python**.
-
-    import requests
-
-    REST_URL = "http://localhost:8090/tasks/create/url"
-    SAMPLE_URL = "http://example.org/malwr.exe"
-    HEADERS = {"Authorization": "Bearer S4MPL3"}
-
-    data = {"url": SAMPLE_URL}
-    r = requests.post(REST_URL, headers=HEADERS, data=data)
-
-    # Add your code to error checking for r.status_code.
-
-    task_id = r.json()["task_id"]
-
-    # Add your code to error checking if task_id is None.
-
-**Example response**.
-
-
-    {
-        "task_id" : 1
-    }
-
-**Form parameters**:
-
-* ``url`` *(required)* - URL to analyze (multipart encoded content)
-* ``package`` *(optional)* - analysis package to be used for the analysis
-* ``timeout`` *(optional)* *(int)* - analysis timeout (in seconds)
-* ``priority`` *(optional)* *(int)* - priority to assign to the task (1-3)
-* ``options`` *(optional)* - options to pass to the analysis package
-* ``machine`` *(optional)* - label of the analysis machine to use for the analysis
-* ``platform`` *(optional)* - name of the platform to select the analysis machine from (e.g. "windows")
-* ``tags`` *(optional)* - define machine to start by tags. Platform must be set to use that. Tags are comma separated
-* ``custom`` *(optional)* - custom string to pass over the analysis and the processing/reporting modules
-* ``owner`` *(optional)* - task owner in case multiple users can submit files to the same cuckoo instance
-* ``memory`` *(optional)* - enable the creation of a full memory dump of the analysis machine
-* ``enforce_timeout`` *(optional)* - enable to enforce the execution for the full timeout value
-* ``clock`` *(optional)* - set virtual machine clock (format %m-%d-%Y %H:%M:%S)
-
-**Status codes**:
-
-* ``200`` - no error
-
-.. _tasks_create_submit:
-
-#### /tasks/create/submit
-
-**POST /tasks/create/submit**
-
-Adds one or more files and/or files embedded in archives *or* a newline
-separated list of URLs/hashes to the list of pending tasks. Returns the
-submit ID as well as the task IDs of the newly created task(s).
-
-**请求示例**.
-
-
-    # Submit two executables.
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F files=@1.exe -F files=@2.exe
-
-    # Submit http://google.com
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F strings=google.com
-
-    # Submit http://google.com & http://facebook.com
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F strings=$'google.com\nfacebook.com'
-
-**Example request using Python**.
-
-
-    import requests
-
-    HEADERS = {"Authorization": "Bearer S4MPL3"}
-
-    # Submit one or more files.
-    r = requests.post("http://localhost:8090/tasks/create/submit", files=[
-        ("files", open("1.exe", "rb")),
-        ("files", open("2.exe", "rb")),
-    ], headers=HEADERS)
-
-    # Add your code to error checking for r.status_code.
-
-    submit_id = r.json()["submit_id"]
-    task_ids = r.json()["task_ids"]
-    errors = r.json()["errors"]
-
-    # Add your code to error checking on "errors".
-
-    # Submit one or more URLs or hashes.
-    urls = [
-        "google.com", "facebook.com", "cuckoosandbox.org",
-    ]
-    r = requests.post(
-        "http://localhost:8090/tasks/create/submit",
-        headers=HEADERS,
-        data={"strings": "\n".join(urls)}
-    )
-
-**Example response** from the executable submission.
-
-
-    {
-        "submit_id": 1,
-        "task_ids": [1, 2],
-        "errors": []
-    }
-
-**Form parameters**:
-
-* ``file`` *(optional)* - backwards compatibility with naming scheme for :ref:`tasks_create_file`
-* ``files`` *(optional)* - sample(s) to inspect and add to our pending queue
-* ``strings`` *(optional)* - newline separated list of URLs and/or hashes (to be obtained using your VirusTotal API key)
-* ``timeout`` *(optional)* *(int)* - analysis timeout (in seconds)
-* ``priority`` *(optional)* *(int)* - priority to assign to the task (1-3)
-* ``options`` *(optional)* - options to pass to the analysis package
-* ``tags`` *(optional)* - define machine to start by tags. Platform must be set to use that. Tags are comma separated
-* ``custom`` *(optional)* - custom string to pass over the analysis and the processing/reporting modules
-* ``owner`` *(optional)* - task owner in case multiple users can submit files to the same cuckoo instance
-* ``memory`` *(optional)* - enable the creation of a full memory dump of the analysis machine
-* ``enforce_timeout`` *(optional)* - enable to enforce the execution for the full timeout value
-* ``clock`` *(optional)* - set virtual machine clock (format %m-%d-%Y %H:%M:%S)
-
-**Status codes**:
-
-* ``200`` - no error
-
-
-#### /tasks/list
-
-**GET /tasks/list/** *(int: limit)* **/** *(int: offset)*
-
-Returns list of tasks.
-
-**请求示例**.
-
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/list
-
-**Example response**.
-
-    {
-        "tasks": [
-            {
-                "category": "url",
-                "machine": null,
-                "errors": [],
-                "target": "http://www.malicious.site",
-                "package": null,
-                "sample_id": null,
-                "guest": {},
-                "custom": null,
-                "owner": "",
-                "priority": 1,
-                "platform": null,
-                "options": null,
-                "status": "pending",
-                "enforce_timeout": false,
-                "timeout": 0,
-                "memory": false,
-                "tags": []
-                "id": 1,
-                "added_on": "2012-12-19 14:18:25",
-                "completed_on": null
-            },
-            {
-                "category": "file",
-                "machine": null,
-                "errors": [],
-                "target": "/tmp/malware.exe",
-                "package": null,
-                "sample_id": 1,
-                "guest": {},
-                "custom": null,
-                "owner": "",
-                "priority": 1,
-                "platform": null,
-                "options": null,
-                "status": "pending",
-                "enforce_timeout": false,
-                "timeout": 0,
-                "memory": false,
-                "tags": [
-                            "32bit",
-                            "acrobat_6",
-                        ],
-                "id": 2,
-                "added_on": "2012-12-19 14:18:25",
-                "completed_on": null
-            }
-        ]
-    }
-
-**Parameters**:
-
-* ``limit`` *(optional)* *(int)* - maximum number of returned tasks
-* ``offset`` *(optional)* *(int)* - data offset
-
-**Status codes**:
-
-* ``200`` - no error
-
-.. _tasks_sample:
-
-#### /tasks/sample
-
-**GET /tasks/sample/** *(int: sample_id)*
-
-Returns list of tasks for sample.
-
-**请求示例**.
-
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/sample/1
-
-**Example response**.
-
-
-    {
-        "tasks": [
-            {
-                "category": "file",
-                "machine": null,
-                "errors": [],
-                "target": "/tmp/malware.exe",
-                "package": null,
-                "sample_id": 1,
-                "guest": {},
-                "custom": null,
-                "owner": "",
-                "priority": 1,
-                "platform": null,
-                "options": null,
-                "status": "pending",
-                "enforce_timeout": false,
-                "timeout": 0,
-                "memory": false,
-                "tags": [
-                            "32bit",
-                            "acrobat_6",
-                        ],
-                "id": 2,
-                "added_on": "2012-12-19 14:18:25",
-                "completed_on": null
-            }
-        ]
-    }
-
-**Parameters**:
-
-* ``sample_id`` *(required)* *(int)* - sample id to list tasks for
-
-**Status codes**:
-
-* ``200`` - no error
-
-#### /tasks/view
-
-**GET /tasks/view/** *(int: id)*
-
-Returns details on the task associated with the specified ID.
-
-**请求示例**.
-
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/view/1
-
-**Example response**.
-
-
-    {
-        "task": {
-            "category": "url",
-            "machine": null,
-            "errors": [],
-            "target": "http://www.malicious.site",
-            "package": null,
-            "sample_id": null,
-            "guest": {},
-            "custom": null,
-            "owner": "",
-            "priority": 1,
-            "platform": null,
-            "options": null,
-            "status": "pending",
-            "enforce_timeout": false,
-            "timeout": 0,
-            "memory": false,
-            "tags": [
-                        "32bit",
-                        "acrobat_6",
-                    ],
-            "id": 1,
-            "added_on": "2012-12-19 14:18:25",
-            "completed_on": null
-        }
-    }
-
-Note: possible value for key ``status``:
-
-* ``pending``
-* ``running``
-* ``completed``
-* ``reported``
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to lookup
-
-**Status codes**:
-
-* ``200`` - no error
-* ``404`` - task not found
-
-
-#### /tasks/reschedule
-
-**GET /tasks/reschedule/** *(int: id)* **/** *(int: priority)*
-
-Reschedule a task with the specified ID and priority (default priority
-is 1).
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/reschedule/1
-
-**Example response**.
-
-
-    {
-        "status": "OK"
-    }
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to reschedule
-* ``priority`` *(optional)* *(int)* - Task priority
-
-**Status codes**:
-
-* ``200`` - no error
-* ``404`` - task not found
-
-
-#### /tasks/delete
-
-**GET /tasks/delete/** *(int: id)*
-
-Removes the given task from the database and deletes the results.
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/delete/1
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to delete
-
-**Status codes**:
-
-* ``200`` - no error
-* ``404`` - task not found
-* ``500`` - unable to delete the task
-
-#### /tasks/report
-
-**GET /tasks/report/** *(int: id)* **/** *(str: format)*
-
-Returns the report associated with the specified task ID.
-
-**请求示例t**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/report/1
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to get the report for
-* ``format`` *(optional)* - format of the report to retrieve [json/html/all/dropped/package_files]. If none is specified the JSON report will be returned. ``all`` returns all the result files as tar.bz2, ``dropped`` the dropped files as tar.bz2, ``package_files`` files uploaded to host by analysis packages.
-
-**Status codes**:
-
-* ``200`` - no error
-* ``400`` - invalid report format
-* ``404`` - report not found
-
-.. _tasks_summary:
-
-#### /tasks/summary
-
-**GET /tasks/summary/** *(int: id)*
-
-Returns a condensed report associated with the specified task ID in JSON format.
-
-**请求示例**.
-
-
-    curl http://localhost:8090/tasks/summary/1
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to get the report for
-
-**Status codes**:
-
-* ``200`` - no error
-* ``404`` - report not found
-
-#### /tasks/screenshots
-
-
-**GET /tasks/screenshots/** *(int: id)* **/** *(str: number)*
-
-Returns one or all screenshots associated with the specified task ID.
-
-**请求示例**.
-    wget http://localhost:8090/tasks/screenshots/1
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to get the report for
-* ``screenshot`` *(optional)* - numerical identifier of a single screenshot (e.g. 0001, 0002)
-
-**Status codes**:
-
-* ``404`` - file or folder not found
-
-
-#### /tasks/rereport
-
-**GET /tasks/rereport/** *(int: id)*
-
-Re-run reporting for task associated with the specified task ID.
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/rereport/1
-
-**Example response**.
-
-    {
-        "success": true
-    }
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to re-run report
-
-**Status codes**:
-
-* ``200`` - no error
-* ``404`` - task not found
-
-
-#### /tasks/reboot
-
-**GET /tasks/reboot/** *(int: id)* **
-
-Add a reboot task to database from an existing analysis ID.
-
-**请求示例**.
-
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/reboot/1
-
-**Example response**.
-
-
-    {
-        "task_id": 1,
-        "reboot_id": 3
-    }
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task
-
-**Status codes**:
-
-* ``200`` - success
-* ``404`` - error creating reboot task
-
-#### /memory/list
-**GET /memory/list/** *(int: id)*
-
-Returns a list of memory dump files or one memory dump file associated with the specified task ID.
-
-**请求示例**.
-
-    wget http://localhost:8090/memory/list/1
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to get the report for
-
-**Status codes**:
-
-* ``404`` - file or folder not found
-
-
-#### /memory/get
-
-
-**GET /memory/get/** *(int: id)* **/** *(str: number)*
-
-Returns one memory dump file associated with the specified task ID.
-
-**Example request**.
-
-
-    wget http://localhost:8090/memory/get/1/1908
-
-**Parameters**:
-
-* ``id`` *(required)* *(int)* - ID of the task to get the report for
-* ``pid`` *(required)* - numerical identifier (pid) of a single memory dump file (e.g. 205, 1908)
-
-**Status codes**:
-
-* ``404`` - file or folder not found
-
-
-#### /files/view
-
-**GET /files/view/md5/** *(str: md5)*
-
-**GET /files/view/sha256/** *(str: sha256)*
-
-**GET /files/view/id/** *(int: id)*
-
-Returns details on the file matching either the specified MD5 hash, SHA256 hash or ID.
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/view/id/1
-
-**Example response**.
-
-    {
-        "sample": {
-            "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-            "file_type": "empty",
-            "file_size": 0,
-            "crc32": "00000000",
-            "ssdeep": "3::",
-            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            "sha512": "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
-            "id": 1,
-            "md5": "d41d8cd98f00b204e9800998ecf8427e"
-        }
-    }
-
-**参数**:
-
-* ``md5`` *(optional)* - MD5 hash of the file to lookup
-* ``sha256`` *(optional)* - SHA256 hash of the file to lookup
-* ``id`` *(optional)* *(int)* - ID of the file to lookup
-
-**状态码**:
-
-* ``200`` - 成功
-* ``400`` - 无效的查找项
-* ``404`` - 文件找不到
-
-#### /files/get
-
-**GET /files/get/** *(str: sha256)*
-
-返回与指定SHA256哈希匹配的文件的二进制内容。
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/get/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 > sample.exe
-
-**状态码**:
-
-* ``200`` - 成功
-* ``404`` - 文件找不到
-
-
-#### /pcap/get
-
-**GET /pcap/get/** *(int: task)*
-
-返回与给定任务关联的PCAP的内容。
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/pcap/get/1 > dump.pcap
-
-**状态码**:
-
-* ``200`` - 成功
-* ``404`` - 文件找不到
-
-
-#### /machines/list
-
-**GET /machines/list**
-
-
-返回一个列表，其中包含沙箱可以使用的分析机器的详细信息。
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
-
-**响应示例**.
-
-    {
-        "machines": [
-            {
-                "status": null,
-                "locked": false,
-                "name": "cuckoo1",
-                "resultserver_ip": "192.168.56.1",
-                "ip": "192.168.56.101",
-                "tags": [
-                            "32bit",
-                            "acrobat_6",
-                        ],
-                "label": "cuckoo1",
-                "locked_changed_on": null,
-                "platform": "windows",
-                "snapshot": null,
-                "interface": null,
-                "status_changed_on": null,
-                "id": 1,
-                "resultserver_port": "2042"
-            }
-        ]
-    }
-
-**状态码**:
-
-* ``200`` - 成功
-
-#### /machines/view
-
-**GET /machines/view/** *(str: name)*
-返回与给定名称关联的分析计算机的详细信息。
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/view/cuckoo1
-
-**响应示例**.
-
-    {
-        "machine": {
+```json
+{
+    "machines": [
+        {
             "status": null,
             "locked": false,
             "name": "cuckoo1",
@@ -755,105 +375,100 @@ Returns details on the file matching either the specified MD5 hash, SHA256 hash 
             "id": 1,
             "resultserver_port": "2042"
         }
-    }
+    ]
+}
+```
 
-**状态码**:
-
-* ``200`` - 成功
-* ``404`` - 机器找不到
-
-
-#### /cuckoo/status
---------------
-
-**GET /cuckoo/status/**
-
-返回布谷鸟服务器的状态。
-
-**磁盘空间目录**:
-
-* ``analyses`` - $CUCKOO/storage/analyses/
-* ``binaries`` - $CUCKOO/storage/binaries/
-* ``temporary`` - ``tmppath`` as specified in ``conf/cuckoo.conf``
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/cuckoo/status
-
-**响应示例**.
-
-    {
-        "tasks": {
-            "reported": 165,
-            "running": 2,
-            "total": 167,
-            "completed": 0,
-            "pending": 0
-        },
-        "diskspace": {
-            "analyses": {
-                "total": 491271233536,
-                "free": 71403470848,
-                "used": 419867762688
-            },
-            "binaries": {
-                "total": 491271233536,
-                "free": 71403470848,
-                "used": 419867762688
-            },
-            "temporary": {
-                "total": 491271233536,
-                "free": 71403470848,
-                "used": 419867762688
-            }
-        },
-        "version": "1.0",
-        "protocol_version": 1,
-        "hostname": "Patient0",
-        "machines": {
-            "available": 4,
-            "total": 5
-        }
-    }
-
-**状态码**:
-
-* ``200`` - 成功
-* ``404`` - 机器找不到
-
-
-#### /vpn/status
-
-**GET /vpn/status**
-
-返回VPN状态
-
-**请求示例**.
-
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/vpn/status
-
-**状态码**:
-
-* ``200`` - 成功
-* ``500`` - 不可得
-
-
-#### /exit
-
-**GET /exit**
+##### （6）GET /exit
 
 如果处于调试模式并使用werkzeug服务器，则关闭服务器。
 
 **请求示例**.
 
-    curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
+```shell
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
+```
 
-**状态码**:
+## 3.3 社区
 
-* ``200`` - 成功
-* ``403`` - 此调用只能在调试模式下使用
-* ``500`` - 错误
+Bold-Falcon沙箱兼容Cuckoo沙箱的[开源社区](https://github.com/cuckoosandbox/community),它是一个致力于社区贡献的开放存储库。在这里，您可以提交为布谷鸟沙盒设置编写的自定义模块，并希望与社区的其他成员共享这些模块。其中包括代理agent、分析脚本analzyer和各种功能模块。
 
-## Analysis Packages
-## Analysis Results
-## Tasks Clean
+如果想要从[开源社区](https://github.com/cuckoosandbox/community)下载对应数据到`Bold-Falcon\data`下，可以使用`Bold-Falcon\utils\community`：
+
+```shell
+$  cummunity -h
+usage: community.py [-h] [-a] [-s] [-p] [-m] [-n] [-M] [-g] [-r] [-f] [-w]
+                    [-b BRANCH]
+                    [archive]
+
+positional arguments:
+  archive               Install a stored archive
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --all             Download everything
+  -s, --signatures      Download Cuckoo signatures
+  -p, --processing      Download processing modules
+  -m, --machinery       Download machine managers
+  -n, --analyzer        Download analyzer modules
+  -M, --monitor         Download monitoring binaries
+  -g, --agent           Download agent modules
+  -r, --reporting       Download reporting modules
+  -f, --force           Install files without confirmation
+  -w, --rewrite         Rewrite existing files
+  -b BRANCH, --branch BRANCH
+```
+
+##### 例：重写所有开源数据到最新版
+
+```shell
+$  cummunity -waf
+```
+
+## 3.4 分析样本获取
+
+#### 样本分享
+
+Bold-Falcon沙箱分享了200个已经分析完成的json报告在`百度云盘`如下链接：
+
+```html
+https://pan.baidu.com/s/19TRWbQSRWJHetUBpNtMj_w 提取码: r7gk 
+```
+
+Bold-Falcon沙箱分享了一些32bit的windows样本在`百度云盘`如下链接：
+
+```
+https://pan.baidu.com/s/1x6a9j7D7Ktp242fcJhT5aA 提取码: qxbp 
+```
+
+#### 开源样本
+
+如果你想要获取更多的`恶意样本`请访问查询：
+
+**推荐：**
+
+-   [Blue Hexagon Open Dataset for Malware AnalysiS (BODMAS)](https://whyisyoung.github.io/BODMAS/)
+-   [EMBER](https://github.com/elastic/ember) - Endgame Malware BEnchmark for Research
+-   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html) ([data](https://github.com/marcoramilli/MalwareTrainingSets))
+-   [SoReL-20M](https://github.com/sophos-ai/SOREL-20M) - Sophos-ReversingLabs 20 Million dataset.
+-   [Virusshare](https://virusshare.com/)
+
+**其他：**
+
++   [Samples of Security Related Dats](http://www.secrepo.com/)
++   [DARPA Intrusion Detection Data Sets](https://www.ll.mit.edu/ideval/data/)
++   [Stratosphere IPS Data Sets](https://stratosphereips.org/category/dataset.html)
++   [Open Data Sets](http://csr.lanl.gov/data/)
++   [Data Capture from National Security Agency](http://www.westpoint.edu/crc/SitePages/DataSets.aspx)
++   [The ADFA Intrusion Detection Data Sets](https://www.unsw.adfa.edu.au/australian-centre-for-cyber-security/cybersecurity/ADFA-IDS-Datasets)
++   [NSL-KDD Data Sets](https://github.com/defcom17/NSL_KDD)
++   [Malicious URLs Data Sets](https://sysnet.ucsd.edu/projects/url)
++   [Multi-Source Cyber-Security Events](http://csr.lanl.gov/data/cyber1/)
++   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html)
+
+如果你想要获取更多的`良性样本`请在如下等网络自行爬取：
+
+-   [portablefreeware](http://www.portablefreeware.com/)
+-   [onlyfreewares](http://www.onlyfreewares.com/)
+-   [snapfiles](https://www.snapfiles.com/new/list-whatsnew.html)
+-   [downloadcrew](https://downloadcrew.com/)
