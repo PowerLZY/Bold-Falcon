@@ -10,14 +10,15 @@ sort: 1
 
  目前恶意软件检测方法对比如下：
  
+![机器学习方法](https://user-images.githubusercontent.com/16918550/125455389-1c536dbd-0206-4d5d-81c7-1d3ff6d2f8e7.png){:align="center" width="800px" height="500px"}
 
- ![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453969-38df8c9c-ef13-4ee6-8f8b-1d752188e6c6.jpg){:align="center" width="800px" height="500px"}
+
 
 ### 1.1.2 恶意软件造成的财富损失
 
 尽管勒索软件约占恶意软件总事件的3%,，但相比其他恶意软件破坏力更大，一旦遭遇勒索，企业将面临业务中断、高额赎金的风险、高额赎金的风险。根据 Coveware 的数据显示，与 2019 年相比，2020 年第二季度的赎金要求同比增加了4 倍。
 
-![财务损失](https://user-images.githubusercontent.com/16918550/125454060-f3c8f8fb-95e8-4f01-b0d3-37f7ebda0184.png){:align="center" width="70%" height="70%"}
+![财务损失](https://user-images.githubusercontent.com/16918550/125454060-f3c8f8fb-95e8-4f01-b0d3-37f7ebda0184.png){:align="center" width="800px" height="500px"}
 
 
 ### 1.1.3 沙箱
@@ -33,6 +34,8 @@ sort: 1
 ### 1.1.4 沙箱深度调研对
 
 国内外基于机器学习安全产品现在如下
+
+ ![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453969-38df8c9c-ef13-4ee6-8f8b-1d752188e6c6.jpg){:align="center" width="800px" height="500px"}
 
 ## 1.2 内容设计
 
@@ -220,5 +223,10 @@ title Microsoft Malware - 10868 entries
 
 ### 1.2.7 沙箱运行流程
 
-![image-20210421180414604](/Users/apple/Library/Application Support/typora-user-images/image-20210421180414604.png)
+![系统架构](https://user-images.githubusercontent.com/16918550/125455516-a21cb0d4-1158-49b7-94e6-93fcd97a71af.jpg)
+
+
 ## 1.3 功能全景图
+
+![合并图](https://user-images.githubusercontent.com/16918550/125455856-346cd86a-20b0-4362-9bea-504a768ea128.png)
+
