@@ -1,13 +1,23 @@
 ---
 sort: 3
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ly-Barcelona
 ---
 
 # 使用
 
+<<<<<<< HEAD
 这部分解释如何使用Bold-Falcon沙箱
 
 ### 3.1 启动沙箱
+=======
+这部分解释如何使用Bold-Falcon沙箱。
+
+## 3.1 启动沙箱
+>>>>>>> ly-Barcelona
 
 使用如下命令启动 Bold-Falcon沙箱：
 
@@ -35,7 +45,11 @@ $ cuckoo
 2021-07-12 21:58:47,270 [lib.cuckoo.core.scheduler] INFO: Waiting for analysis tasks.
 ```
 
+<<<<<<< HEAD
 你可以使用一些命令行选项用过`cuckoo --help`
+=======
+你可以使用一些命令行选项，比如`cuckoo --help`
+>>>>>>> ly-Barcelona
 
 ```shell
 $ cuckoo --help
@@ -57,6 +71,7 @@ optional arguments:
 
 ```
 
+<<<<<<< HEAD
 ### 3.2 样本提交
 
 Bold-Falcon沙箱有`Django Web`、`Submit`and`API`三种分析样本的方法。
@@ -70,6 +85,21 @@ Bold-Falcon以Django应用程序的形式提供了一个完整的web界面。此
 Web界面从`Mongo`数据库中提取数据，因此在`reporting`模块中启用了`Mongo` 模块。配置文件是Web界面运行所必需的。`Bold-Falcon/web/local_settings.py`配置文件中存在一些其他配置选项。
 
 ##### **启动Web界面**
+=======
+## 3.2 样本提交
+
+Bold-Falcon沙箱有`Django Web`、`Submit`and`API`三种分析样本的方法。
+
+### 3.2.1 Django Web
+
+Bold-Falcon以Django应用程序的形式提供了一个完整的web界面。此界面将允许您提交文件、浏览报告以及统计所有分析结果。
+
+#### 配置
+
+Web界面从`Mongo`数据库中提取数据，因此在`reporting`模块中启用了`Mongo` 模块。配置文件是Web界面运行所必需的。`Bold-Falcon/web/local_settings.py`配置文件中存在一些其他配置选项。
+
+#### 启动Web界面
+>>>>>>> ly-Barcelona
 
 要启动web界面，只需从`Bold-Falcon/web`目录运行以下命令：
 
@@ -83,7 +113,11 @@ $  manage.py
 $  manage.py 0.0.0.0:PORT
 ```
 
+<<<<<<< HEAD
 #### 3.2.2 Submit脚本
+=======
+### 3.2.2 Submit脚本
+>>>>>>> ly-Barcelona
 
 提交分析的最简单方法是在`utils\submit.py` 使用`Bold-Falcon submit`实用程序。它目前有以下可用选项：
 
@@ -151,11 +185,19 @@ $  submit --priority 5 /path/to/binary
 $  submit --timeout 60 /path/to/binary
 ```
 
+<<<<<<< HEAD
 #### 3.2.2  API访问
 
 正如提交分析中所提到的，Bold-Falcon沙箱兼容cuckoo沙箱提供了一个简单而轻量级的restapi服务器，它是使用Flask实现的。
 
 ##### 开启API服务器
+=======
+### 3.2.2  API访问
+
+正如提交分析中所提到的，Bold-Falcon沙箱兼容cuckoo沙箱提供了一个简单而轻量级的restapi服务器，它是使用Flask实现的。
+
+#### 开启API服务器
+>>>>>>> ly-Barcelona
 
 在`Bold-Falcon\utils`使用如下命令启动 API服务：
 
@@ -164,7 +206,11 @@ $  api
 $  * Running on http://localhost:8090/ (Press CTRL+C to quit)
 ```
 
+<<<<<<< HEAD
 默认情况下，它绑定的服务是`localhost:8090`,如果你想要的去改变这些值，可以使用如下语法：
+=======
+默认情况下，它绑定的服务是`localhost:8090`, 如果你想要的去改变这些值，可以使用如下语法：
+>>>>>>> ly-Barcelona
 
 ```shell
 $  cuckoo api --host 0.0.0.0 --port 1337
@@ -377,6 +423,7 @@ curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
     ]
 }
 ```
+<<<<<<< HEAD
 
 ##### （6）GET /exit
 
@@ -391,10 +438,17 @@ curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
 ### 3.3 社区
 
 Bold-Falcon沙箱兼容Cuckoo沙箱的[开源社区](https://github.com/cuckoosandbox/community),它是一个致力于社区贡献的开放存储库。在这里，您可以提交为布谷鸟沙盒设置编写的自定义模块，并希望与社区的其他成员共享这些模块。其中包括代理agent、分析脚本analzyer和各种功能模块。
+=======
+
+##### （6）GET /exit
+
+如果处于调试模式并使用werkzeug服务器，则关闭服务器。
+>>>>>>> ly-Barcelona
 
 如果想要从[开源社区](https://github.com/cuckoosandbox/community)下载对应数据到`Bold-Falcon\data`下，可以使用`Bold-Falcon\utils\community`：
 
 ```shell
+<<<<<<< HEAD
 $  cummunity -h
 usage: community.py [-h] [-a] [-s] [-p] [-m] [-n] [-M] [-g] [-r] [-f] [-w]
                     [-b BRANCH]
@@ -472,3 +526,91 @@ https://pan.baidu.com/s/1x6a9j7D7Ktp242fcJhT5aA 提取码: qxbp
 -   [snapfiles](https://www.snapfiles.com/new/list-whatsnew.html)
 -   [downloadcrew](https://downloadcrew.com/)
 
+=======
+curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
+```
+
+## 3.3 社区
+
+Bold-Falcon沙箱兼容Cuckoo沙箱的[开源社区](https://github.com/cuckoosandbox/community),它是一个致力于社区贡献的开放存储库。在这里，您可以提交为布谷鸟沙盒设置编写的自定义模块，并希望与社区的其他成员共享这些模块。其中包括代理agent、分析脚本analzyer和各种功能模块。
+
+如果想要从[开源社区](https://github.com/cuckoosandbox/community)下载对应数据到`Bold-Falcon\data`下，可以使用`Bold-Falcon\utils\community`：
+
+```shell
+$  cummunity -h
+usage: community.py [-h] [-a] [-s] [-p] [-m] [-n] [-M] [-g] [-r] [-f] [-w]
+                    [-b BRANCH]
+                    [archive]
+
+positional arguments:
+  archive               Install a stored archive
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --all             Download everything
+  -s, --signatures      Download Cuckoo signatures
+  -p, --processing      Download processing modules
+  -m, --machinery       Download machine managers
+  -n, --analyzer        Download analyzer modules
+  -M, --monitor         Download monitoring binaries
+  -g, --agent           Download agent modules
+  -r, --reporting       Download reporting modules
+  -f, --force           Install files without confirmation
+  -w, --rewrite         Rewrite existing files
+  -b BRANCH, --branch BRANCH
+```
+
+##### 例：重写所有开源数据到最新版
+
+```shell
+$  cummunity -waf
+```
+
+## 3.4 分析样本获取
+
+#### 样本分享
+
+Bold-Falcon沙箱分享了200个已经分析完成的json报告在`百度云盘`如下链接：
+
+```html
+https://pan.baidu.com/s/19TRWbQSRWJHetUBpNtMj_w 提取码: r7gk 
+```
+
+Bold-Falcon沙箱分享了一些32bit的windows样本在`百度云盘`如下链接：
+
+```
+https://pan.baidu.com/s/1x6a9j7D7Ktp242fcJhT5aA 提取码: qxbp 
+```
+
+#### 开源样本
+
+如果你想要获取更多的`恶意样本`请访问查询：
+
+**推荐：**
+
+-   [Blue Hexagon Open Dataset for Malware AnalysiS (BODMAS)](https://whyisyoung.github.io/BODMAS/)
+-   [EMBER](https://github.com/elastic/ember) - Endgame Malware BEnchmark for Research
+-   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html) ([data](https://github.com/marcoramilli/MalwareTrainingSets))
+-   [SoReL-20M](https://github.com/sophos-ai/SOREL-20M) - Sophos-ReversingLabs 20 Million dataset.
+-   [Virusshare](https://virusshare.com/)
+
+**其他：**
+
++   [Samples of Security Related Dats](http://www.secrepo.com/)
++   [DARPA Intrusion Detection Data Sets](https://www.ll.mit.edu/ideval/data/)
++   [Stratosphere IPS Data Sets](https://stratosphereips.org/category/dataset.html)
++   [Open Data Sets](http://csr.lanl.gov/data/)
++   [Data Capture from National Security Agency](http://www.westpoint.edu/crc/SitePages/DataSets.aspx)
++   [The ADFA Intrusion Detection Data Sets](https://www.unsw.adfa.edu.au/australian-centre-for-cyber-security/cybersecurity/ADFA-IDS-Datasets)
++   [NSL-KDD Data Sets](https://github.com/defcom17/NSL_KDD)
++   [Malicious URLs Data Sets](https://sysnet.ucsd.edu/projects/url)
++   [Multi-Source Cyber-Security Events](http://csr.lanl.gov/data/cyber1/)
++   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html)
+
+如果你想要获取更多的`良性样本`请在如下等网络自行爬取：
+
+-   [portablefreeware](http://www.portablefreeware.com/)
+-   [onlyfreewares](http://www.onlyfreewares.com/)
+-   [snapfiles](https://www.snapfiles.com/new/list-whatsnew.html)
+-   [downloadcrew](https://downloadcrew.com/)
+>>>>>>> ly-Barcelona
