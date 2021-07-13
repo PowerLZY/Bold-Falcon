@@ -6,7 +6,7 @@
                  |____/ \___/|_|\__,_|     |_|  \__,_|_|\___\___/|_| |_|
 ```
 
-<img src="../pics/logo.png" align="right" width="256px" height="176px">
+<img src="pics/logo.png" alt="logo" style="zoom:25%;" />
 
 # 毕方智能云沙箱
 
