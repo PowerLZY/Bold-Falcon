@@ -152,7 +152,7 @@ $  submit --priority 5 /path/to/binary
 $  submit --timeout 60 /path/to/binary
 ```
 
-### 3.2.2  API访问
+### 3.2.3 API访问
 
 正如提交分析中所提到的，Bold-Falcon沙箱兼容cuckoo沙箱提供了一个简单而轻量级的restapi服务器，它是使用Flask实现的。
 

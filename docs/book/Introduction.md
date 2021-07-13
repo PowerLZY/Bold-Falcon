@@ -270,7 +270,7 @@ https://pan.baidu.com/s/1VH9RjcjwDEDqnus6lm5hlQ 提取码: s2xb
 
 ### 1.4.3 历史报告查询
 
-
+![image-20210713232137555](../pics/历史任务.png)
 
 ### 1.4.4 分析结果下载
 
