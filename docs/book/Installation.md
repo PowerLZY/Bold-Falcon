@@ -7,7 +7,7 @@ sort: 2
 
 Bold-Falcon的主机安装过程推荐在*GNU/Linux*（最好是Debian或Ubuntu）上进行，当然在*Max OS X*和*Microsoft Windows 7*上也可以正常使用。对于客户机安装过程，Windows分析任务推荐在*Windows XP*或*64位Windows 7*系统上进行，Mac OS X分析任务推荐在*Mac OS X Yosemite*上进行，Linux分析任务推荐在Debian上进行，尽管Bold-Falcon理论上也可以与其他版本的客户机操作系统配合使用。不要使用Windows Linux子系统（WLS）运行Bold-Falcon.
 
-## 2.1 准备主机(HOST)
+## 2.1 准备主机
 
 主机是指运行Bold-Falcon的底层操作系统（通常为GNU/Linux发行版），在本文档中我们使用Ubuntu LTS 16.04为例进行介绍。
 
@@ -126,31 +126,29 @@ $ sudo /etc/init.d/guacd start
 
 此外，还必须安装VituralBox扩展包，以利用Guacamole公开的沙箱控制功能。
 
-#### Cuckoo安装
+#### Bold-Falcon安装
 
-创建一个新用户，确保运行Cuckoo沙箱的用户与用于创建和运行VituralBox虚拟机的用户相同，否则沙箱将无法识别和启动这些虚拟机。创建新用户，并确保新用户属于当前用于运行VirtualBox的组。命令如下：
+下载源码可以通过如下两种方式：
 
 ```shell
-$ sudo adduser cuckoo
-$ sudo usermod -a -G vboxusers cuckoo
+$ git clone https://github.com/PowerLZY/Bold-Falcon
 ```
 
-如果在启动沙箱之前打开了过多的文件，可能导致某些进程无法正确处理报告，此时可能需要提升文件计数限制。
+```shell
+pip install Bold-Falcon
+```
 
-首先升级pip和setuptools库，然后安装最新版本的Cuckoo，推荐在虚拟环境中执行安装过程。原因有以下几点：
+首先升级pip和setuptools库，然后安装最新版本的Bold-Falcon，推荐在虚拟环境中执行安装过程。原因有以下几点：
 
-- Cuckoo的依赖项可能不完全是最新的，而是固定到已知的能够支持正常运行的版本
-- 由于不兼容的版本要求，对于系统中安装的其他软件，其依赖关系可能与Cuckoo要求的软件冲突
-- 使用虚拟环境允许非root用户在稍后安装其他软件包或进行升级
+- Bold-Falcon的依赖项可能不完全是最新的，而是固定到已知的能够支持正常运行的版本
+- 源代码不兼容请[Issues](https://github.com/PowerLZY/Bold-Falcon/issues)
 
 ```shell
 $ virtualenv venv
 $ . venv/bin/activate
 (venv)$ pip install -U pip setuptools
-(venv)$ pip install -U cuckoo
+(venv)$ pip install -U Bold-Falcon
 ```
-
-还可以通过下载Cuckoo软件包文件离线安装，或者直接从[Cuckoo官方仓库](https://github.com/cuckoosandbox/cuckoo)克隆源代码进行安装。
 
 #### 工作目录（CWD）
 
@@ -164,16 +162,16 @@ $ . venv/bin/activate
 - 分析结果存储文件
 - ......
 
-当第一次运行沙箱时，CWD会自动创建，默认为`/home/cuckoo/.cuckoo`. 所有配置文件都可以在`$CWD/conf`目录中找到。主要的配置文件如下：
+所有配置文件都可以在`$CWD/conf`目录中找到。主要的配置文件如下：
 
 - cuckoo.conf：用于配置常规行为和分析选项
 - auxiliary.conf：用于启用和配置辅助模块
-- <machinery>.conf：用于定义虚拟化软件的选项
-- memory.conf：用于Volatility配置
+- machinery.conf：用于定义虚拟化软件的选项
 - processing.conf：用于启用和配置处理模块
+- detection.conf: 用于启用和配置机器学习模块
 - reporting.conf：用于启用或禁用报告格式
 
-## 2.2 准备客户机(Guest)
+## 2.2 准备客户机
 
 首先要在``Ubuntu``的``vitrualbox``中创建一个虚拟机，设定为``windows 7 64``位操作系统。
 
