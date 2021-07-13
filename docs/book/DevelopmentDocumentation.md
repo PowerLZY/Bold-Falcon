@@ -49,14 +49,14 @@ sort: 4
 #### 路径和概念
 
 - Bold-Falcon网页端提供了Web接口和RESTAPI
-- Django项目根目录位于`cuckoo/web`
-- 配置位于``cuckoo/web/web/settings.py``
-- URL调度程序位于`cuckoo/web/web/urls.py`，以及其他路径下，包括但不限于`cuckoo/web/analysis/urls.py`
+- Django项目根目录位于`Bold-Falcon/web`
+- 配置位于``Bold-Falcon/web/web/settings.py``
+- URL调度程序位于`Bold-Falcon/web/web/urls.py`，以及其他路径下，包括但不限于`Bold-Falcon/web/analysis/urls.py`
 - HTML模板使用Django模板语言。
-- 前端中与Bold-Falcon相关的JavaScript内容位于`cuckoo/web/static/js/cuckoo/`，其中源代码位于` cuckoo/web/static/js/cuckoo/src/`目录下。
-- 所谓的“控制器”用于代替基于类的视图，其中控制器负责不属于视图函数的操作（通常是后端）。例如：``cuckoo/web/controllers/analysis/analysis.py``
-- 视图函数是视图使用的函数，位于``routes.py``。例如：``cuckoo/web/controllers/analysis/routes.py``
-- API函数是API使用的函数，位于``api.py``。例如：``cuckoo/web/controllers/analysis/api.py``
+- 前端中与Bold-Falcon相关的JavaScript内容位于`Bold-Falcon/web/static/js/cuckoo/`，其中源代码位于` Bold-Falcon/web/static/js/cuckoo/src/`目录下。
+- 所谓的“控制器”用于代替基于类的视图，其中控制器负责不属于视图函数的操作（通常是后端）。例如：``Bold-Falcon/web/controllers/analysis/analysis.py``
+- 视图函数是视图使用的函数，位于``routes.py``。例如：``Bold-Falcon/web/controllers/analysis/routes.py``
+- API函数是API使用的函数，位于``api.py``。例如：``Bold-Falcon/web/controllers/analysis/api.py``
 
 #### 运行和调试
 
@@ -67,9 +67,9 @@ sort: 4
 - **Name** - web
 - **Host** - 127.0.0.1
 - **Port** - 8080
-- **Environment variables** -单击 `...` 并增加2个新值： `CUCKOO_APP:web` 和 `CUCKOO_CWD:/home/test/.cuckoo/`, 其中路径对应 `CWD `.
+- **Environment variables** -单击 `...` 并增加 `CUCKOO_APP:web` 
 - **Python interpreter** - 选择之前配置的虚拟环境。如果该虚拟环境不存在，请使用`File->Settings->Project: Cuckoo->Project Interpreter`将该虚拟环境添加到本项目中。
-- **Working directory** -Django项目根目录的绝对路径，例如：`/home/test/PycharmProjects/virtualenv/cuckoo/cuckoo/web/`
+- **Working directory** -Django项目根目录的绝对路径，例如：`/home/test/PycharmProjects/virtualenv/Bold-Falcon/web/`
 
 此时，可以使用PyCharm运行和调试Bold-Falcon了，通过选择`Run->Run->web`即可启动网页端服务器。
 
@@ -96,13 +96,13 @@ Bold-Falcon前端中的Javascript代码是基于ECMAScript 6标准开发的。�
 - **Track only root files** - yes
 - **Trigger watcher regardless of syntax errors** - no
 - **File type** - Javascript
-- **Scope** - 单击 `...` ->  `+` (添加范围) ->  `local` -> `OK`. 在文件浏览器中，进入 `cuckoo/web/static/js/cuckoo/src/`目录下并选择`src`文件夹，单击`include`. `src`中的文件现在应该会变成绿色。选择 `OK`.
+- **Scope** - 单击 `...` ->  `+` (添加范围) ->  `local` -> `OK`. 在文件浏览器中，进入 `Bold-Falcon/web/static/js/cuckoo/src/`目录下并选择`src`文件夹，单击`include`. `src`中的文件现在应该会变成绿色。选择 `OK`.
 - **Program** - 应该是 `node_modules/.bin/babel`的绝对路径，例如：`/home/test/PycharmProjects/virtualenv/cuckoo/node_modules/.bin/babel`. 再次检查输入的路径是否反映文件`node_modules/.bin/babel`的实际位置。
 - **Arguments** - `--source-maps --out-file $FileNameWithoutExtension$.js $FilePath$`
-- **Working directory** - 浏览并选择 `cuckoo/web/static/js/cuckoo`
+- **Working directory** - 浏览并选择 `Bold-Falcon/web/static/js/cuckoo`
 - **Output paths to refresh** `$FileNameWithoutExtension$-compiled.js:$FileNameWithoutExtension$-compiled.js.map`
 
-最后，需要创建一个`manage.py` mock文件，以便PyCharm将其视为Django项目。文件`cuckoo/web/web/manage.py`的内容如下：
+最后，需要创建一个`manage.py` mock文件，以便PyCharm将其视为Django项目。文件`Bold-Falcon/web/manage.py`的内容如下：
 
 ```python
 #!/usr/bin/env python
@@ -115,9 +115,9 @@ if __name__ == "__main__":
 
 转到`File->Settings->Languages & Frameworks->Django`，然后配置如下：
 
-- **Django Project root** - `cuckoo/web`
+- **Django Project root** - `Bold-Falcon/web`
 - **Settings** - `web/settings.py`
-- **Manage script** - `web/manage.py`
+- **Manage script** - `manage.py`
 
 #### 测试
 
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
 ### 4.2.1 设计说明
 
-**辅助功能模块**定义了一些需要与每个**样本分析过程并行执行的辅助功能**，例如：记录并为用户提供分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 **../cuckoo/auxiliary/** 目录下，全部辅助模块配置选项在 ***.CWD/conf/auxiliary.conf*** 文件下。
+**辅助功能模块**定义了一些需要与每个**样本分析过程并行执行的辅助功能**，例如：记录并为用户提供分析样本的网络流量、中间人代理、客户端重启等辅助功能。全部辅助模块放在 `Bold-Falcon/moduls/auxiliary/` 目录下，全部辅助模块配置选项在 `Bold-Falcon/conf/auxiliary.conf` 文件下。
 
 **1）辅助功能定义函数**
 
@@ -170,7 +170,7 @@ class RunAuxiliary(object):
 ```
 
 +  \__init\_\_(): 辅助功能模块初始化（任务号、虚拟机软件、客户机IP映射等）
-+  start(): 根据 ***.CWD/conf/auxiliary.conf*** 下的配置选择辅助功能模块列表
++  start(): 根据 `Bold-Falcon/conf/auxiliary.conf` 下的配置选择辅助功能模块列表
 +  callback(): 开启辅助功能模块列表的辅助功能
 +  stop(): 关闭辅助功能模块列表的辅助功能
 
@@ -230,7 +230,7 @@ class RunAuxiliary(object):
 
 ### 4.3.1 设计说明
 
-**机器交互模块**定义了沙箱主机与虚拟化软件的交互过程，包括开启虚拟机、启动任务调度、上传样本、上传分析模块和分析配置文件、在数据库中记录虚拟机的状态等操作。全部机器交互模块放在 **../cuckoo/mechinery/** 目录下，我们默认使用了VirtualBox虚拟机软件。全部辅助模块配置选项在 ***.CWD/conf/virualbox.conf*** 文件下。
+**机器交互模块**定义了沙箱主机与虚拟化软件的交互过程，包括开启虚拟机、启动任务调度、上传样本、上传分析模块和分析配置文件、在数据库中记录虚拟机的状态等操作。全部机器交互模块放在 `Bold-Falcon/modules/mechinery/`目录下，我们默认使用了VirtualBox虚拟机软件。全部辅助模块配置选项在 `Bold-Falcon/conf/virualbox.conf`文件下。
 
 **沙箱主机**与**客户机**网络配置中使用**Host-Only**连接方式。对于一个恶意软件，当其被安装配置了Bold-Falcon的主机提交到各个客户机进行运行分析时，主机是想要知道客户机的所有流量信息的，因为绝大部分的恶意软件都需要依赖网络来执行恶意行为。此时只有设置Host-Only连接，主机才能截获客户机与互联网之间流经的所有流量，进而更好地分析恶意软件的行为方式。
 
@@ -427,7 +427,7 @@ class GuestManager(object):
 + \__init\_\_(): 初始化IP、端口号、系统、任务号、保存路径信息
 + stop(): 关闭客户端分析
 + upload_analyzer(): 
-  + 分析模块的文件位于cuckoo/cuckoo/data/analyzer/(android, darwin, linux, windows)
+  + 分析模块的文件位于`Bold-Falcon/data/analyzer/(android, darwin, linux, windows)`
   + analyzer_zipfile 也会将 dumpmem.yarac 和Monitor 写入到压缩文件流中
 + add_config(): 上传分析脚本，将options中的内容传入client中, 写入到self.analyzer_path的analysis.conf中
 + start_analysis(): 客户端开启分析,client 端也开启了http server, 获取agent（配置的时候,需要在虚拟机中放置agent.py）的信息
@@ -512,7 +512,7 @@ class GuestManager(object):
 
 ### 4.4.1 设计说明
 
-**文件分析模块**定义了分析组件在客户机环境中**执行并分析给定的文件**的过程。可以通过设置一个包含对所有类型的文件的通用处理方法的基类Package，然后使用多态的形式为不同类型的文件实现不同的启动分析方式。可供样本运行的客户机环境包括Windows、Linux、Android系统等，模块代码存放在***../cuckoo/data/analyzer/***目录下，包含所有用户指定选项的配置存储在***self.options***文件中。
+**文件分析模块**定义了分析组件在客户机环境中**执行并分析给定的文件**的过程。可以通过设置一个包含对所有类型的文件的通用处理方法的基类Package，然后使用多态的形式为不同类型的文件实现不同的启动分析方式。可供样本运行的客户机环境包括Windows、Linux、Android系统等，模块代码存放在`Bold-Falcon/data/analyzer/`目录下，包含所有用户指定选项的配置存储在***self.options***文件中。
 
 **1）文件分析定义函数**
 
@@ -567,8 +567,6 @@ class Package(object):
 **2）分析进程定义函数**
 
 以Windows环境中的分析进程为例：
-
-> guest.py
 
 ```python
 Class Process(object):
@@ -730,8 +728,6 @@ class Analyzer(object):
 	    <td>APK文件</td>
 	</tr>
 </table>
-
-
 ### 	4.4.2 设计流程
 
 **1）文件分析模块时序图**
@@ -796,15 +792,15 @@ end
 12. monitor_hook()：安装HOOK，生成函数调用记录
 13. 通过管道发送代码执行日志和函数调用记录日志
 14. 通过Socket通信发送代码执行日志和函数调用记录日志到中心服务器
-15. 中心服务器对文件分析结果进行各种形式的存储（分析日志、数据库、结果文件夹等），分析结果放置在***../cuckoo/storage/analyse/{task_id}***目录下，供后续结果处理模块使用
+15. 中心服务器对文件分析结果进行各种形式的存储（分析日志、数据库、结果文件夹等），分析结果放置在`Bold-Falcon/storage/analyse/{task_id}`目录下，供后续结果处理模块使用
 
 ## 4.5 结果处理模块
 
 ### 4.5.1 设计说明
 
-**结果处理模块**允许自定义方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。**../cuckoo/processing/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/processing.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
+**结果处理模块**允许自定义方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。`Bold-Falcon/mol/processing/`目录 中提供的所有处理模块，都属于结果处理模块。每个模块在 `Bold-Falcon/conf/processing.conf`中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
-**结果处理模块都将被初始化和执行**，返回的数据将被附加到一个名为**全局结果容器**的数据结构中。这个容器仅仅是一个大的**Python字典**，它包含了由所有按标识键分类的模块生成的抽象结果。每次分析的全局结果容器被储存在 ***.CWD/storage/analysis/task_id*** 文件夹下。
+**结果处理模块都将被初始化和执行**，返回的数据将被附加到一个名为**全局结果容器**的数据结构中。这个容器仅仅是一个大的**Python字典**，它包含了由所有按标识键分类的模块生成的抽象结果。每次分析的全局结果容器被储存在 `Bold-Falcon/storage/analysis/task_id` 文件夹下。
 
 **1）结果处理定义函数**
 
@@ -873,7 +869,6 @@ class RunProcessing(object):
 | **Buffer**           | 丢弃缓冲区分析                                               |
 | **Debug**            | 包括错误和分析程序生成的analysis.log                         |
 | **Dropped**          | 包括由恶意软件丢弃并由沙箱转储的文件的信息                   |
-| **FeatureAnalysis**  | 包括机器学习模块中恶意软件检测器需要的特征信息（字符串、字节熵直方图、PE静态特征、字符序列、灰度图、API调用序列等） |
 | **Memory**           | 在完整的内存转储上执行 Volatility 内存取证分析工具           |
 | **NetworkAnalysis**  | 解析PCAP文件并提取一些网络信息，例如DNS流量、域、ip、HTTP请求、IRC和SMTP流量 |
 | **Screenshots**      | 屏幕截图和OCR分析                                            |
@@ -895,7 +890,7 @@ class RunProcessing(object):
 
 **4）全局结果容器内容**
 
-全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 ***.CWD/storage/analyses/{task_id}/reports/report.json*** 文件中。
+全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 `Bold-Falcon/storage/analyses/{task_id}/reports/report.json` 文件中。
 
 ```json
 - info
@@ -948,7 +943,7 @@ class RunProcessing(object):
 
 结果处理模块提供了一些属性，可用于访问当前分析任务的原始结果：
 
-- self.analysis_path：存储分析结果的目录路径，例如：`$CWD/storage/analysis/1`
+- self.analysis_path：存储分析结果的目录路径，例如：`Bold-Falcon/storage/analysis/1`
 - self.log_path：analysis.log文件的路径
 - self.file_path：所分析文件的路径
 - self.dropped_path：存储丢弃文件的目录路径
@@ -1006,7 +1001,7 @@ class RunProcessing(object):
 
 ### 4.6.1 设计说明
 
-**家族签名模块**定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标，一定程度上实现特定的恶意软件家族的类别划分，并将一些信息附加到一个全局容器中。这类特征简化了结果的解释，也可以自动识别感兴趣的恶意软件样本。所有签名位于**../cuckoo/signatures/**目录或社区库的**modules/signatures/**目录下。
+**家族签名模块**定义了一些特定的“签名”，用于表示特定的恶意行为模式或特征指标，一定程度上实现特定的恶意软件家族的类别划分，并将一些信息附加到一个全局容器中。这类特征简化了结果的解释，也可以自动识别感兴趣的恶意软件样本。所有签名位于`Bold-Falcon/modules/signatures/`目录或社区库的`Bold-Falcon/data/signatures/`目录下。
 
 + 通过隔离一些独特的行为（如文件名或互斥）来识别您感兴趣的特定恶意软件系列
 
@@ -1042,7 +1037,7 @@ class CreatesExe(Signature):
   - name：签名的标识符
   - description：签名所代表内容的简要描述
   - severity：标识匹配事件严重性的数字（通常在1到3之间）
-  - categories：描述匹配事件类型的类别列表，例如：banker, injection, anti-vm, ...
+  - categories：描述匹配事件类型的类别列表，例如：banker, injection, anti-vm, Bold-Falcon.
   - families：恶意软件家族名称列表（如果签名与已知签名高度匹配）
   - authors：签名作者的列表
   - references：提供签名上下文的引用（URL）列表
@@ -1105,7 +1100,7 @@ class RunSignatures(object):
 
 如果签名匹配成功，生成的签名结果将被添加到全局容器中。
 
-```css
+```python
 "signatures": [
     {
         "severity": 2,
@@ -1211,19 +1206,32 @@ rule Test : Trojan
 from lib.cuckoo.common.exceptions import CuckooDetectionError
 
 class Detection(object):
-  #特征提取方法、模型、预测结果feature
+    """
+    Base abstract class for detection module.
+    """
+    def set_options(self, options):
+        """ Set report options."""
+    def set_path(self, analysis_path):
+        """Set paths."""
+    def set_task(self, task):
+        """Add task information."""
+    def load_instance(self, results):
+        """
+        Initialize the sample instance and load the dictionary
+        need a class Instance """
+    def run(self):
+        """ Start detection."""
+        raise NotImplementedError    
 ```
 
 ```python
 class MyDetection(Detection):
  		
-    def extract_features(self)
+    def load_features(self)
     	# 数据预处理
-        
-    def fit(self, X, y):
-      	# 模型训练
-        
- 	def predict(self, Y)
+    def load_model(self):
+      # 加载模型训练
+    def run(self, Y)
     	# 预测目标值
       	return predict
 ```
@@ -1252,8 +1260,8 @@ class RunDetection(object):
         for module in detection_list:
             # 执行功能
             model_name,predict = self.process(module, results)
-            if model_name and result:
-                results[model_name] = result
+            if model_name and predict:
+                results[model_name] = predict
         return results
 ```
 
@@ -1270,11 +1278,11 @@ class RunDetection(object):
 
 **3）检测模型列表**
 
-| 名称         | 类型     | 特征                               | 算法模型             |
-| ------------ | -------- | ---------------------------------- | -------------------- |
-| **Malconv**  | 静态分析 | 字节序列                           | Malconv卷积神经网络  |
-| **Ember**    | 静态分析 | 字节熵直方图、PE静态特征、字符序列 | LightGBM集成学习模型 |
-| **API_gram** | 动态分析 | API调用序列                        | XGBoost集成学习模型  |
+| 名称         | 类型     | 特征        | 算法模型            |
+| ------------ | -------- | ----------- | ------------------- |
+| **Malconv**  | 静态分析 | 字节序列    | Malconv卷积神经网络 |
+| **String**   | 静态分析 | 字符串序列  | XGBoost集成学习模型 |
+| **Apistats** | 动态分析 | API调用序列 | XGBoost集成学习模型 |
 
 ### 4.7.2 设计流程
 
@@ -1327,7 +1335,7 @@ class RunDetection(object):
 
 ### 4.8.1 设计说明
 
-在结果处理模块、家族签名模块、机器学习模块处理之后，**报告生成模块**定义了恶意软件分析报告生成的不同格式，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。**../cuckoo/reporting/目录 **中提供的所有处理模块，都属于结果处理模块。每个模块在 ***.CWD/conf/reporting.conf*** 中都应该有一个专门的配置选项，供用户选择结果处理功能。
+在结果处理模块、家族签名模块、机器学习模块处理之后，**报告生成模块**定义了恶意软件分析报告生成的不同格式，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。`Bold-Falcon/modules/reporting/`目录 中提供的所有处理模块，都属于结果处理模块。每个模块在 `Bold-Falcon/conf/reporting.conf`中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
 **1）Json报告模块**
 
@@ -1384,7 +1392,7 @@ class RunReporting(object):
        	# 执行一个生成功能模块
         # 初始化生成功能模块
         # 获得分析任务目录
-    	# 执行对应处理功能
+    	  # 执行对应处理功能
         current.run(self.results)
     
     def run(self):
@@ -1477,7 +1485,7 @@ class RunReporting(object):
 
 **4）项目配置说明**
 
-项目应用路径为***../cuckoo/web***,项目总体设置：cuckoo/web/web/setting.py文件中，包含了整个应用的配置信息，包括数据库连接、静态资源和url的路径定义、中间件和cookie的配置、模板文件的配置等
+项目应用路径为`Bold-Falcon/web`,项目总体设置：`Bold-Falcon/web/web/setting.py`文件中，包含了整个应用的配置信息，包括数据库连接、静态资源和url的路径定义、中间件和cookie的配置、模板文件的配置等
 
 ```python
 mongo.connect()
@@ -1519,7 +1527,7 @@ INSTALLED_APPS = (
 )
 ```
 
-**项目url配置：**cuckoo/web/web/urls.py文件中配置了视图类views绑定页面的url
+**项目url配置：**`Bold-Falcon/web/web/urls.py`文件中配置了视图类views绑定页面的url
 
 ```python
 urlpatterns = [
@@ -1531,7 +1539,7 @@ handler500 = web.errors.handler500
 	#错误页面绑定自定义视图
 ```
 
-**数据库配置：**前端数据库使用非关系型数据库MongoDB.数据库配置信息：/cuckoo/common/config.py
+**数据库配置：**前端数据库使用非关系型数据库MongoDB.数据库配置信息：`lib/cuckoo/common/config.py`
 
 ```python
 "mongodb": {
@@ -1546,13 +1554,11 @@ handler500 = web.errors.handler500
 },
 ```
 
-在Django前端框架中配置并连接数据库：cuckoo/web/web/setting.py
+在Django前端框架中配置并连接数据库：`Bold-Falcon/web/web/setting.py`
 
 ```python
 mongo.connect()
 ```
-
-数据库函数定义在cuckoo/common/mongo.py
 
 ```python
 class Mongo(object):
@@ -1566,7 +1572,7 @@ class Mongo(object):
         #连接数据库
 ```
 
-**API接口：**获取数据库Analysis表的数据的API接口定义在cuckoo/web/controllers/analysis/api.py
+**API接口：**获取数据库Analysis表的数据的API接口定义在`Bold-Falcon/web/controllers/analysis/api.py`
 
 ```python
 db = Database()
