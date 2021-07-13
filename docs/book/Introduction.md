@@ -1,3 +1,4 @@
+![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453938-256d7dde-f1a6-4ca3-8585-c63decbcd26f.jpg)
 ---
 sort: 1
 ---
@@ -10,13 +11,13 @@ sort: 1
 
  目前恶意软件检测方法对比如下：
  
-![未命名文件](https://user-images.githubusercontent.com/16918550/125453338-076684c1-02ae-4aec-ba7c-742716cc9962.png){:align="center" width="400px" height="300px"}
+
+ ![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453969-38df8c9c-ef13-4ee6-8f8b-1d752188e6c6.jpg){:align="center" width="400px" height="300px"}
 
 ### 1.1.2 恶意软件造成的财富损失
 
 尽管勒索软件约占恶意软件总事件的3%,，但相比其他恶意软件破坏力更大，一旦遭遇勒索，企业将面临业务中断、高额赎金的风险、高额赎金的风险。根据 Coveware 的数据显示，与 2019 年相比，2020 年第二季度的赎金要求同比增加了 4 倍。
-
-![未命名文件](https://user-images.githubusercontent.com/16918550/125453662-315c52c0-4dc7-4719-892e-6372170e4c56.png){:align="center" width="400px" height="300px"}
+![财务损失](https://user-images.githubusercontent.com/16918550/125454060-f3c8f8fb-95e8-4f01-b0d3-37f7ebda0184.png){:align="center" width="400px" height="300px"}
 
 
 ### 1.1.3 沙箱
