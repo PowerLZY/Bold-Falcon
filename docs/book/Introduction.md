@@ -1,4 +1,3 @@
-![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453938-256d7dde-f1a6-4ca3-8585-c63decbcd26f.jpg)
 ---
 sort: 1
 ---
