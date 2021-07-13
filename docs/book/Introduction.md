@@ -11,7 +11,7 @@ sort: 1
  目前恶意软件检测方法对比如下：
  
 
- ![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453969-38df8c9c-ef13-4ee6-8f8b-1d752188e6c6.jpg){:align="center" width="700px" height="400px"}
+ ![沙箱调研 (1)](https://user-images.githubusercontent.com/16918550/125453969-38df8c9c-ef13-4ee6-8f8b-1d752188e6c6.jpg){:align="center" width="800px" height="600px"}
 
 ### 1.1.2 恶意软件造成的财富损失
 
