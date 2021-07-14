@@ -1,6 +1,7 @@
 ---
 sort: 4
 
+
 ---
 
 # 开发
@@ -36,7 +37,7 @@ sort: 4
   (bold-falcon-development)$ python setup.py sdist develop
   ```
 
-完成以上步骤后，现在可以修改和测试代码文件了，代码文件位于[Bold-Falcon](https://github.com/PowerLZY/Bold-Falcon)目录下。实际上，即使是对当前库的开发版本进行测试，[`Cuckoo Working Directory`]()和[`Cuckoo Working Directory Usage`]()中的所有规则仍然有效。
+完成以上步骤后，现在可以修改和测试代码文件了，代码文件位于[Bold-Falcon](https://github.com/PowerLZY/Bold-Falcon)目录下。实际上，即使是对当前库的开发版本进行测试，`Cuckoo Working Directory`和`Cuckoo Working Directory Usage`中的所有规则仍然有效。
 
 ### 4.1.2 Pycharm环境配置
 
@@ -728,6 +729,7 @@ class Analyzer(object):
 	    <td>APK文件</td>
 	</tr>
 </table>
+
 ### 	4.4.2 设计流程
 
 **1）文件分析模块时序图**
@@ -892,7 +894,7 @@ class RunProcessing(object):
 
 全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 `Bold-Falcon/storage/analyses/{task_id}/reports/report.json` 文件中。
 
-```json
+```python
 - info
   - added/strarted/ended: 上传样本、启动分析与结束分析的时间戳
   - duration: 分析时长
@@ -987,7 +989,6 @@ class RunProcessing(object):
 **2）结果处理模块设计流程**
 
 1. 启动结果处理模块
-
 2. 初始化任务信息、虚拟机信息、分析结果存储路径
 3. 获得处理功能列表
 4. 执行一个结果处理功能
@@ -1121,7 +1122,7 @@ class RunSignatures(object):
 
 [Yara](https://yara.readthedocs.io/en/stable/)是一个能够帮助恶意软件研究人员识别和分类恶意软件样本的工具，使用Yara可以基于文本或二进制模式创建恶意软件家族描述信息。每一条YARA规则都由一系列字符串和一个布尔型表达式构成，并阐述其逻辑。Yara规则可以提交给正在运行的进程，**以帮助系统识别其样本是否属于某个已进行规则描述的恶意软件家族**。Yara规则语法类似于C语言，每个规则都以关键字“**rule**”开头，后面跟着一个规则标识符。规则示例如下：
 
-```c
+```python
 rule Test : Trojan
 {
     //规则描述
