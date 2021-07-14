@@ -932,7 +932,7 @@ class RunProcessing(object):
     - first_seen: 进程启动时间戳
     - ppid: 父进程id
   - processes
-    - modules: 样本运行时调用的系统文件信息，包括被调用文件名、路径、基地址及其大小
+    - modules: 样本运行时调用的系统文件信息, 包括被调用文件名/路径/基地址及其大小
     - time: 运行时间
   - processtree
     - children: 子进程列表
