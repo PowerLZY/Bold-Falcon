@@ -21,7 +21,18 @@
 
 **`开发文档`** https://boldfalcon.readthedocs.io
 
+#### 下载源码
+
+```shell
+$ git clone https://github.com/PowerLZY/Bold-Falcon
+```
+
+```shell
+pip install Bold-Falcon
+```
+
 #### 开源资料
+
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
 + [cuckoo-modified](https://github.com/spender-sandbox/cuckoo-modified) Modified edition of cuckoo
 + [cuckooDroid](https://github.com/idanr1986/cuckoo-droid) CuckooDroid - Automated Android Malware Analysis with Cuckoo Sandbox.
@@ -39,24 +50,50 @@
 + [腾讯哈勃Linux沙箱源码分析上](https://zhuanlan.zhihu.com/p/54756592)
 + [腾讯哈勃Linux沙箱源码分析下](https://zhuanlan.zhihu.com/p/54756845)
 
+### 开源样本
+
+如果你想要获取更多的`恶意样本`请访问查询：
+
+**推荐：**
+
+-   [Blue Hexagon Open Dataset for Malware AnalysiS (BODMAS)](https://whyisyoung.github.io/BODMAS/)
+-   [EMBER](https://github.com/elastic/ember) - Endgame Malware BEnchmark for Research
+-   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html) ([data](https://github.com/marcoramilli/MalwareTrainingSets))
+-   [SoReL-20M](https://github.com/sophos-ai/SOREL-20M) - Sophos-ReversingLabs 20 Million dataset.
+-   [Virusshare](https://virusshare.com/)
+
+**其他：**
+
++   [Samples of Security Related Dats](http://www.secrepo.com/)
++   [DARPA Intrusion Detection Data Sets](https://www.ll.mit.edu/ideval/data/)
++   [Stratosphere IPS Data Sets](https://stratosphereips.org/category/dataset.html)
++   [Open Data Sets](http://csr.lanl.gov/data/)
++   [Data Capture from National Security Agency](http://www.westpoint.edu/crc/SitePages/DataSets.aspx)
++   [The ADFA Intrusion Detection Data Sets](https://www.unsw.adfa.edu.au/australian-centre-for-cyber-security/cybersecurity/ADFA-IDS-Datasets)
++   [NSL-KDD Data Sets](https://github.com/defcom17/NSL_KDD)
++   [Malicious URLs Data Sets](https://sysnet.ucsd.edu/projects/url)
++   [Multi-Source Cyber-Security Events](http://csr.lanl.gov/data/cyber1/)
++   [Malware Training Sets: A machine learning dataset for everyone](http://marcoramilli.blogspot.cz/2016/12/malware-training-sets-machine-learning.html)
+
+如果你想要获取更多的`良性样本`请在如下等网络自行爬取：
+
+-   [portablefreeware](http://www.portablefreeware.com/)
+-   [onlyfreewares](http://www.onlyfreewares.com/)
+-   [snapfiles](https://www.snapfiles.com/new/list-whatsnew.html)
+-   [downloadcrew](https://downloadcrew.com/)
+
 #### 项目结构更新
   - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
   - [x] 省略\CWD目录：添加 analyzer、db、examples、Mal_sample、sample_data、storage、log等目录
 
-#### 主要更新内容
+#### 最近更新
 
 + 学习内容
-  - [x] Yara规则、ssdeep
-  - [x] DLL注入、动态信息提取原理
   - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
   - [x] [动态牌子](https://img.shields.io)
-  - [x] 创建Bold-Falcon logo 
   - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
   - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
   - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
-  - [x] requirements.txt 整理
-  - [ ] Frog:create an image and add an image and a host to the Fog server
-
 + 设计文档
   + [x] 参考文献记录（设计依据）
   + [x] 国内沙箱深度调研
@@ -66,7 +103,6 @@
   - [x] [cuckoo 社区签名库](https://github.com/cuckoosandbox/community)
   - [x] [cuckoo的行为签名](https://www.secpulse.com/archives/75180.html)
   - [ ] 添加挖矿+使用自定义签名
-
 + 机器学习模块
   - [x] 数据集：kaggle microsoft 10000个软件、挖矿软件 6000个；
   - [x] 报告显示内容：模型检测图展示、使用特征展示、预测威胁得分；
@@ -74,14 +110,12 @@
   - [x] 动态检测引擎：API调用序列；
   - [x] 定义基类Dectection、Instance等；
   - [x] 添加Smaple——malware，200个json report样本；
-
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
   + [ ] blog解析文档编写
   + [ ] 虚拟机管理：libvirt+高并发虚拟机
   + [ ] 沙箱内存管理：MemScrimper: Time- and Space-Efficient Storage of *Malware* Sandbox Memory Dumps （2018 DIVMA）
   + [ ] 3.3.5 REST API(Cuckoo docs) wsgi应用程序
-   
 #### 常见问题
 + Machine * status gurumeditation
   -  找到虚拟机安装目录下VBox.log日志文件
