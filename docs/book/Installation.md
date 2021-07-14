@@ -1,6 +1,7 @@
 ---
 sort: 2
 
+
 ---
 
 # 安装
@@ -9,11 +10,9 @@ Bold-Falcon的主机安装过程推荐在*GNU/Linux*（最好是Debian或Ubuntu�
 
 ## 2.1 准备主机
 
-主机是指运行Bold-Falcon的底层操作系统（通常为GNU/Linux发行版），在本文档中我们使用Ubuntu LTS 16.04为例进行介绍。
+主机是指运行Bold-Falcon的底层操作系统（通常为GNU/Linux发行版），在本文档中我们使用Ubuntu LTS 16.04为例进行介绍。在安装和配置Bold-Falcon之前，需要为主机安装一些必需的软件包和依赖库。
 
-### 2.1.1 环境配置要求
-
-在安装和配置Bold-Falcon之前，需要安装一些必需的软件包和依赖库。
+### 2.1.1 系统环境配置
 
 #### 基于Ubuntu/Debian发行版
 
@@ -59,7 +58,7 @@ $ cd /usr/local/include
 $ ln -s ../opt/openssl/include/openssl
 ```
 
-#### 虚拟化软件
+### 2.1.2 虚拟化软件
 
 Bold-Falcon支持大多数虚拟化软件解决方案，并已经尽可能地保持模块化。这使得沙箱在丢失与软件集成的情况下，仍然可以被很容易地添加。在本文档中我们默认安装VirtualBox，使用以下命令可以在Ubuntu LTS上安装最新版本的VirtualBox：
 
@@ -69,6 +68,8 @@ $ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo ap
 $ sudo apt-get update
 $ sudo apt-get install virtualbox-5.2
 ```
+
+### 2.1.3 工具安装
 
 #### Tcpdump安装
 
@@ -126,7 +127,7 @@ $ sudo /etc/init.d/guacd start
 
 此外，还必须安装VituralBox扩展包，以利用Guacamole公开的沙箱控制功能。
 
-#### Bold-Falcon安装
+### 2.1.4 Bold-Falcon安装
 
 下载源码可以通过如下两种方式：
 
@@ -150,7 +151,7 @@ $ . venv/bin/activate
 (venv)$ pip install -U Bold-Falcon
 ```
 
-#### 工作目录（CWD）
+### 2.1.5 工作目录（CWD）
 
 所有可配置组件、生成的数据和分析的结果都存储在此目录中。这些文件包括但不仅限于以下内容：
 
@@ -238,7 +239,9 @@ $ . venv/bin/activate
 
 设置``IP``报文转发
 
-这是在``Ubuntu``中的操作，因为``win7``无法上网，所以要通过主机才能访问网络，所以需要以下操作;流量转发服务：
+这是在``Ubuntu``中的操作，因为``win7``无法上网，所以要通过主机才能访问网络，所以需要以下操作：
+
+流量转发服务：
 
     $ sudo vim /etc/sysctl.conf
     net.ipv4.ip_forward=1
@@ -271,9 +274,9 @@ $ . venv/bin/activate
 
 ### 2.2.6 快照
 
-要保证``agent.py``文件时运行状态，可以在``cmd``控制台启动，成功后对``win7``进行快照 名字取为``snapshot``。
+要保证``agent.py``文件时运行状态，可以在``cmd``控制台启动，成功后对``win7``进行快照名字取为``snapshot``。
 
-### 2.2.7 设置cuckoo配置文件
+### 2.2.7 设置Bold-Falcon配置文件
 
 配置``virtualbox.conf``：
 

@@ -1,6 +1,7 @@
 ---
 sort: 4
 
+
 ---
 
 # 开发
@@ -36,7 +37,7 @@ sort: 4
   (bold-falcon-development)$ python setup.py sdist develop
   ```
 
-完成以上步骤后，现在可以修改和测试代码文件了，代码文件位于[Bold-Falcon](https://github.com/PowerLZY/Bold-Falcon)目录下。实际上，即使是对当前库的开发版本进行测试，[`Cuckoo Working Directory`]()和[`Cuckoo Working Directory Usage`]()中的所有规则仍然有效。
+完成以上步骤后，现在可以修改和测试代码文件了，代码文件位于[Bold-Falcon](https://github.com/PowerLZY/Bold-Falcon)目录下。实际上，即使是对当前库的开发版本进行测试，`Cuckoo Working Directory`和`Cuckoo Working Directory Usage`中的所有规则仍然有效。
 
 ### 4.1.2 Pycharm环境配置
 
@@ -62,7 +63,7 @@ sort: 4
 
 直接使用PyCharm运行和调试Bold-Falcon，可以直接绕过Bold-Falcon启动程序并使用PyCharm的内置Django服务器，而且无需对源代码进行任何修改即可做到这一点。
 首先，建议全程在虚拟环境中操作，从而将Bold-Falcon所需的依赖项与系统范围内安装的Python隔离开来。其次，建议在开发模式下安装Bold-Falcon.
-假设Bold-Falcon成功安装（并且有一个正在使用的工作目录，参见[`Cuckoo Working Directory Installation`]()）；启动PyCharm并打开Bold-Falcon目录。选择`Run->Edit Configurations`并单击`+`，选择“Django服务器”。服务器配置使用下列参数值：
+假设Bold-Falcon成功安装（并且有一个正在使用的工作目录，参见`Cuckoo Working Directory Installation`）；启动PyCharm并打开Bold-Falcon目录。选择`Run->Edit Configurations`并单击`+`，选择“Django服务器”。服务器配置使用下列参数值：
 
 - **Name** - web
 - **Host** - 127.0.0.1
@@ -728,6 +729,7 @@ class Analyzer(object):
 	    <td>APK文件</td>
 	</tr>
 </table>
+
 ### 	4.4.2 设计流程
 
 **1）文件分析模块时序图**
@@ -892,25 +894,25 @@ class RunProcessing(object):
 
 全局结果容器为python的字典格式，为**家族签名模块**、**机器学习模块**和**报告生成模块**提供信息，最后保存在 `Bold-Falcon/storage/analyses/{task_id}/reports/report.json` 文件中。
 
-```json
+```python
 - info
-  - added/strarted/ended: 上传样本、启动分析与结束分析的时间戳
+  - added/strarted/ended: 上传样本, 启动分析与结束分析的时间戳
   - duration: 分析时长
-  - id: ={task_id}，数据库中的任务id
+  - id: ={task_id}, 数据库中的任务id
   - package: 文件类型
   - machine: 样本运行环境
 - signatures
-	- families：恶意软件家族
-	- description：签名描述
-	- severity：安全等级
-	- references：URL列表
-  - name：签名名称
+	- families: 恶意软件家族
+	- description: 签名描述
+	- severity: 安全等级
+	- references: URL列表
+  - name: 签名名称
 - target
   - file
     - yara: yara规则匹配
     - sha-1/sha256/sha512/md5: 文件哈希值
     - name: 文件名
-    - type: 文件类型（包括运行系统与压缩加壳方式）
+    - type: 文件类型(包括运行系统与压缩加壳方式)
     - crc32: 校验码
     - path: 文件二进制形式存储路径
     - size: 文件大小
@@ -918,10 +920,10 @@ class RunProcessing(object):
   - tls/udp/http/icmp/smtp/tcp/dns: 协议解析字段
   - pcap_sha256: 流量包哈希值
 - static
-  - pe_imports: 导入地址表(IAT)，列出了动态链接库和它们的函数
+  - pe_imports: 导入地址表(IAT), 列出了动态链接库和它们的函数
   - imported_dll_count: DLL数量
-  - pe_resources: 资源节，列出了文件中的可打印字符串、图形图像、按钮图标等信息
-  - pe_sections: 文件节区信息，包括节区大小、虚拟地址、熵、加壳方式、虚拟内存等
+  - pe_resources: 资源节, 列出了文件中的可打印字符串/图形图像/按钮图标等信息
+  - pe_sections: 文件节区信息, 包括节区大小/虚拟地址/熵/加壳方式/虚拟内存等
 - behavior
   - generic
     - process_path: 进程启动路径
@@ -930,13 +932,13 @@ class RunProcessing(object):
     - first_seen: 进程启动时间戳
     - ppid: 父进程id
   - processes
-    - modules: 样本运行时调用的系统文件信息，包括被调用文件名、路径、基地址及其大小
+    - modules: 样本运行时调用的系统文件信息, 包括被调用文件名/路径/基地址及其大小
     - time: 运行时间
   - processtree
-    - children：子进程列表
-- debug：analysis.log分析结果
-- screenshots：指定运行截图存储路径
-- strings：文件中的可打印字符串列表
+    - children: 子进程列表
+- debug: analysis.log分析结果
+- screenshots: 指定运行截图存储路径
+- strings: 文件中的可打印字符串列表
 ```
 
 **5）结果处理模块属性**
@@ -987,7 +989,6 @@ class RunProcessing(object):
 **2）结果处理模块设计流程**
 
 1. 启动结果处理模块
-
 2. 初始化任务信息、虚拟机信息、分析结果存储路径
 3. 获得处理功能列表
 4. 执行一个结果处理功能

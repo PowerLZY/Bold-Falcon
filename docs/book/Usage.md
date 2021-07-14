@@ -2,6 +2,7 @@
 sort: 3
 
 
+
 ---
 
 # 使用
@@ -132,21 +133,21 @@ optional arguments:
   --quiet               Only print text on failure
 ```
 
-##### 以下是一些用法示例：
+**以下是一些用法示例：**
 
-##### (1) 提交一个本地文件
+(1) 提交一个本地文件
 
 ```shell
 $  submit /path/to/binary
 ```
 
-##### (2) 提交一个本地文件并明确优先级
+(2) 提交一个本地文件并明确优先级
 
 ```shell
 $  submit --priority 5 /path/to/binary
 ```
 
-##### (3) 提交一个本地文件并明确分析60s
+(3) 提交一个本地文件并明确分析60s
 
 ```shell
 $  submit --timeout 60 /path/to/binary
@@ -199,7 +200,7 @@ $  cuckoo api -H 0.0.0.0 -p 1337
 
 **以下是一些用法示例：**                                                       
 
-##### （1）POST /tasks/create/file
+**（1）POST /tasks/create/file**
 
 将文件添加到待处理任务列表中并分析
 
@@ -209,7 +210,7 @@ $  cuckoo api -H 0.0.0.0 -p 1337
 curl -H "Authorization: Bearer S4MPL3" -F file=@/path/to/file http://localhost:8090/tasks/create/file
 ```
 
-##### 使用Python的请求示例
+**使用Python的请求示例**
 
 
 ```python
@@ -238,7 +239,7 @@ task_id = r.json()["task_id"]
 }
 ```
 
-##### **（2）POST /tasks/create/url**
+**（2）POST /tasks/create/url**
 
 将URL添加到待处理任务列表中并分析
 
@@ -249,7 +250,7 @@ task_id = r.json()["task_id"]
 curl -H "Authorization: Bearer S4MPL3" -F url="http://www.malicious.site" http://localhost:8090/tasks/create/url
 ```
 
-##### 使用Python的请求示例
+**使用Python的请求示例**
 
 ```python
 import requests
@@ -272,7 +273,7 @@ task_id = r.json()["task_id"]
 
 将一个或多个文件添加到待分析的任务列表中
 
-**请求示例**.
+**请求示例**
 
 
 ```shell
@@ -286,7 +287,7 @@ curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit
 curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/tasks/create/submit -F strings=$'google.com\nfacebook.com'
 ```
 
-##### 使用Python的请求示例
+**使用Python的请求示例**
 
 
 ```python
@@ -319,7 +320,7 @@ r = requests.post(
 )
 ```
 
-**响应事例** 
+**响应事例**
 
 
 ```json
@@ -330,28 +331,28 @@ r = requests.post(
 }
 ```
 
-##### （4） GET /files/get/ *(str: sha256)*
+**（4） GET /files/get/ *(str: sha256)***
 
 返回二进制样本内容和对应SHA256
 
-**请求示例**.
+**请求示例**
 
 ```shell
 curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/files/get/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 > sample.exe
 ```
 
-##### （5）GET /machines/list
+**（5）GET /machines/list**
 
 
 返回目前Bold-Falcon依赖的虚拟机列表
 
-**请求示例**.
+**请求示例**
 
 ```shell
 curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
 ```
 
-**响应示例**.
+**响应示例**
 
 ```json
 {
@@ -379,11 +380,11 @@ curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/machines/list
 }
 ```
 
-##### （6）GET /exit
+**（6）GET /exit**
 
 如果处于调试模式并使用werkzeug服务器，则关闭服务器。
 
-**请求示例**.
+**请求示例**
 
 ```shell
 curl -H "Authorization: Bearer S4MPL3" http://localhost:8090/exit
@@ -419,7 +420,7 @@ optional arguments:
   -b BRANCH, --branch BRANCH
 ```
 
-##### 例：重写所有开源数据到最新版
+**例：重写所有开源数据到最新版**
 
 ```shell
 $  cummunity -waf
@@ -427,7 +428,7 @@ $  cummunity -waf
 
 ## 3.4 分析样本获取
 
-#### 样本分享
+### 3.4.1 样本分享
 
 Bold-Falcon沙箱分享了200个已经分析完成的json报告在`百度云盘`如下链接：
 
@@ -441,7 +442,7 @@ Bold-Falcon沙箱分享了一些32bit的windows样本在`百度云盘`如下链�
 https://pan.baidu.com/s/1x6a9j7D7Ktp242fcJhT5aA 提取码: qxbp 
 ```
 
-#### 开源样本
+### 3.4.2 开源样本
 
 如果你想要获取更多的`恶意样本`请访问查询：
 
