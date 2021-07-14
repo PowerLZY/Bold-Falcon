@@ -56,9 +56,6 @@
   - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
   - [x] requirements.txt 整理
   - [ ] Frog:create an image and add an image and a host to the Fog server
-  - [ ] 解析plugins.py, class RunSignatures()原理
-  - [ ] 解析analyzer/windows/analyzer.py 虚拟机运行脚本
-  - [ ] gist mal_sample
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
@@ -72,13 +69,11 @@
 
 + 机器学习模块
   - [x] 数据集：kaggle microsoft 10000个软件、挖矿软件 6000个；
-  - [ ] 报告显示内容：模型检测图展示、使用特征展示、预测威胁得分；
-  - [x] 静态检测引擎: ember、string、Op-code、灰度图、malconv；
+  - [x] 报告显示内容：模型检测图展示、使用特征展示、预测威胁得分；
+  - [x] 静态检测引擎：string、malconv；
   - [x] 动态检测引擎：API调用序列；
-  - [x] 家族聚类（hdbscan等）；
-  - [ ] 定义基类Ml、loader等；
-  - [ ] 定义模型命名规则
-  - [ ] 添加Smaple——malware，200个json report样本；**gist.github.com**
+  - [x] 定义基类Dectection、Instance等；
+  - [x] 添加Smaple——malware，200个json report样本；
 
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
