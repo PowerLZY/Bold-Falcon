@@ -1,5 +1,6 @@
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -35,14 +36,14 @@ active_analysis_count = 0
 class AnalysisManager(threading.Thread):
     """Analysis Manager.
 
-    This class handles the full analysis process for a given task. It takes
+    :Note: This class handles the full analysis process for a given task. It takes
     care of selecting the analysis machine, preparing the configuration and
     interacting with the guest agent and analyzer components to launch and
     complete the analysis and store, process and report its results.
     """
 
     def __init__(self, task_id, error_queue):
-        """@param task: task object containing the details for the analysis."""
+        """:param task: task object containing the details for the analysis."""
         threading.Thread.__init__(self)
 
         self.errors = error_queue
@@ -173,7 +174,8 @@ class AnalysisManager(threading.Thread):
 
     def build_options(self):
         """Generate analysis options.
-        @return: options dict.
+
+        :return: options dict.
         """
         options = {}
 
@@ -534,10 +536,9 @@ class AnalysisManager(threading.Thread):
 class Scheduler(object):
     """Tasks Scheduler.
 
-    This class is responsible for the main execution loop of the tool. It
+    :note: This class is responsible for the main execution loop of the tool. It
     prepares the analysis machines and keep waiting and loading for new
-    analysis tasks.
-    Whenever a new task is available, it launches AnalysisManager which will
+    analysis tasks.Whenever a new task is available, it launches AnalysisManager which will
     take care of running the full analysis process and operating with the
     assigned analysis machine.
     """

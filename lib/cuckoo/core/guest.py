@@ -1,6 +1,7 @@
 # coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -77,13 +78,16 @@ def analyzer_zipfile(platform, monitor):
 class OldGuestManager(object):
     """Old and deprecated Guest Manager.
 
-    This class handles the communications with the old agent running in the
+    :Note: This class handles the communications with the old agent running in the
     virtual machine.
+    :param ip: guest's IP address.
+    :param platform: guest's operating system type.
     """
 
     def __init__(self, vm_id, ip, platform, task_id):
-        """@param ip: guest's IP address.
-        @param platform: guest's operating system type.
+        """
+        :param ip: guest's IP address.
+        :param platform: guest's operating system type.
         """
         self.id = vm_id
         self.ip = ip
@@ -99,8 +103,9 @@ class OldGuestManager(object):
 
     def wait(self, status):
         """Waiting for status.
-        @param status: status.
-        @return: always True.
+
+        :param status: status.
+        :return: always True.
         """
         log.debug("%s: waiting for status 0x%.04x", self.id, status)
 
@@ -131,7 +136,8 @@ class OldGuestManager(object):
 
     def upload_analyzer(self, monitor):
         """Upload analyzer to guest.
-        @return: operation status.
+
+        :return: operation status.
         """
         zip_data = analyzer_zipfile(self.platform, monitor)
 
@@ -151,8 +157,9 @@ class OldGuestManager(object):
 
     def start_analysis(self, options, monitor):
         """Start analysis.
-        @param options: options.
-        @return: operation status.
+
+        :param options: options.
+        :return: operation status.
         """
         # TODO Deal with unicode URLs, should probably try URL encoding.
         # Unicode files are being taken care of.
@@ -208,7 +215,8 @@ class OldGuestManager(object):
 
     def wait_for_completion(self):
         """Wait for analysis completion.
-        @return: operation status.
+
+        :return: operation status.
         """
         log.debug("%s: waiting for completion", self.id)
 
@@ -394,8 +402,8 @@ class GuestManager(object):
     def start_analysis(self, options, monitor):
         """Start the analysis by uploading all required files.
 
-        @param options: the task options
-        @param monitor: identifier of the monitor to be used.
+        :param options: the task options
+        :param monitor: identifier of the monitor to be used.
         """
         log.info("Starting analysis on guest (id=%s, ip=%s)",
                  self.vmid, self.ipaddr)
@@ -506,6 +514,10 @@ class GuestManager(object):
             self.post("/execute", data=data)
 
     def wait_for_completion(self):
+        '''
+        waite for the anaylzer from agent
+
+        '''
         if self.is_old:
             self.old.wait_for_completion()
             return

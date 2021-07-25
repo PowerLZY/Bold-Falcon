@@ -1,6 +1,7 @@
 # coding=utf-8
 # Copyright (C) 2010-2013 Claudio Guarnieri.
 # Copyright (C) 2014-2016 Cuckoo Foundation.
+# Copyright (C) 2020-2021 PowerLZY.
 # This file is part of Cuckoo Sandbox - http://www.cuckoosandbox.org
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -37,7 +38,8 @@ log = logging.getLogger()
 
 def check_python_version():
     """Checks if Python version is supported by Cuckoo.
-    @raise CuckooStartupError: if version is not supported.
+
+    :raise CuckooStartupError: if version is not supported.
     """
     if sys.version_info[:2] != (2, 7):
         raise CuckooStartupError("You are running an incompatible version "
@@ -46,7 +48,8 @@ def check_python_version():
 
 def check_working_directory():
     """Checks if working directories are ready.
-    @raise CuckooStartupError: if directories are not properly configured.
+
+    :raise CuckooStartupError: if directories are not properly configured.
     """
     if not os.path.exists(CUCKOO_ROOT):
         raise CuckooStartupError("You specified a non-existing root "
@@ -61,6 +64,7 @@ def check_working_directory():
 def check_configs():
     """
     Checks if config files exist.
+
     :raise CuckooStartupError: if config files do not exist.
     """
     configs = (
@@ -227,6 +231,7 @@ def delete_file(*rel_path):
 # 初始化功能模块 class modules
 def init_modules(machinery=True):
     """Initializes plugins."""
+
     log.debug("Importing modules...")
 
     # Import all auxiliary modules.
@@ -532,7 +537,8 @@ def cuckoo_clean():
 
 def drop_privileges(username):
     """Drops privileges to selected user.
-    @param username: drop privileges to this username
+
+    :param username: drop privileges to this username
     """
     if not HAVE_PWD:
         sys.exit("Unable to import pwd required for dropping "
