@@ -26,7 +26,7 @@ $ git clone https://github.com/PowerLZY/Bold-Falcon
 ```
 
 ```shell
-pip install Bold-Falcon
+$ pip install Bold-Falcon
 ```
 
 #### 开源资料
