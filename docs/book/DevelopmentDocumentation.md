@@ -582,7 +582,7 @@ Class Process(object):
             "--app", path,
             "--only-start",
         ]
-		subprocess_checkoutput(argv, env)
+				subprocess_checkoutput(argv, env)
         
         # 再次启动inject.exe作为中间人，执行dll注入功能
         argv = [
@@ -800,7 +800,7 @@ end
 
 ### 4.5.1 设计说明
 
-**结果处理模块**允许自定义方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。`Bold-Falcon/mol/processing/`目录 中提供的所有处理模块，都属于结果处理模块。每个模块在 `Bold-Falcon/conf/processing.conf`中都应该有一个专门的配置选项，供用户选择结果处理功能。
+**结果处理模块**允许自定义方法来分析沙盒生成的原始结果，并将一些信息附加到一个**全局结果容器**中，该结果容器稍后将由**家族签名模块**、**机器学习模块**和**报告生成模块**使用。 
 
 **结果处理模块都将被初始化和执行**，返回的数据将被附加到一个名为**全局结果容器**的数据结构中。这个容器仅仅是一个大的**Python字典**，它包含了由所有按标识键分类的模块生成的抽象结果。每次分析的全局结果容器被储存在 `Bold-Falcon/storage/analysis/task_id` 文件夹下。
 
@@ -1219,7 +1219,8 @@ class Detection(object):
     def load_instance(self, results):
         """
         Initialize the sample instance and load the dictionary
-        need a class Instance """
+        need a class Instance 
+        """
     def run(self):
         """ Start detection."""
         raise NotImplementedError    
@@ -1332,9 +1333,148 @@ class RunDetection(object):
 12. 保存到全局结果容器
 13. 机器学习模块结束
 
-## 4.8 报告生成模块
+## 4.8 对抗攻击模块
 
-### 4.8.1 设计说明
+**对抗攻击模块**在结果处理模块、家族签名模块处理之后，与**机器学习模块同时**进行，**对抗攻击模块**定义了生成恶意软件对抗样本的添加**扰动方式**和**搜索策略算法**。`Bold-Falcon/modules/adversarial/`目录 中提供的所有处理模块，都属于对抗攻击模块。每个模块在 `Bold-Falcon/conf/adversarial.conf`中都应该有一个专门的配置选项。该模块生成恶意软件对抗样本保存在`Bold-Falcon/storage/analysis/task_id/Adversarial/` 文件夹下。
+
+#### 4.8.1 对抗攻击功能列表
+
+>   **secml_malware** :https://github.com/pralab/secml_malware
+
++   **扰动方式**（问题空间扰动）
+    +   文件末尾填充字节 [Yuan et. al.](Black-Box Adversarial Attacks Against Deep Learning Based Malware Binaries Detection with GAN)
+    +   节区末空间中添加字节 [Suciu et al.](https://arxiv.org/abs/1810.08280)
+    +   修改PE文件头部字节 [Demetrio et al.](Explaining Vulnerabilities of Deep Learning to Adversarial Malware Binaries)
+    +   扩展DOS字段 [Demetrio et al.](https://arxiv.org/abs/1901.03583)
++   **搜索策略**
+    +   FGSM (白盒) 
+    +   GAN（黑盒）
+
+**1) 对抗模型定义函数 **
+
+```python
+from lib.cuckoo.common.exceptions import CuckooDetectionError
+
+class Adversarial(object):
+    """
+    Base abstract class for Adversarial module.
+    """
+    def set_options(self, options):
+        """ Set report options."""
+    def set_path(self, analysis_path):
+        """Set paths."""
+    def set_task(self, task):
+        """Add task information."""
+    def get_adversarial(self, results):
+        """
+        Initialize the sample instance and load the dictionary need a class Instance 
+        """
+        
+    def run(self):
+        """ Start Adversarial"""
+        raise NotImplementedError    
+```
+
+```python
+class MyAdversarial(Detection):
+ 		
+    def load_features(self)
+    	# 数据预处理
+    def load_model(self):
+      # 加载模型训练
+    def run(self, Y)
+    	# 预测目标值
+      	return predict
+```
+
++ extract_features()：数据预处理
++ fit()：模型训练
++ predict()：预测目标值
+
+**2）检测模型运行函数**
+
+```python
+class RunAdversarial(object):
+	""" plugins.py """
+       
+    def __init__(self, task):
+        # 初始化模型信息
+        
+    def process(self, module, results):
+      	# 执行一个检测模块
+        
+    def run(self):
+        # 执行所有结果检测模块，返回全局结果容器
+        # 获得 detection 功能列表
+        detection_list = cuckoo.detection.plugins
+        
+        for module in detection_list:
+            # 执行功能
+            model_name,predict = self.process(module, results)
+            if model_name and predict:
+                results[model_name] = predict
+        return results
+```
+
++ \__init\_\_(): 初始化检测模型
++ process():
+    + 执行一个检测模块
+    + 初始化对应检测功能
+    + 如果在配置中禁用了检测模块，请跳过它
+    + 读取分析数据路径
+    + 加载预训练检测模型
+    + 特征工程
+    + 返回关键字，预测结果
++ run(): 执行所有检测模块，返回全局结果容器
+
+### 4.8.3 设计流程
+
+**secml_malware** :https://github.com/pralab/secml_malware
+
+**1）对抗攻击模块时序图**
+
+```mermaid
+%% 时序图例子,-> 直线，-->虚线，->>实线箭头
+ sequenceDiagram
+  participant 沙箱主机
+  participant 任务目录
+  participant 模型服务器
+  autonumber 
+    	#opt is run
+      %%rect rgb(121, 255, 121)
+      沙箱主机->任务目录: 启动对抗攻击模块
+      沙箱主机->任务目录: 初始化对抗攻击模型
+      #rect rgb(135,206,250)
+      沙箱主机->>沙箱主机: 获得对抗攻击功能列表
+      沙箱主机-->>模型服务器: 加载检测模型（MalConv）
+      loop 执行对抗攻击功能列表
+      沙箱主机->任务目录: 执行一个对抗模块（白盒+CHeaderEvasion）
+      沙箱主机->任务目录: 初始化对应处理功能
+      任务目录-->>沙箱主机: 读取样本数据
+      任务目录-->>沙箱主机: 加载预训练检测模型
+      沙箱主机->+任务目录: 特征工程
+      任务目录-->>-沙箱主机: 返回关键字，对应预测结果
+      沙箱主机->>沙箱主机: 生成对抗样本特征
+      任务目录-->>沙箱主机: 加载预训练检测模型
+      任务目录-->>沙箱主机: 返回关键字，对应预测结果
+      沙箱主机->>沙箱主机: 生成对抗样本（特征逆映射）
+      沙箱主机-->>任务目录: 保存对抗样本
+      沙箱主机->>沙箱主机: 全局结果容器
+      end
+      任务目录-->>模型服务器: 返回成功的对抗样本
+      模型服务器->>模型服务器: 添加对抗样本到数据集
+      模型服务器->>模型服务器: 对抗训练
+      沙箱主机->任务目录: 对抗攻击模块结束
+      #end
+      沙箱主机->任务目录: ....
+    #en
+```
+
+
+
+## 4.9 报告生成模块
+
+### 4.9.1 设计说明
 
 在结果处理模块、家族签名模块、机器学习模块处理之后，**报告生成模块**定义了恶意软件分析报告生成的不同格式，将全局结果容器转化为json，将分析目录保存到非关系数据库 **(MongoDB)** 中。`Bold-Falcon/modules/reporting/`目录 中提供的所有处理模块，都属于结果处理模块。每个模块在 `Bold-Falcon/conf/reporting.conf`中都应该有一个专门的配置选项，供用户选择结果处理功能。
 
@@ -1404,7 +1544,7 @@ class RunReporting(object):
             self.process(module)
 ```
 
-### 4.8.2 设计流程
+### 4.9.2 设计流程
 
 **1）报告生成模块时序图**
 
@@ -1455,9 +1595,9 @@ class RunReporting(object):
 12. 保存到数据库
 13. 报告生成模块结束
 
-## 4.9 用户交互模块
+## 4.10 用户交互模块
 
-### 4.9.1 设计说明
+### 4.10.1 设计说明
 
 **1）前端框架Django**
 
@@ -1596,4 +1736,4 @@ class AnalysisApi(object):
     ...
 ```
 
-  
+ 
