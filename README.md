@@ -79,6 +79,7 @@ $ pip install Bold-Falcon
 -   [onlyfreewares](http://www.onlyfreewares.com/)
 -   [snapfiles](https://www.snapfiles.com/new/list-whatsnew.html)
 -   [downloadcrew](https://downloadcrew.com/)
+-   [chocolatey](https://chocolatey.org/)
 
 #### 项目结构更新
   - [x] 整理工程目录打包lib：（common，core），Modules（辅助功能、虚拟机、处理、签名、机器学习模型检测）
