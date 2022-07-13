@@ -25,10 +25,6 @@
 $ git clone https://github.com/PowerLZY/Bold-Falcon
 ```
 
-```shell
-$ pip install Bold-Falcon
-```
-
 #### 开源资料
 
 + [cuckoo](https://github.com/cuckoosandbox/cuckoo) Cuckoo Sandbox is an automated dynamic malware analysis system
@@ -39,6 +35,7 @@ $ pip install Bold-Falcon
 + [cuckooML](https://github.com/honeynet/cuckooml) CuckooML: Machine Learning for Cuckoo Sandbox
 + [Panda-Sandbox](https://github.com/PowerLZY/Panda-Sandbox) Cuckoo python3 (Unfinished)
 + [HaboMalHunter](https://github.com/Tencent/HaboMalHunter#readme_cn) HaboMalHunter is a sub-project of Habo Malware Analysis System
++ [cuckoosegg](https://github.com/chrisante/cuckoosegg)
 
 #### 源码分析
 + [cuckoo技术分析全景图](https://cloud.tencent.com/developer/article/1597020)
@@ -93,6 +90,8 @@ $ pip install Bold-Falcon
   - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
   - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
   - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
+  - [ ] Linux沙箱
+  - [ ] ATT&CK Navigator layer for Cuckoo's TTPs.
 + 设计文档
   + [x] 参考文献记录（设计依据）
   + [x] 国内沙箱深度调研
@@ -109,6 +108,7 @@ $ pip install Bold-Falcon
   - [x] 动态检测引擎：API调用序列；
   - [x] 定义基类Dectection、Instance等；
   - [x] 添加Smaple——malware，200个json report样本；
+  - [ ] 添加 《Dynamic Malware Analysis with Feature Engineering and Feature Learning》 动态分析检测模型
 + 后期需求
   + [ ] 环境打包，Docker\shells安装
   + [ ] blog解析文档编写
