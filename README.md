@@ -90,6 +90,7 @@ $ git clone https://github.com/PowerLZY/Bold-Falcon
   - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
   - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
   - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
+  - [ ] [预训练TF-IDF模型加载优化 100s -> 2s](https://thiagomarzagao.com/2015/12/08/saving-TfidfVectorizer-without-pickles/)
   - [ ] Linux沙箱
   - [ ] ATT&CK Navigator layer for Cuckoo's TTPs.
 + 设计文档
