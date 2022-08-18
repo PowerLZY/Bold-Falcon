@@ -88,6 +88,8 @@ $ git clone https://github.com/PowerLZY/Bold-Falcon
   - [x] [预训练TF-IDF模型加载优化 100s -> 2s](https://thiagomarzagao.com/2015/12/08/saving-TfidfVectorizer-without-pickles/)
   - [ ] Linux沙箱及检测方案
   - [ ] ATT&CK Navigator layer for Cuckoo's TTPs.pyattack
+  - [ ] 添加 《Dynamic Malware Analysis with Feature Engineering and Feature Learning》 动态分析检测模型
+  - [ ] 添加 MaliciousMacroBot（mmbot）office宏病毒检测方案
 
 + 设计文档
   + [x] 参考文献记录（设计依据）
