@@ -85,14 +85,10 @@ $ git clone https://github.com/PowerLZY/Bold-Falcon
 #### 最近更新
 
 + 学习内容
-  - [x] [用Github Page快速创建项目文档网站](https://zhuanlan.zhihu.com/p/323457078)
-  - [x] [动态牌子](https://img.shields.io)
-  - [x] [pypi上传模块，pip安装](https://pypi.org/project/Bold-Falcon/#description) 
-  - [x] [Python-Sphinx 自动生成Python项目文档 ](https://www.jianshu.com/p/d4a1347f467b)
-  - [x] [Sphinx-readthedocs](https://how-to-use-sphinx-write.readthedocs.io/zh_CN/latest/)
-  - [ ] [预训练TF-IDF模型加载优化 100s -> 2s](https://thiagomarzagao.com/2015/12/08/saving-TfidfVectorizer-without-pickles/)
-  - [ ] Linux沙箱
-  - [ ] ATT&CK Navigator layer for Cuckoo's TTPs.
+  - [x] [预训练TF-IDF模型加载优化 100s -> 2s](https://thiagomarzagao.com/2015/12/08/saving-TfidfVectorizer-without-pickles/)
+  - [ ] Linux沙箱及检测方案
+  - [ ] ATT&CK Navigator layer for Cuckoo's TTPs.pyattack
+
 + 设计文档
   + [x] 参考文献记录（设计依据）
   + [x] 国内沙箱深度调研
