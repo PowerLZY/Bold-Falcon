@@ -1344,11 +1344,11 @@ class RunDetection(object):
 +   **扰动方式**（问题空间扰动）
     +   文件末尾填充字节 [Yuan et. al.](Black-Box Adversarial Attacks Against Deep Learning Based Malware Binaries Detection with GAN)
     +   节区末空间中添加字节 [Suciu et al.](https://arxiv.org/abs/1810.08280)
+    +   填充DOS字段 [Demetrio et al.](https://arxiv.org/abs/1901.03583)
     +   修改PE文件头部字节 [Demetrio et al.](Explaining Vulnerabilities of Deep Learning to Adversarial Malware Binaries)
-    +   扩展DOS字段 [Demetrio et al.](https://arxiv.org/abs/1901.03583)
 +   **搜索策略**
     +   FGSM (白盒) 
-    +   GAN（黑盒）
+    +   MAEGAN（黑盒）
 
 **1) 对抗模型定义函数 **
 
@@ -1446,19 +1446,19 @@ class RunAdversarial(object):
       沙箱主机->任务目录: 初始化对抗攻击模型
       #rect rgb(135,206,250)
       沙箱主机->>沙箱主机: 获得对抗攻击功能列表
-      沙箱主机-->>模型服务器: 加载检测模型（MalConv）
+      模型服务器-->>沙箱主机: 加载检测模型（生成器模型）
       loop 执行对抗攻击功能列表
-      沙箱主机->任务目录: 执行一个对抗模块（白盒+CHeaderEvasion）
-      沙箱主机->任务目录: 初始化对应处理功能
+      沙箱主机->任务目录: 执行一个对抗模块（基于GAN的逃逸攻击）
+      沙箱主机->任务目录: 初始化攻击扰动策略
       任务目录-->>沙箱主机: 读取样本数据
-      任务目录-->>沙箱主机: 加载预训练检测模型
+      任务目录-->>沙箱主机: 加载预训练检测模型（MalConv）
       沙箱主机->+任务目录: 特征工程
       任务目录-->>-沙箱主机: 返回关键字，对应预测结果
       沙箱主机->>沙箱主机: 生成对抗样本特征
-      任务目录-->>沙箱主机: 加载预训练检测模型
+      任务目录-->>沙箱主机: 加载预训练检测模型（MalConv）
       任务目录-->>沙箱主机: 返回关键字，对应预测结果
-      沙箱主机->>沙箱主机: 生成对抗样本（特征逆映射）
-      沙箱主机-->>任务目录: 保存对抗样本
+      沙箱主机->>沙箱主机: 对比预测结果
+      沙箱主机-->>任务目录: 结果不同，保存对抗样本
       沙箱主机->>沙箱主机: 全局结果容器
       end
       任务目录-->>模型服务器: 返回成功的对抗样本
